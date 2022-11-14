@@ -1,0 +1,609 @@
+#tankRssCostFood,
+#tankRssCostSteel,
+#tankRssCostOil,
+#tankRssCostEnergy,
+#antiRssCostFood,
+#antiRssCostSteel,
+#antiRssCostOil,
+#antiRssCostEnergy,
+#infRssCostFood,
+#infRssCostSteel,
+#infRssCostOil,
+#infRssCostEnergy,
+#artRssCostFood,
+#artRssCostSteel,
+#artRssCostOil,
+#artRssCostEnergy {
+  display: none;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+#logo {
+  width: 3.5em;
+}
+
+#tankTotalTimeCost:empty:before {
+  content: "0 D: 0 H: 0 M: 0 s";
+}
+.antiT1Input {
+  display: none;
+}
+@media (min-width: 361px) and (max-width: 375.98px) /*iphone X and 7/8/9*/ {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    padding: 0 0 0 1em;
+  }
+
+  #logo {
+    width: 2em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+    position: relative;
+    top: -0.2em;
+  }
+
+  #priority {
+    position: relative;
+    top: 0.1em;
+    left: -0.1em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    height: 3em;
+    width: 100vw !important;
+  }
+  #menuButts {
+    position: relative;
+    top: -0.8em;
+  }
+  .formButts {
+    padding: 0;
+    height: 2.2em !important;
+    position: relative;
+  }
+  .navCol {
+    background-color: rgba(59, 43, 56, 1) !important;
+  }
+
+  .menuImg {
+    display: none;
+  }
+  .menuLabel {
+    display: none;
+  }
+
+  #tankFormButton {
+    height: 3em;
+    background-image: url(images/tank.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #antiFormButton {
+    height: 3em;
+    background-image: url(images/anti.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #infFormButton {
+    height: 3em;
+    background-image: url(images/infantry.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #artFormButton {
+    height: 3em;
+    background-image: url(images/artillery.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  h4 {
+    font-size: 1.9em;
+    position: relative;
+    top: -0.2em;
+  }
+  .alignLeft {
+    text-align: left;
+    position: relative;
+    left: -1em;
+  }
+  .prodShift {
+    position: relative;
+    left: -1.65em;
+    top: -0.1em;
+  }
+  .prodShift2 {
+    position: relative;
+    left: -1em;
+    top: -0.1em;
+  }
+  .move {
+    position: relative;
+    left: 1em !important;
+    top: -1.2em;
+  }
+  #conDiv {
+    color: aliceblue;
+    height: 100vh !important;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 1) !important;
+    position: relative;
+    top: -1.3em;
+    height: 70vh;
+    font-size: 0.9em;
+    padding-top: 0.5em;
+    padding-bottom: 0;
+  }
+  .tweak {
+    position: relative;
+    top: -2.5em;
+  }
+  .move2 {
+    position: relative;
+    left: -1em;
+  }
+  .alignLeft2 {
+    text-align: left;
+    position: relative;
+    left: 0.5em;
+  }
+  .test {
+    font-size: 0.5em;
+  }
+
+  .foodMove {
+    position: relative;
+    left: -3em;
+  }
+
+  .up {
+    position: relative;
+    top: -3.3em;
+    left: 70vw;
+  }
+  .rounded {
+    height: 2em;
+  }
+  .up2 {
+    position: relative;
+    top: -0.25em;
+  }
+  .reAl {
+    position: relative;
+    top: -1.5em;
+  }
+  .left {
+    position: relative;
+    left: -1em;
+  }
+  .rssTotals {
+    position: relative;
+    top: -1em;
+  }
+  .rssShift {
+    position: relative;
+    top: -2.6em;
+  }
+  .timeShift {
+    position: relative;
+    top: -5.7em;
+  }
+  .oneMore {
+    position: relative;
+    top: -1em;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 10.5em;
+    left: 6em;
+  }
+}
+@media (min-width: 410px) and (max-width: 767.98px) /*Pixel2 Pixel2XL iphone6/7/8PLUS */ {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    padding: 0 0 0 1em;
+  }
+
+  #logo {
+    width: 2em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+    position: relative;
+    top: -0.2em;
+  }
+
+  #priority {
+    position: relative;
+    top: 0.1em;
+    left: -0.1em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    height: 3em;
+    width: 101vw !important;
+  }
+  #menuButts {
+    position: relative;
+    top: -0.8em;
+  }
+  .formButts {
+    padding: 0;
+    height: 2.2em !important;
+    position: relative;
+  }
+  .navCol {
+    background-color: rgba(59, 43, 56, 1) !important;
+  }
+
+  .menuImg {
+    display: none;
+  }
+  .menuLabel {
+    display: none;
+  }
+
+  #tankFormButton {
+    height: 3em;
+    background-image: url(images/tank.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #antiFormButton {
+    height: 3em;
+    background-image: url(images/anti.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #infFormButton {
+    height: 3em;
+    background-image: url(images/infantry.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #artFormButton {
+    height: 3em;
+    background-image: url(images/artillery.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  h4 {
+    font-size: 1.9em;
+    position: relative;
+    top: -0.2em;
+  }
+  .alignLeft {
+    text-align: left;
+    position: relative;
+    left: -1em;
+  }
+  .prodShift {
+    position: relative;
+    left: -1.65em;
+    top: -0.1em;
+  }
+  .prodShift2 {
+    position: relative;
+    left: -1em;
+    top: -0.1em;
+  }
+  .move {
+    position: relative;
+    left: 1em !important;
+    top: -1.2em;
+  }
+  #conDiv {
+    color: aliceblue;
+    height: 100vh !important;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 1) !important;
+    position: relative;
+    top: -1.3em;
+    height: 70vh;
+    font-size: 0.9em;
+    padding-top: 0.5em;
+    padding-bottom: 0;
+  }
+  .tweak {
+    position: relative;
+    top: -2.5em;
+  }
+  .move2 {
+    position: relative;
+    left: -1em;
+  }
+  .alignLeft2 {
+    text-align: left;
+    position: relative;
+    left: 0.5em;
+  }
+  .test {
+    font-size: 0.5em;
+  }
+
+  .foodMove {
+    position: relative;
+    left: -3em;
+  }
+
+  .up {
+    position: relative;
+    top: -3.3em;
+    left: 70vw;
+  }
+  .rounded {
+    height: 2em;
+  }
+  .up2 {
+    position: relative;
+    top: -0.25em;
+  }
+  .reAl {
+    position: relative;
+    top: -1.5em;
+  }
+  .left {
+    position: relative;
+    left: -1em;
+  }
+  .rssTotals {
+    position: relative;
+  }
+  .rssShift {
+    position: relative;
+  }
+  .timeShift {
+    position: relative;
+  }
+  .oneMore {
+    position: relative;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 10.5em;
+    left: 12em;
+  }
+}
+@media (min-width: 768px) and (max-width: 900px) /*iPad*/ {
+  .aL {
+    text-align: left;
+  }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .repel {
+    margin-right: 4em;
+  }
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    height: 4.3em;
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    z-index: 670;
+  }
+
+  #logo {
+    width: 3.5em;
+  }
+
+  #priority {
+    position: relative;
+    top: -0.5em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    z-index: 669;
+    width: 101vw;
+    left: -0.5em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 100vh;
+  }
+  .formButts {
+    padding: 0;
+  }
+
+  .menuImg {
+    height: 4.5em;
+    position: relative;
+  }
+
+  .menuLabel {
+    color: black;
+    font-size: 1.3em;
+    padding-bottom: 0;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 60vh;
+    position: relative;
+    top: -1.74em;
+  }
+  #conDiv {
+    color: aliceblue;
+  }
+  .card-title {
+    position: relative;
+    top: 0.5em;
+  }
+  .tweak {
+    position: relative;
+    top: -0.5em;
+    left: 8em;
+    width: 95%;
+  }
+  .prodShift {
+    position: relative;
+    left: -1em;
+  }
+  .prodShift2 {
+    position: relative;
+    left: -1em;
+  }
+  .signpost {
+    position: relative;
+    top: -0.8em;
+  }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (min-width: 900.98px) /*iPadPro and desktops*/ {
+  .aL {
+    text-align: left;
+  }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .repel {
+    margin-right: 4em;
+  }
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    height: 4.3em;
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    z-index: 670;
+  }
+
+  #logo {
+    width: 3.5em;
+  }
+
+  #priority {
+    position: relative;
+    top: -0.5em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    z-index: 669;
+    width: 101vw;
+    left: -0.5em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 100vh;
+  }
+  .formButts {
+    padding: 0;
+  }
+
+  .menuImg {
+    height: 4.5em;
+    position: relative;
+  }
+
+  .menuLabel {
+    color: black;
+    font-size: 1.3em;
+    padding-bottom: 0;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 60vh;
+    position: relative;
+    top: -1.74em;
+  }
+  #conDiv {
+    color: aliceblue;
+  }
+  .card-title {
+    position: relative;
+    top: 0.5em;
+  }
+  .tweak {
+    position: relative;
+    top: -0.5em;
+    left: 8em;
+    width: 95%;
+  }
+  .prodShift {
+    position: relative;
+    left: -1em;
+  }
+  .prodShift2 {
+    position: relative;
+    left: -1em;
+  }
+  .signpost {
+    position: relative;
+    top: -0.8em;
+  }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
