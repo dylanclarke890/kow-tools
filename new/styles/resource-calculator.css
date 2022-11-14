@@ -5,12 +5,14 @@
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
+  appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
 input[type="number"] {
+  appearance: none;
   -moz-appearance: textfield;
 }
 
@@ -702,7 +704,7 @@ input[type="number"] {
   }
 
   #wall {
-    background-image: url(images/linda.png), url(images/linda.png);
+    background-image: url(../images/linda.png), url(../images/linda.png);
     background-repeat: no-repeat, no-repeat;
     background-position: left, right;
     background-size: contain, contain;
