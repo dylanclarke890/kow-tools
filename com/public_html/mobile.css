@@ -1,0 +1,351 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media screen and (max-width: 767px) 
+		{
+			* {
+			transition: all 500ms ease-out;
+			-webkit-transition: all 500ms ease-out;
+		}
+
+		html,
+		body
+		{
+			position:absolute;
+			width: 100vw;
+			height: 88vh;
+			overflow:hidden;
+			color: #fff;
+			background: #374046;
+			transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+			-webkit-transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+		}
+		.page {
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+			transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+			-webkit-transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+			color: #fff;
+			background: #374046;
+			overflow:hidden;
+		}
+		#home
+		{
+			position:absolute;
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+			transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+			-webkit-transition: all 1s cubic-bezier(.5, -0.005, 0.2, 1) !important;
+			color: #fff;
+			background: #374046;
+			overflow:hidden;
+			
+		}
+		section {
+			
+			color: #fff;
+			background: red;
+			
+		}
+		.main {
+			position: absolute;
+			top: -4.5em;
+			left: -5.5em;
+			width: 20em;
+			font-weight: bold;
+		}
+
+		.page {
+			position: absolute;
+		}
+		#homePage {
+			left: 0;
+			background-image: url(images/banner.png);
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+		#foodPage {
+			left: 400%;
+			background-image: url(images/bg1.png);
+			background-size: cover;
+			background-repeat: no-repeat;
+		}	
+		
+		#steelPage {
+			left: 100%;
+			background-image: url(images/linda.png);
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: left;
+		}
+
+		#fuelPage {
+			left: 200%;
+			background-image: url(images/bg2.png);
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+
+		#energyPage {
+			left: 300%;
+			background-image: url(images/bg3.png);
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+
+		#home:target .page#homePage {
+			transform: translateX(0);
+		}
+
+		#steel:target .page#steelPage {
+			transform: translateX(-90%);
+		}
+
+		#fuel:target .page#fuelPage {
+			transform: translateX(-190%);
+		}
+
+		#energy:target .page#energyPage {
+			transform: translateX(-290%);
+		}
+
+		#food:target .page#foodPage {
+			transform: translateX(-390%);
+		}
+
+		#steel:target .page#homePage,
+		#fuel:target .page#homePage,
+		#energy:target .page#homePage,
+		#food:target .page#homePage {
+			background: black;
+		}
+
+		#steel:target .page#homePage .icon,
+		#fuel:target .page#homePage .icon,
+		#energy:target .page#homePage .icon,
+		#food:target .page#homePage .icon {
+			-webkit-filter: blur(3px);
+			filter: blur(3px);
+		}
+		
+		#steel:target ul .icon,
+		#fuel:target ul .icon,
+		#energy:target ul .icon,
+		#food:target ul .icon {
+			transform: scale(.6);
+			transition-delay: .25s;
+		}
+
+		#steel:target #steelButt {
+			transform: scale(1.2) !important;
+		}
+
+		#fuel:target #fuelButt {
+			transform: scale(1.2) !important;
+		}
+
+		#energy:target #energyButt {
+			transform: scale(1.2) !important;
+		}
+
+		#food:target #foodButt {
+			transform: scale(1.2) !important;
+		}
+
+		ul 
+		{
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			/*right: 0;*/
+			margin: auto;
+			height: 90vh;
+			width: 10%;
+			padding: 0;
+			text-align: center;
+		}
+
+		ul li {
+			margin: 1.8em 0;
+			list-style-type: none;
+		}
+
+		a {
+			text-decoration: none;
+			font-family: open sans, sans-serif;
+		}
+		.title {
+			font-size: 0.5em;
+			text-align:center;
+			font-family: open sans, sans-serif;
+			display: block;
+			background-color: rgba(0, 0, 0, 0.5);
+			position:relative;
+			top:-0.5em;
+			
+		}
+		
+			.page .icon {
+			position: relative;
+			width: 3em;
+			height: 2em;
+			margin: auto;
+			text-align: center;
+			font-size: 5em;
+			transform: translateX(360%)
+			line-height: 1.3;
+		}
+		.page#homePage .icon {
+			height: 2em !important;
+		}
+		
+		.page#homePage .icon {
+			transform: translateX(0) !important;
+		}
+
+		#steel:target .page#steelPage .icon {
+			transform: translateX(0) !important;
+			transition-delay: 0.5s;
+		}
+
+		#fuel:target .page#fuelPage .icon {
+			transform: translateX(0) !important;
+			transition-delay: 0.5s;
+		}
+
+		#energy:target .page#energyPage .icon {
+			transform: translateX(0) !important;
+			transition-delay: 0.5s;
+		}
+
+		#food:target .page#foodPage .icon {
+			transform: translateX(0) !important;
+			transition-delay: 0.5s;
+		}
+		
+		.icon {
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 4.8em;
+			display: block;
+		}
+
+		ul .icon:hover {
+			opacity: 0.6;
+		}
+
+		#homePage .icon .title {
+			margin-bottom: 1em;
+		}
+		#steel:target .page#steelPage {
+			transform: translateX(-90%);
+		}
+
+		#fuel:target .page#fuelPage {
+			transform: translateX(-190%);
+		}
+
+		#energy:target .page#energyPage {
+			transform: translateX(-290%);
+		}
+
+		#food:target .page#foodPage {
+			transform: translateX(-390%);
+		}
+
+		#steel:target .page#homePage,
+		#fuel:target .page#homePage,
+		#energy:target .page#homePage,
+		#food:target .page#homePage {
+			background: black;
+		}
+
+		#steel:target .page#homePage .icon,
+		#fuel:target .page#homePage .icon,
+		#energy:target .page#homePage .icon,
+		#food:target .page#homePage .icon {
+			-webkit-filter: blur(3px);
+			filter: blur(3px);
+		}
+		
+		#steel:target ul .icon,
+		#fuel:target ul .icon,
+		#energy:target ul .icon,
+		#food:target ul .icon {
+			transform: scale(.6);
+			transition-delay: .25s;
+		}
+
+		#steel:target #steelButt {
+			transform: scale(1.2) !important;
+		}
+
+		#fuel:target #fuelButt {
+			transform: scale(1.2) !important;
+		}
+
+		#energy:target #energyButt {
+			transform: scale(1.2) !important;
+		}
+
+		#food:target #foodButt {
+			transform: scale(1.2) !important;
+		}
+		
+		.datapos {
+			margin: auto;
+			text-align: center;
+			position: absolute;
+			background-color: rgba(255, 255, 255, 0.4);
+			top: 7.5em;
+			bottom: 0;
+			right: 10%;
+			left: 0;
+			width: 90vw;
+			height: 25em;
+			color: black;
+			padding:2.5em 2em 0 2em;
+		}
+		label
+		{
+			padding:0.2em 1em 0.2em 0.2em;
+			background-color: rgba(255, 255, 255, 0.8);
+			position:relative;
+			top:0.2em;
+			text-align:left;
+			float:left;
+			width:3.5em;
+			font-family: 'Balsamiq Sans', cursive;
+			font-size:1.3em;
+		}
+		input
+		{
+			position:relative;
+			background-color:rgba(128, 20, 150, 0.5);
+			color:white;
+			font-family: 'Balsamiq Sans', cursive;
+			font-weight:700;
+			width:9em;
+		}
+		.totals
+		{
+			text-align:left;
+			font-family: 'Balsamiq Sans', cursive;
+			position:relative;
+			padding:0.8em 0 0.8em 0;
+			font-size:1.5em;
+			width:16em;
+			font-weight:700;
+		}
+		#mainTitle
+		{
+			position:relative;
+			top:0.5em;
+			font-size:2em;
+		}
+		}
