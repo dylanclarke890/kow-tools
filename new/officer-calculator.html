@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles/officer-calc.css" />
+    <title>Officer Calculator</title>
+  </head>
+  <body>
+    <div class="container-fluid" id="wrapper">
+      <nav id="banner" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid" id="menu">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" src="images/logo1_50perc.png" alt="logo" />
+          </a>
+          <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul id="menuList" class="nav navbar-nav justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link" href="resource-calculator.html">Resource Calculator</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="speedup-calculator.html">Speedup Calculator</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="troop-calculator.html">Troop Calculator</a>
+              </li>
+              <li class="nav-item repel">
+                <a class="nav-link" href="sum.html">Summary</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="#wrapper">AP/XP/Officer Calculator</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--#menu closing tag-->
+      </nav>
+      <form method="post" action="sessions.php" id="form">
+        <div id="wall" class="card text-center">
+          <div id="priority" class="card-header">
+            <ul id="menuButts" class="row nav nav-tabs card-header-tabs">
+              <li class="nav-item col col-sm-4">
+                <a id="apFormButton" class="nav-link active" data-toggle="tab" href="#apTab">
+                  <img class="menuImg" src="images/ap.png" alt="AP" />
+                </a>
+              </li>
+              <li class="nav-item active col col-sm-4">
+                <a id="xpFormButton" class="nav-link" data-toggle="tab" href="#xpTab">
+                  <img class="menuImg" src="images/xp.png" alt="XP" />
+                </a>
+              </li>
+              <li class="nav-item col col-sm-4">
+                <a id="levelUpFormButton" class="nav-link" data-toggle="tab" href="#officerTab">
+                  <img class="menuImg" src="images/levelUp.png" alt="Level Up" />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!--card-header closing tag-->
+          <!--<div id="intro">instructions go here...</div>-->
+          <div id="conDiv" class="tab-content card-body mx-auto">
+            <div id="xpTab" class="tab-pane fade in">
+              <div id="xpForm" class="container-fluid">
+                <div class="form-group row justify-content-center">
+                  <div class="card-title col"><h4>XP</h4></div>
+                </div>
+                <div class="tweak">
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn">100</label>
+                    <div class="col-4 col-md-3">
+                      <input class="xpInput form-control" type="number" data-amt="100" id="xpIn" />
+                    </div>
+                    <label id="xpTotal100" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn2">500</label>
+                    <div class="col-4 col-md-3">
+                      <input class="xpInput form-control" type="number" data-amt="500" id="xpIn2" />
+                    </div>
+                    <label id="xpTotal500" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn3">1,000</label>
+                    <div class="col-4 col-md-3">
+                      <input
+                        class="xpInput form-control"
+                        type="number"
+                        data-amt="1000"
+                        id="xpIn3" />
+                    </div>
+                    <label id="xpTotal1000" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn4">5,000</label>
+                    <div class="col-4 col-md-3">
+                      <input
+                        class="xpInput form-control"
+                        type="number"
+                        data-amt="5000"
+                        id="xpIn4" />
+                    </div>
+                    <label id="xpTotal5000" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn5">10,000</label>
+                    <div class="col-4 col-md-3">
+                      <input
+                        class="xpInput form-control"
+                        type="number"
+                        data-amt="10000"
+                        id="xpIn5" />
+                    </div>
+                    <label id="xpTotal10000" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn6">20,000</label>
+                    <div class="col-4 col-md-3">
+                      <input
+                        data-amt="20000"
+                        class="xpInput form-control"
+                        type="number"
+                        id="xpIn6" />
+                    </div>
+                    <label id="xpTotal20000" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-3 col-md-4 col-form-label" for="xpIn7">50,000</label>
+                    <div class="col-4 col-md-3">
+                      <input
+                        class="xpInput form-control"
+                        type="number"
+                        data-amt="50000"
+                        id="xpIn7" />
+                    </div>
+                    <label id="xpTotal50000" class="col-5 col-form-label">0</label>
+                  </div>
+                  <div class="totalDiv form-group row down2">
+                    <h4 class="col-4 form-text down">Total:</h4>
+                    <p class="col-8 col-md-6 total form-text xpTotal" id="xpTotal">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="apTab" class="tab-pane fade in active show">
+              <div id="apForm" class="container-fluid">
+                <div class="form-group row justify-content-center">
+                  <div class="card-title col"><h4>AP</h4></div>
+                </div>
+                <div class="tweak">
+                  <div class="form-group row">
+                    <label class="col-4 col-form-label" for="apIn">20</label>
+                    <div class="col-4 col-lg-3">
+                      <input class="apInput form-control" type="number" data-amt="20" id="apIn" />
+                    </div>
+                    <label id="apTotal20" class="col-4 col-lg-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-4 col-form-label" for="apIn2">50</label>
+                    <div class="col-4 col-lg-3">
+                      <input class="apInput form-control" type="number" data-amt="50" id="apIn2" />
+                    </div>
+                    <label id="apTotal50" class="col-4 col-lg-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-4 col-form-label" for="apIn3">100</label>
+                    <div class="col-4 col-lg-3">
+                      <input class="apInput form-control" type="number" data-amt="100" id="apIn3" />
+                    </div>
+                    <label id="apTotal100" class="col-4 col-lg-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-4 col-form-label" for="apIn4">500</label>
+                    <div class="col-4 col-lg-3">
+                      <input class="apInput form-control" type="number" data-amt="500" id="apIn4" />
+                    </div>
+                    <label id="apTotal500" class="col-4 col-lg-5 col-form-label">0</label>
+                  </div>
+                  <div class="form-group row totalDiv down2">
+                    <h4 class="col-4 form-text down">Total:</h4>
+                    <p class="col-6 total form-text apTotal" id="apTotal">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="officerTab" class="tab-pane fade in">
+              <div id="officerForm" class="container-fluid">
+                <div class="form-group row justify-content-center">
+                  <div class="card-title col"><h4>Level Officer</h4></div>
+                </div>
+                <div class="tweak tweak2">
+                  <p>Please enter the applicable officer levels:</p>
+                  <div class="form-group row">
+                    <label class="col-auto col-md-4 col-form-label" for="levelStart"
+                      >Current Level (1-59):</label
+                    >
+                    <div class="col-3 col-md-2">
+                      <input
+                        class="officerInput form-control aL"
+                        type="number"
+                        value="1"
+                        id="levelStart" />
+                    </div>
+                    <p class="col- col-md-auto col-form-label">and</p>
+                    <input
+                      class="col-4 col-md-3 officerInput form-control aL phew1"
+                      type="number"
+                      value="0"
+                      maxlength="7"
+                      id="currentProgress" />
+                    <p class="col-auto col-md-1 col-form-label phew2">XP</p>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-auto col-md-4 col-form-label" for="levelStop"
+                      >Desired Level (2-60):</label
+                    >
+                    <div class="col-3 col-md-2">
+                      <input
+                        class="officerInput form-control"
+                        type="number"
+                        value="60"
+                        id="levelStop" />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-auto col-md-5 col-form-label" for="officerIn3"
+                      >Officer Rarity:</label
+                    >
+                    <div class="col-7 col-lg-3 rarityOptions">
+                      <label class="radio-inline"
+                        ><input type="radio" id="blue" name="optradio" />Blue</label
+                      >
+                      <label class="radio-inline"
+                        ><input type="radio" id="purple" name="optradio" checked />Purple</label
+                      >
+                      <label class="radio-inline"
+                        ><input type="radio" id="gold" name="optradio" />Gold</label
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group row totalDiv">
+                    <h6 class="col-5 col-form-label form-text">Your XP:</h6>
+                    <p class="col-7 total form-text" id="yourXP">0</p>
+                    <h6 class="col-5 col-form-label form-text">Total XP Req:</h6>
+                    <p class="col-7 total form-text officerTotal" id="reqXP">0</p>
+                    <h6 class="col-5 col-form-label form-text">XP needed:</h6>
+                    <p class="col-7 total form-text" id="resultXP">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Card-body closing tag-->
+        </div>
+        <!--Card/Wall closing tag-->
+        <input type="hidden" class="xpTotal" name="xp" />
+        <input type="hidden" class="apTotal" name="ap" />
+        <input type="hidden" class="currentTotal" name="current" />
+        <input type="hidden" value="0" class="reqTotal" name="req" />
+      </form>
+      <!--Form div closing tag-->
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS *NOTE* all plugins depend on jQuery (this means jQuery must be included before the plugin files -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+    <script src="scripts/officer-calc.js"></script>
+  </body>
+</html>

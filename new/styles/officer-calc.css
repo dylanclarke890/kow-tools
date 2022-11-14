@@ -1,0 +1,728 @@
+#logo {
+  width: 3.5em;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+@media (max-width: 360.98px) /*motoG4 GalaxyS5 iphone5/SE*/ {
+  .menuImg {
+    height: 2em;
+  }
+  #logo {
+    background-color: whitesmoke;
+  }
+  #conDiv {
+    position: relative;
+    top: -0.5em;
+  }
+  .tweak {
+    position: relative;
+    top: -1.5em;
+  }
+  #nextLink {
+    position: relative;
+    float: right;
+
+    left: -0.2em;
+    font-size: 1.2em;
+  }
+  #tableFix {
+    width: 95vw;
+  }
+}
+@media (min-width: 361px) and (max-width: 375.98px) /*iphone X and 7/8/9*/ {
+  .phew1 {
+    position: relative;
+    top: 0.5em;
+    left: 1em;
+  }
+  .phew2 {
+    position: relative;
+    top: 0.2em !important;
+    left: 1em;
+  }
+  .aL {
+    text-align: left;
+  }
+  .down {
+    position: relative;
+    top: 0.135em;
+  }
+  .down2 {
+    position: relative;
+    top: 0.85em !important;
+    left: 1em !important;
+  }
+
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+  #wrapper {
+    padding: 0;
+  }
+  #banner {
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    padding: 0;
+    z-index: 670;
+    padding-left: 0.5em;
+  }
+  #logo {
+    background-color: whitesmoke;
+    width: 2.5em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+  }
+  #priority {
+    position: relative;
+    top: -0.4em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    height: 3.7em;
+    z-index: 669;
+    width: 100vw;
+    left: -0.1em;
+  }
+  .xpTotal {
+    font-size: 1.4em;
+  }
+  .apTotal {
+    font-size: 1.4em;
+  }
+
+  #menuButts {
+    position: relative;
+    top: -0.4em;
+  }
+  .formButts {
+    padding: 0;
+    height: 2.4em !important;
+    position: relative;
+  }
+  .menuImg {
+    display: none;
+  }
+  #intro {
+    position: absolute;
+    text-align: center;
+    background-color: aqua;
+    width: 100%;
+    height: 20vh;
+    top: 20vh;
+  }
+  #xpFormButton {
+    height: 3.4em;
+    background-image: url(images/xp.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #apFormButton {
+    height: 3.4em;
+    background-image: url(images/ap.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #levelUpFormButton {
+    height: 3.4em;
+    background-image: url(images/levelUp.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .card-title {
+    position: relative;
+    top: 0.5em;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 1) !important;
+    position: relative;
+    top: -1.2em;
+  }
+  #conDiv {
+    width: 100vw;
+    height: 78vh;
+    position: relative;
+    top: -0.5em;
+    background-color: rgba(59, 43, 56, 0.63) !important;
+    color: aliceblue;
+  }
+  .form-group {
+    padding: 0 0 1em 0;
+    margin-bottom: 0.2em;
+    position: relative;
+  }
+  .tweak {
+    position: relative;
+    top: -0.5em;
+  }
+  .tweak2 {
+    position: relative;
+    top: -1.5em;
+  }
+  .totalDiv {
+    position: relative;
+    top: -0.6em;
+    left: 0.5em;
+  }
+  .col-form-label {
+    text-align: left;
+    height: 1.5em;
+    position: relative;
+    top: -0.1em;
+  }
+
+  #nextButt {
+    position: relative;
+    top: -5em !important;
+  }
+  .form-control {
+    height: 1.7em;
+    position: relative;
+  }
+
+  #xpTab {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  #apTab {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .col-form-label {
+    text-align: center;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1.1em;
+    padding: 0 0 0.4em 0;
+    background-color: aqua;
+  }
+
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+@media (min-width: 410px) and (max-width: 767.98px) /*Pixel2 Pixel2XL iphone6/7/8PLUS */ {
+  .phew1 {
+    position: relative;
+    top: 0.5em;
+    left: 1em;
+  }
+  .phew2 {
+    position: relative;
+    top: 0.2em !important;
+    left: 1em;
+  }
+  .aL {
+    text-align: left;
+  }
+  .down {
+    position: relative;
+    top: 0.135em;
+  }
+  .down2 {
+    position: relative;
+    top: 0.85em !important;
+    left: 1em !important;
+  }
+
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+  #wrapper {
+    padding: 0;
+  }
+  #banner {
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    padding: 0;
+    z-index: 670;
+    padding-left: 0.5em;
+  }
+  #logo {
+    background-color: whitesmoke;
+    width: 2.5em;
+  }
+
+  #wall {
+    background-color: rgba(59, 43, 56, 0.63);
+  }
+  #priority {
+    position: relative;
+    top: -0.4em;
+    /*background-color: rgba(59, 43, 56, 0.95);*/
+    background-color: rgba(69, 54, 66, 0.96) !important;
+    height: 3.7em;
+    z-index: 669;
+    width: 100vw;
+    margin-left: -0.2em;
+    left: 0.15em;
+  }
+  .xpTotal {
+    font-size: 1.4em;
+  }
+  .apTotal {
+    font-size: 1.4em;
+  }
+
+  #menuButts {
+    position: relative;
+    top: -0.4em;
+  }
+  .formButts {
+    padding: 0;
+    height: 2.4em !important;
+    position: relative;
+  }
+  .menuImg {
+    display: none;
+  }
+  #intro {
+    position: absolute;
+    text-align: center;
+    background-color: aqua;
+    width: 100%;
+    height: 20vh;
+    top: 20vh;
+  }
+  #xpFormButton {
+    height: 3.4em;
+    background-image: url(images/xp.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #apFormButton {
+    height: 3.4em;
+    background-image: url(images/ap.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #levelUpFormButton {
+    height: 3.4em;
+    background-image: url(images/levelUp.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .card-title {
+    position: relative;
+    top: 0.5em;
+  }
+  .tab-pane {
+    background-color: rgba(59, 43, 56, 1) !important;
+    position: relative;
+    top: -1.2em;
+  }
+  #conDiv {
+    width: 100vw;
+    height: 78vh;
+    position: relative;
+    top: -0.5em;
+    background-color: rgba(59, 43, 56, 0.63) !important;
+    color: aliceblue;
+  }
+  .form-group {
+    padding: 0 0 1em 0;
+    margin-bottom: 0.2em;
+    position: relative;
+  }
+  .tweak {
+    position: relative;
+    top: -0.5em;
+  }
+  .tweak2 {
+    position: relative;
+    top: -1.5em;
+  }
+  .totalDiv {
+    position: relative;
+    top: -0.6em;
+    left: 0.5em;
+  }
+  .col-form-label {
+    text-align: left;
+    height: 1.5em;
+    position: relative;
+    top: -0.1em;
+  }
+
+  #nextButt {
+    position: relative;
+    top: -5em !important;
+  }
+  .form-control {
+    height: 1.7em;
+    position: relative;
+  }
+
+  #xpTab {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  #apTab {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .col-form-label {
+    text-align: center;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1.1em;
+    padding: 0 0 0.4em 0;
+    background-color: aqua;
+  }
+
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+@media (min-width: 768px) and (max-width: 900px) /*iPad*/ {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+  .repel {
+    margin-right: 4em;
+  }
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    height: 4.3em;
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    z-index: 670;
+  }
+  #priority {
+    background-color: rgba(69, 54, 66, 0.76) !important;
+    position: relative;
+    top: -1em;
+    z-index: 669;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+  }
+  #logo {
+    width: 3.5em;
+  }
+
+  .menuImg {
+    height: 4em;
+  }
+
+  #wall {
+    background-image: url(images/linda.png), url(images/linda.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position: left, right;
+    background-size: contain, contain;
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 92vh;
+  }
+
+  .card-title {
+    padding-top: 0.5em;
+  }
+
+  #conDiv {
+    position: relative;
+    top: -1.2em;
+    width: 50vw;
+  }
+
+  .form-group {
+    height: 2em;
+  }
+  .total {
+    height: 1.5em;
+    position: relative;
+
+    left: 0.7em;
+    border-radius: 0.2em;
+  }
+  .totalDiv {
+    text-align: center;
+  }
+  .green {
+    background-color: green;
+  }
+  .tab-pane {
+    position: relative;
+    top: -1.1em;
+    padding-bottom: 1em;
+  }
+  .down2 {
+    position: relative;
+    left: 4em;
+  }
+  #next {
+    width: 5em;
+    height: 5em;
+    position: absolute;
+    right: 10em;
+    bottom: 0;
+  }
+  #nextButt {
+    width: 10em;
+    height: 5em;
+    position: absolute;
+    right: -20em;
+    bottom: 35vh;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  #prev {
+    width: 10em;
+    height: 10em;
+    position: absolute;
+    left: -10em;
+    bottom: 35vh;
+  }
+  #xpTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .xpInput {
+    height: 2em;
+  }
+  #apTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .apInput {
+    height: 2em;
+  }
+  #officerTab {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 65vh;
+  }
+  .officerInput {
+    height: 2em;
+  }
+  #energyTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .energyInput {
+    height: 2em;
+  }
+  .col-form-label {
+    text-align: center;
+  }
+
+  .total {
+    font-size: 1.4em;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1.2em;
+    padding: 0 0.2em 0.2em 0;
+    background-color: rgba(59, 43, 56, 0.85);
+  }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (min-width: 900.98px) /*iPadPro and desktops*/ {
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+  body {
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+  .repel {
+    margin-right: 4em;
+  }
+  #wrapper {
+    padding: 0;
+  }
+
+  #banner {
+    height: 4.3em;
+    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
+    background-color: rgba(59, 43, 56, 1) !important;
+    z-index: 670;
+  }
+  #priority {
+    background-color: rgba(69, 54, 66, 0.76) !important;
+    position: relative;
+    top: -1em;
+    z-index: 669;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+  }
+  #logo {
+    width: 3.5em;
+  }
+
+  .menuImg {
+    height: 4em;
+  }
+
+  #wall {
+    background-image: url(../images/linda.png), url(../images/linda.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position: left, right;
+    background-size: contain, contain;
+    background-color: rgba(59, 43, 56, 0.63);
+    height: 92vh;
+  }
+
+  .card-title {
+    padding-top: 0.5em;
+  }
+
+  #conDiv {
+    position: relative;
+    top: -1.2em;
+    width: 50vw;
+  }
+
+  .form-group {
+    height: 2em;
+  }
+  .total {
+    height: 1.5em;
+    position: relative;
+
+    left: 0.7em;
+    border-radius: 0.2em;
+  }
+  .totalDiv {
+    text-align: center;
+  }
+  .green {
+    background-color: green;
+  }
+  .tab-pane {
+    position: relative;
+    top: -1.1em;
+    padding-bottom: 1em;
+  }
+  .down2 {
+    position: relative;
+    left: 4em;
+  }
+  #next {
+    width: 5em;
+    height: 5em;
+    position: absolute;
+    right: 10em;
+    bottom: 0;
+  }
+  #nextButt {
+    width: 10em;
+    height: 5em;
+    position: absolute;
+    right: -20em;
+    bottom: 35vh;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  #prev {
+    width: 10em;
+    height: 10em;
+    position: absolute;
+    left: -10em;
+    bottom: 35vh;
+  }
+  #xpTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .xpInput {
+    height: 2em;
+  }
+  #apTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .apInput {
+    height: 2em;
+  }
+  #officerTab {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 65vh;
+  }
+  .officerInput {
+    height: 2em;
+  }
+  #energyTab {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .energyInput {
+    height: 2em;
+  }
+  .col-form-label {
+    text-align: center;
+  }
+
+  .total {
+    font-size: 1.4em;
+  }
+  #nextLink {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1.2em;
+    padding: 0 0.2em 0.2em 0;
+    background-color: rgba(59, 43, 56, 0.85);
+  }
+  li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  li:target {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
