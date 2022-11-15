@@ -9,11 +9,11 @@ class ResourceTracker {
     const me = this;
     $(`.${name}Input`).keyup(function () {
       dict[$(this).attr("data-amt")] = $(this).val();
-      me.updateTotal();
+      me.updateTotals();
     });
   }
 
-  updateTotal() {
+  updateTotals() {
     const totalPrefix = `${this.name}Total`;
     let total = 0;
     for (let key in this.dict) {
