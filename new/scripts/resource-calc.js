@@ -1,7 +1,6 @@
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 class ResourceTracker {
   constructor(name, dict, main) {
     this.name = name;
@@ -128,10 +127,19 @@ const tabs = {
 };
 
 const trackers = [];
-Object.keys(tabs).forEach((key) =>
-  trackers.push(new ResourceTracker(key, tabs[key].totals, tabs[key].main))
-);
+Object.keys(tabs).forEach((key) => {
+  const tab = tabs[key];
+  trackers.push(new ResourceTracker(key, tab.totals, tab.main));
+});
 
 let content = trackers.map((tracker) => tracker.template).join("");
+content = `
+  ${content}
+  <button type="submit" class="signpost" id="nextLink">
+    <span class="carousel-control-next-icon"></span>Save and continue: Speedup
+    Calculator<span class="carousel-control-next-icon"></span>
+  </button>
+  `;
+
 document.getElementById("conDiv").innerHTML = content;
 trackers.forEach((tracker) => tracker.addEvents());
