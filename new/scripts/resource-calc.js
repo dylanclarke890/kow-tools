@@ -1,131 +1,69 @@
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-var foodDict = {
-  F1: 0,
-  F1000: 0,
-  F10000: 0,
-  F50000: 0,
-  F150000: 0,
-  F500000: 0,
-  F1500000: 0,
-  F50000000: 0,
-};
 
-function updateFoodTotal() {
-  total = 0;
-  for (var key in foodDict) {
-    var inputValue = foodDict[key];
-    var labelValue = key.slice(1);
-    var totalValue = inputValue * labelValue;
-    $("#foodTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    foodTotal = total;
+class ResourceTracker {
+  constructor(name, dict) {
+    this.name = name;
+    this.dict = dict;
+    const me = this;
+    $(`.${name}Input`).keyup(function () {
+      dict[$(this).attr("data-amt")] = $(this).val();
+      me.updateTotal();
+    });
   }
-  total = formatNumber(total);
-  $("#foodTotal").text(total);
-  $(".foodTotal").val(total);
+
+  updateTotal() {
+    const totalPrefix = `${this.name}Total`;
+    let total = 0;
+    for (let key in this.dict) {
+      const val = key * this.dict[key];
+      total += val;
+      const el = document.getElementById(`${totalPrefix}${key}`);
+      if (el) el.innerHTML = formatNumber(val);
+    }
+    total = formatNumber(total);
+    document.getElementById(totalPrefix).innerHTML = total;
+  }
 }
 
-$(".foodInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  foodDict["F" + labelValue] = inputValue;
-  return updateFoodTotal();
+const foodTracker = new ResourceTracker("food", {
+  1: 0,
+  1000: 0,
+  10000: 0,
+  50000: 0,
+  150000: 0,
+  500000: 0,
+  1500000: 0,
+  50000000: 0,
 });
-
-var steelDict = {
-  S1000: 0,
-  S10000: 0,
-  S50000: 0,
-  S150000: 0,
-  S500000: 0,
-  S1500000: 0,
-  S50000000: 0,
-};
-
-function updateSteelTotal() {
-  total = 0;
-  for (var key in steelDict) {
-    var inputValue = steelDict[key];
-    var labelValue = key.slice(1);
-    var totalValue = inputValue * labelValue;
-    $("#steelTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    steelTotal = total;
-  }
-  total = formatNumber(total);
-  $("#steelTotal").text(total);
-  $(".steelTotal").val(total);
-}
-
-$(".steelInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  steelDict["S" + labelValue] = inputValue;
-  return updateSteelTotal();
+const steelTracker = new ResourceTracker("steel", {
+  1: 0,
+  1000: 0,
+  10000: 0,
+  50000: 0,
+  150000: 0,
+  500000: 0,
+  1500000: 0,
+  50000000: 0,
 });
-
-var oilDict = {
-  FU750: 0,
-  FU7500: 0,
-  FU37500: 0,
-  FU112500: 0,
-  FU375000: 0,
-  FU1125000: 0,
-  FU37500000: 0,
-};
-
-function updateOilTotal() {
-  total = 0;
-  for (var key in oilDict) {
-    var inputValue = oilDict[key];
-    var labelValue = key.slice(2);
-    var totalValue = inputValue * labelValue;
-    $("#oilTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    oilTotal = total;
-  }
-  total = formatNumber(total);
-  $("#oilTotal").text(total);
-  $(".oilTotal").val(total);
-}
-
-$(".oilInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  oilDict["FU" + labelValue] = inputValue;
-  return updateOilTotal();
+const oilTracker = new ResourceTracker("oil", {
+  1: 0,
+  750: 0,
+  7500: 0,
+  37500: 0,
+  112500: 0,
+  375000: 0,
+  1125000: 0,
+  37500000: 0,
 });
-
-var energyDict = {
-  E500: 0,
-  E3000: 0,
-  E15000: 0,
-  E50000: 0,
-  E200000: 0,
-  E600000: 0,
-  E20000000: 0,
-};
-
-function updateEnergyTotal() {
-  total = 0;
-  for (var key in energyDict) {
-    var inputValue = energyDict[key];
-    var labelValue = key.slice(1);
-    var totalValue = inputValue * labelValue;
-    $("#energyTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    energyTotal = total;
-  }
-  total = formatNumber(total);
-  $("#energyTotal").text(total);
-  $(".energyTotal").val(total);
-}
-
-$(".energyInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  energyDict["E" + labelValue] = inputValue;
-  return updateEnergyTotal();
+const energyTracker = new ResourceTracker("energy", {
+  1: 0,
+  500: 0,
+  3000: 0,
+  15000: 0,
+  50000: 0,
+  200000: 0,
+  600000: 0,
+  20000000: 0,
 });
