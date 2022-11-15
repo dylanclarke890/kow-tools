@@ -3,22 +3,14 @@ function formatNumber(num) {
 }
 
 class ResourceTracker {
-  constructor(name, dict) {
+  constructor(name, dict, main) {
     this.name = name;
     this.dict = dict;
-    this.buildTab();
-    const elements = document.getElementsByClassName(`${name}Input`);
-    for (let el of elements) {
-      el.addEventListener("keyup", () => {
-        const key = parseInt(el.getAttribute("data-amt"));
-        const val = parseInt(el.value);
-        dict[key] = val;
-        this.updateTotals();
-      });
-    }
+    this.main = main ?? false;
+    this.constructHTML();
   }
 
-  buildTab() {
+  constructHTML() {
     const n = this.name;
     const rowTemplate = (val, label) => `
       <div class="form-group row">
@@ -30,8 +22,11 @@ class ResourceTracker {
         <label id="${n}Total${val}" class="col-4 col-lg-5 col-form-label">0</label>
       </div>
     `;
-    const rowsHtml = Object.keys(this.dict).map(val => rowTemplate(val, val == 1 ? "Open" : null)).join("");
+    const rowsHtml = Object.keys(this.dict)
+      .map((val) => rowTemplate(val, val == 1 ? "Open" : null))
+      .join("");
     const template = `
+    <div id="${n}Tab" class="tab-pane fade in ${this.main ? "active show" : ""}">
       <div id="${n}Form" class="container-fluid">
         <div class="form-group row justify-content-center">
           <div class="card-title col">
@@ -46,8 +41,21 @@ class ResourceTracker {
           </div>
         </div>
       </div>
+    </div>
   `;
-    document.getElementById(`${n}Tab`).innerHTML = template;
+    this.template = template;
+  }
+
+  addEvents() {
+    const elements = document.getElementsByClassName(`${this.name}Input`);
+    for (let el of elements) {
+      el.addEventListener("keyup", () => {
+        const key = parseInt(el.getAttribute("data-amt"));
+        const val = parseInt(el.value);
+        this.dict[key] = val;
+        this.updateTotals();
+      });
+    }
   }
 
   updateTotals() {
@@ -64,43 +72,66 @@ class ResourceTracker {
   }
 }
 
-const foodTracker = new ResourceTracker("food", {
-  1: 0,
-  1000: 0,
-  10000: 0,
-  50000: 0,
-  150000: 0,
-  500000: 0,
-  1500000: 0,
-  50000000: 0,
-});
-const steelTracker = new ResourceTracker("steel", {
-  1: 0,
-  1000: 0,
-  10000: 0,
-  50000: 0,
-  150000: 0,
-  500000: 0,
-  1500000: 0,
-  50000000: 0,
-});
-const oilTracker = new ResourceTracker("oil", {
-  1: 0,
-  750: 0,
-  7500: 0,
-  37500: 0,
-  112500: 0,
-  375000: 0,
-  1125000: 0,
-  37500000: 0,
-});
-const energyTracker = new ResourceTracker("energy", {
-  1: 0,
-  500: 0,
-  3000: 0,
-  15000: 0,
-  50000: 0,
-  200000: 0,
-  600000: 0,
-  20000000: 0,
-});
+const tabs = {
+  food: {
+    totals: {
+      1: 0,
+      1000: 0,
+      10000: 0,
+      50000: 0,
+      150000: 0,
+      500000: 0,
+      1500000: 0,
+      50000000: 0,
+    },
+    main: true,
+  },
+  steel: {
+    totals: {
+      1: 0,
+      1000: 0,
+      10000: 0,
+      50000: 0,
+      150000: 0,
+      500000: 0,
+      1500000: 0,
+      50000000: 0,
+    },
+    main: false,
+  },
+  oil: {
+    totals: {
+      1: 0,
+      750: 0,
+      7500: 0,
+      37500: 0,
+      112500: 0,
+      375000: 0,
+      1125000: 0,
+      37500000: 0,
+    },
+    main: false,
+  },
+  energy: {
+    totals: {
+      1: 0,
+      500: 0,
+      3000: 0,
+      15000: 0,
+      50000: 0,
+      200000: 0,
+      600000: 0,
+      20000000: 0,
+    },
+    main: false,
+  },
+};
+
+const trackers = [];
+Object.keys(tabs).forEach((key) =>
+  trackers.push(new ResourceTracker(key, tabs[key].totals, tabs[key].main))
+);
+
+let content = trackers.map((tracker) => tracker.template).join("");
+document.getElementById("conDiv").innerHTML = content;
+trackers.forEach((tracker) => tracker.addEvents());
