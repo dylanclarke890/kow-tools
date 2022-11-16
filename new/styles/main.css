@@ -1,18 +1,44 @@
 #banner {
-  height: 5.2em;
-  background-color: rgba(59, 43, 56, 1) !important;
-  padding: 0 0 0 1em;
-  z-index: 420;
   position: relative;
   display: -ms-flexbox;
-  display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   -ms-flex-align: center;
   align-items: center;
   -ms-flex-pack: justify;
-  justify-content: space-between;
 }
+#navbar {
+  height: 5.2em;
+  background-color: rgba(59, 43, 56, 1) !important;
+  padding: 0.5em 1em;
+  z-index: 420;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+a, a:active{
+  color: black;
+}
+
+a.active {
+  color: white;
+}
+
+#navbar div:last-child {
+  margin-left: 5em;
+}
+
+#logo {
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 10rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+  max-width: 3.5em;
+}
+
 #menu {
   -ms-flex-align: center;
   align-items: center;
@@ -25,71 +51,4 @@
   margin: 0 auto;
   padding: 0 15px;
   width: 100%;
-}
-.hamburger-toggle {
-  color: rgba(255, 255, 255, 0.5);
-  border-color: rgba(255, 255, 255, 0.1);
-  padding: 0.25rem 0.75rem;
-  font-size: 1.25rem;
-  line-height: 1;
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  appearance: button;
-  -webkit-appearance: button;
-  text-transform: none;
-  overflow: visible;
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  border-radius: 0;
-}
-.hamburger-toggle:not(:disabled) {
-  cursor: pointer;
-}
-.hamburger-toggle span {
-  display: inline-block;
-  width: 1.5em;
-  height: 1.5em;
-  vertical-align: middle;
-  content: "";
-  background: no-repeat center center;
-  background-size: 100% 100%;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-#logo-container {
-  color: #fff;
-  display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
-  margin-right: 1rem;
-  font-size: 1.25rem;
-  line-height: inherit;
-  white-space: nowrap;
-  text-decoration: none;
-  background-color: transparent;
-}
-/* START */
-
-#logo {
-  width: 3.5em;
-}
-
-/* END */
-@media (min-width: 992px) {
-  #banner {
-    -ms-flex-flow: row nowrap;
-    flex-flow: row nowrap;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-  }
-  #menu {
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-  }
-  .hamburger-toggle {
-    display: none;
-  }
 }
