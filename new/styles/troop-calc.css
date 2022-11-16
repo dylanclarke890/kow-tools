@@ -30,10 +30,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-#logo {
-  width: 3.5em;
-}
-
 #tankTotalTimeCost:empty:before {
   content: "0 D: 0 H: 0 M: 0 s";
 }
@@ -54,16 +50,6 @@ input[type="number"] {
 
   #wrapper {
     padding: 0;
-  }
-
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
   }
 
   #wall {
@@ -247,16 +233,6 @@ input[type="number"] {
     padding: 0;
   }
 
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
-  }
-
   #wall {
     background-color: rgba(59, 43, 56, 0.63);
     position: relative;
@@ -435,17 +411,6 @@ input[type="number"] {
     padding: 0;
   }
 
-  #banner {
-    height: 4.3em;
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    z-index: 670;
-  }
-
-  #logo {
-    width: 3.5em;
-  }
-
   #priority {
     position: relative;
     top: -0.5em;
@@ -528,17 +493,6 @@ input[type="number"] {
   }
   #wrapper {
     padding: 0;
-  }
-
-  #banner {
-    height: 4.3em;
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    z-index: 670;
-  }
-
-  #logo {
-    width: 3.5em;
   }
 
   #priority {

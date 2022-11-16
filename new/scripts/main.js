@@ -17,7 +17,7 @@ const navTab = (pageInfo, active) => `
 const url = window.location.href;
 const currentLocation = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
 const navbar = `
-    <nav id="banner" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav id="banner" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid" id="menu">
       <button
         class="navbar-toggler"
@@ -26,7 +26,7 @@ const navbar = `
         data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" id="logo-container" href="index.html">
         <img id="logo" src="images/logo1_50perc.png" alt="logo" />
       </a>
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">

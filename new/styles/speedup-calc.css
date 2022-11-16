@@ -9,19 +9,19 @@
   padding: 0;
   margin: 0;
 }
-#logo {
-  width: 3.5em;
-}
+
 
 /*Takes arrows out of inputs Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
+  appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -40,16 +40,6 @@ input[type="number"] {
 
   #wrapper {
     padding: 0;
-  }
-
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
   }
 
   #wall {
@@ -187,16 +177,6 @@ input[type="number"] {
     padding: 0;
   }
 
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
-  }
-
   #wall {
     background-color: rgba(59, 43, 56, 0.63);
     position: relative;
@@ -331,16 +311,6 @@ input[type="number"] {
 
   #wrapper {
     padding: 0;
-  }
-
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
   }
 
   #wall {
@@ -480,15 +450,6 @@ input[type="number"] {
     padding: 0;
   }
 
-  #banner {
-    height: 4.3em;
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-  }
-
-  #logo {
-    width: 3.5em;
-  }
 
   #wall {
     background-color: rgba(59, 43, 56, 0.63);
@@ -579,16 +540,6 @@ input[type="number"] {
 
   #wrapper {
     padding: 0;
-  }
-
-  #banner {
-    /*background-color: rgba(59, 43, 56, 0.95) !important;*/
-    background-color: rgba(59, 43, 56, 1) !important;
-    padding: 0 0 0 1em;
-  }
-
-  #logo {
-    width: 2em;
   }
 
   #wall {
@@ -709,174 +660,3 @@ input[type="number"] {
     left: 1.7em;
   }
 }
-
-/*@media (orientation: landscape) 
-		{
-  			
-			html, body
-			{
-				position: fixed;
-				overflow-x: hidden;
-			}
-			body
-			{
-				height:100vh;
-				width:100vw;
-				padding: 0;
-			}
-			
-			#wrapper
-			{
-				padding: 0;
-			}
-
-				#banner
-			{
-				//background-color: rgba(59, 43, 56, 0.95) !important;//
-				background-color: rgba(59, 43, 56, 1) !important;
-				padding:0 0 0 1em;
-			}
-			
-			#logo
-			{
-				width:2em;
-			}
-		
-			#wall
-			{
-				background-color: rgba(59, 43, 56, 0.63);
-				position: relative;
-				top:-0.2em;
-			}
-		
-			#priority
-			{
-				position: relative;
-				top:0.1em;
-				left:-0.1em;
-				//background-color: rgba(59, 43, 56, 0.95);//
-				background-color: rgba(69,54,66, 0.96) !important;
-				height: 2.5em;
-				width:100vw !important;	
-			}
-		
-			#menuButts
-			{
-				position: relative;	
-			}
-			.formButts
-			{
-				padding:0;
-				height:2.2em !important;
-				position: relative;
-				top:-0.5em;
-				background-color: rgba(59, 43, 56, 1) !important;
-			}
-			
-			.menuImg
-			{
-				display:none;	
-			}
-		
-		
-			#trainingFormButton
-			{
-				height: 3.6em;
-				background-image: url(images/training.png);
-				background-size: contain;
-				background-repeat:no-repeat;
-				background-position: center;
-			}
-			#repairFormButton
-			{
-				height: 3.6em;
-				background-image: url(images/repair.png);
-				background-size: contain;
-				background-repeat:no-repeat;
-				background-position: center;
-			}
-			#researchFormButton
-			{
-				height: 3.6em;
-				background-image: url(images/research.png);
-				background-size: contain;
-				background-repeat:no-repeat;
-				background-position: center;
-			}
-			#buildingFormButton
-			{
-				height: 3.6em;
-				background-image: url(images/building.png);
-				background-size: contain;
-				background-repeat:no-repeat;
-				background-position: center;
-			}
-			#generalFormButton
-			{
-				height: 3.6em;
-				background-image: url(images/general.png);
-				background-size: contain;
-				background-repeat:no-repeat;
-				background-position: center;
-			}
-		
-			.up
-			{
-				position: relative;
-				top:-0.4em;
-			}
-			.menuLabel
-			{
-				display:none;
-			}
-		
-			.tab-pane
-			{
-				background-color: rgba(59, 43, 56, 1) !important;
-				position: relative;
-				top:-1.05em;
-				height:75vh;
-				padding-top:0.5em;
-				padding-bottom: 0;
-			}
-
-			#conDiv
-			{
-				color:aliceblue;
-				height: 100vh !important;
-			}
-			.form-group
-			{
-				padding: 0;
-				margin-bottom: 0;
-				position: relative;
-			}
-		
-			.tweak
-			{
-				position: relative;
-				top:-1.5em;
-			}
-			.form-control
-			{
-				height:1.5em;
-				position: relative;	
-			}
-			.card-title
-			{
-				position: relative;
-				top:-0.5em;
-			}
-			.totalDiv
-			{
-				position: relative;
-				top:-0.5em;
-			}
-			#nextLink
-			{
-				position:absolute;
-				bottom:10em;
-				width:20em;
-				left:1.7em;
-			}
-		} */
