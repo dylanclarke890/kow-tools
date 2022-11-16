@@ -1,32 +1,51 @@
-#banner {
-  position: relative;
-  display: -ms-flexbox;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: justify;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  background-color: rgba(59, 43, 56, 0.6);
 }
+
+.text-center {
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
 #navbar {
   height: 5.2em;
   background-color: rgba(59, 43, 56, 1) !important;
-  padding: 0.5em 1em;
-  z-index: 420;
+  font-size: 17px;
+  padding: 0.25em 1em;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-a, a:active{
-  color: black;
+a {
+  text-decoration: none;
 }
 
-a.active {
+#navbar a,
+#navbar a:active {
+      color: rgb(230 4 187 / 30%);
+}
+#navbar a.active {
   color: white;
-}
-
-#navbar div:last-child {
-  margin-left: 5em;
 }
 
 #logo {
@@ -39,16 +58,6 @@ a.active {
   max-width: 3.5em;
 }
 
-#menu {
-  -ms-flex-align: center;
-  align-items: center;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 0 auto;
-  padding: 0 15px;
-  width: 100%;
+#navbar div:last-child {
+  margin-left: 5em;
 }
