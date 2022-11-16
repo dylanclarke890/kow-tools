@@ -48,41 +48,10 @@
       </nav>
       <form>
         <div id="wall" class="card text-center">
-          <div id="priority" class="card-header">
-            <ul id="menuButts" class="row nav nav-tabs card-header-tabs">
-              <li class="nav-item col col-sm-3">
-                <a id="foodFormButton" class="nav-link active" data-toggle="tab" href="#foodTab">
-                  <img class="menuImg" src="images/food.png" alt="Food" />
-                </a>
-              </li>
-              <li class="nav-item col col-sm-3">
-                <a id="steelFormButton" class="nav-link" data-toggle="tab" href="#steelTab">
-                  <img class="menuImg" src="images/steel.png" alt="Steel" />
-                </a>
-              </li>
-              <li class="nav-item col col-sm-3">
-                <a id="oilFormButton" class="nav-link" data-toggle="tab" href="#oilTab">
-                  <img class="menuImg" src="images/oil.png" alt="Oil" />
-                </a>
-              </li>
-              <li class="nav-item col col-sm-3">
-                <a id="energyFormButton" class="nav-link" data-toggle="tab" href="#energyTab">
-                  <img class="menuImg" src="images/energy.png" alt="Energy" />
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div id="conDiv" class="tab-content card-body mx-auto">
-          </div>
-          <!--Card-body closing tag-->
+          <div id="header" class="card-header"></div>
+          <div id="tabContent" class="tab-content card-body mx-auto"></div>
         </div>
-        <!--Card/Wall closing tag-->
-        <input type="hidden" class="foodTotal" name="food" />
-        <input type="hidden" class="steelTotal" name="steel" />
-        <input type="hidden" class="oilTotal" name="oil" />
-        <input type="hidden" class="energyTotal" name="energy" />
       </form>
-      <!--Form div closing tag-->
     </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS *NOTE* all plugins depend on jQuery (this means jQuery must be included before the plugin files -->
     <script
@@ -97,6 +66,7 @@
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"></script>
+    <script src="scripts/utils.js"></script>
     <script src="scripts/resource-calc.js"></script>
   </body>
 </html>

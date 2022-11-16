@@ -45,7 +45,7 @@ input[type="number"] {
     position: relative;
     top: -0.2em;
   }
-  #priority {
+  #header {
     position: relative;
     top: 0.1em;
     left: -0.1em;
@@ -117,7 +117,7 @@ input[type="number"] {
     padding-top: 0.5em;
     padding-bottom: 0;
   }
-  #conDiv {
+  #tabContent {
     color: aliceblue;
     height: 100vh !important;
   }
@@ -207,7 +207,7 @@ input[type="number"] {
     position: relative;
     top: -0.2em;
   }
-  #priority {
+  #header {
     position: relative;
     top: 0.1em;
     left: -0.1em;
@@ -279,7 +279,7 @@ input[type="number"] {
     padding-top: 0.5em;
     padding-bottom: 0;
   }
-  #conDiv {
+  #tabContent {
     color: aliceblue;
     height: 100vh !important;
   }
@@ -368,7 +368,7 @@ input[type="number"] {
     position: relative;
     top: -0.2em;
   }
-  #priority {
+  #header {
     position: relative;
     top: 0.1em;
     left: -0.1em;
@@ -440,7 +440,7 @@ input[type="number"] {
     padding-top: 0.5em;
     padding-bottom: 0;
   }
-  #conDiv {
+  #tabContent {
     color: aliceblue;
     height: 100vh !important;
   }
@@ -529,7 +529,7 @@ input[type="number"] {
     position: relative;
     top: -0.2em;
   }
-  #priority {
+  #header {
     position: relative;
     top: 0.1em;
     left: -0.1em;
@@ -601,7 +601,7 @@ input[type="number"] {
     padding-top: 0.5em;
     padding-bottom: 0;
   }
-  #conDiv {
+  #tabContent {
     color: aliceblue;
     height: 100vh !important;
   }
@@ -686,7 +686,7 @@ input[type="number"] {
     background-color: rgba(59, 43, 56, 1) !important;
     z-index: 670;
   }
-  #priority {
+  #header {
     background-color: rgba(69, 54, 66, 0.76) !important;
     height: 4.5em;
     width: 100vw;
@@ -717,7 +717,7 @@ input[type="number"] {
     padding-top: 0.5em;
   }
 
-  #conDiv {
+  #tabContent {
     position: relative;
     top: -1.2em;
     width: 50vw;

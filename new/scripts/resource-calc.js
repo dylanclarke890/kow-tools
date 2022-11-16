@@ -1,48 +1,52 @@
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 class ResourceTracker {
-  constructor(name, dict, main) {
+  constructor(name, dict, isMain) {
     this.name = name;
     this.dict = dict;
-    this.main = main ?? false;
+    this.isMain = isMain ?? false;
     this.constructHTML();
   }
 
+  #rowTemplate = (val, label) => `
+      <div class="form-group row">
+        <label class="col-4 col-form-label" for="${this.name}In">${label}</label>
+        <div class="col-4 col-lg-3">
+          <input class="${this.name}Input form-control" type="number"
+            data-amt="${val}" id="${this.name}In" />
+        </div>
+        <label id="${this.name}Total${val}" class="col-4 col-lg-5 col-form-label">0</label>
+      </div>
+      `;
+
   constructHTML() {
     const n = this.name;
-    const rowTemplate = (val, label) => `
-      <div class="form-group row">
-        <label class="col-4 col-form-label" for="${n}In">${label ?? formatNumber(val)}</label>
-        <div class="col-4 col-lg-3">
-          <input class="${n}Input form-control" type="number"
-            data-amt="${val}" id="${n}In" />
-        </div>
-        <label id="${n}Total${val}" class="col-4 col-lg-5 col-form-label">0</label>
-      </div>
-    `;
-    const rowsHtml = Object.keys(this.dict)
-      .map((val) => rowTemplate(val, val == 1 ? "Open" : null))
-      .join("");
-    const template = `
-    <div id="${n}Tab" class="tab-pane fade in ${this.main ? "active show" : ""}">
-      <div id="${n}Form" class="container-fluid">
-        <div class="form-group row justify-content-center">
-          <div class="card-title col">
-            <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
+    this.header = `
+      <li class="nav-item col col-sm-3">
+        <a id="${n}FormButton" class="nav-link active" data-toggle="tab" href="#${n}Tab">
+          <img class="menuImg" src="images/${n}.png" alt="${n}" />
+        </a>
+      </li>
+      `;
+
+    this.tabContent = `
+      <div id="${n}Tab" class="tab-pane fade in ${this.isMain ? "active show" : ""}">
+        <div id="${n}Form" class="container-fluid">
+          <div class="form-group row justify-content-center">
+            <div class="card-title col">
+              <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
+            </div>
           </div>
-        </div>
-        <div class="tweak">
-          ${rowsHtml}
-          <div class="totalDiv form-group row">
-            <h4 class="col-4 form-text">Total:</h4>
-            <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
+          <div class="tweak">
+            ${Object.keys(this.dict)
+              .map((val) => this.#rowTemplate(val, val == 1 ? "Open" : formatNumber(val)))
+              .join("")}
+            <div class="totalDiv form-group row">
+              <h4 class="col-4 form-text">Total:</h4>
+              <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `;
-    this.template = template;
+      `;
   }
 
   addEvents() {
@@ -53,6 +57,7 @@ class ResourceTracker {
         const val = parseInt(el.value);
         this.dict[key] = val;
         this.updateTotals();
+        this.saveTotals();
       });
     }
   }
@@ -69,6 +74,11 @@ class ResourceTracker {
     total = formatNumber(total);
     document.getElementById(totalPrefix).innerHTML = total;
   }
+
+  saveTotals() {
+    const saveKey = `${this.name}Totals`;
+    sessionStorage.setItem(saveKey, JSON.stringify(this.dict));
+  }
 }
 
 const tabs = {
@@ -83,7 +93,7 @@ const tabs = {
       1500000: 0,
       50000000: 0,
     },
-    main: true,
+    isMain: true,
   },
   steel: {
     totals: {
@@ -96,7 +106,7 @@ const tabs = {
       1500000: 0,
       50000000: 0,
     },
-    main: false,
+    isMain: false,
   },
   oil: {
     totals: {
@@ -109,7 +119,7 @@ const tabs = {
       1125000: 0,
       37500000: 0,
     },
-    main: false,
+    isMain: false,
   },
   energy: {
     totals: {
@@ -122,24 +132,36 @@ const tabs = {
       600000: 0,
       20000000: 0,
     },
-    main: false,
+    isMain: false,
   },
 };
 
 const trackers = [];
+const headers = [];
+const mainContents = [];
+
 Object.keys(tabs).forEach((key) => {
   const tab = tabs[key];
-  trackers.push(new ResourceTracker(key, tab.totals, tab.main));
+  const tracker = new ResourceTracker(key, tab.totals, tab.isMain);
+  trackers.push(tracker);
+  headers.push(tracker.header);
+  mainContents.push(tracker.tabContent);
 });
 
-let content = trackers.map((tracker) => tracker.template).join("");
-content = `
-  ${content}
+const headerContent = `
+  <ul id="menuButts" class="row nav nav-tabs card-header-tabs">
+  ${headers.join("")}
+  </ul>
+`;
+
+const mainContent = `
+  ${mainContents.join("")}
   <button type="submit" class="signpost" id="nextLink">
     <span class="carousel-control-next-icon"></span>Save and continue: Speedup
     Calculator<span class="carousel-control-next-icon"></span>
   </button>
   `;
 
-document.getElementById("conDiv").innerHTML = content;
+document.getElementById("tabContent").innerHTML = mainContent;
+document.getElementById("header").innerHTML = headerContent;
 trackers.forEach((tracker) => tracker.addEvents());
