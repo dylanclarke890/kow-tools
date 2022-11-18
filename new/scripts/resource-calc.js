@@ -33,7 +33,7 @@ class ResourceTracker {
       </li>
       `;
 
-    this.tabContent = `
+    this.oldtabContent = `
       <div id="${n}Tab" class="tab-pane fade in ${this.isMain ? "active show" : ""}">
         <div id="${n}Form" class="container-fluid">
           <div class="form-group row justify-content-center">
@@ -49,6 +49,23 @@ class ResourceTracker {
               <h4 class="col-4 form-text">Total:</h4>
               <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
             </div>
+          </div>
+        </div>
+      </div>
+      `;
+
+    this.tabContent = `
+      <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
+        <div class="tab-title">
+          <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
+        </div>
+        <div>
+          ${Object.keys(this.dict)
+            .map((val) => this.#rowTemplate(val, val == 1 ? "Open" : formatNumber(val)))
+            .join("")}
+          <div class="totalDiv form-group row">
+            <h4 class="col-4 form-text">Total:</h4>
+            <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
           </div>
         </div>
       </div>
@@ -168,6 +185,6 @@ const mainContent = `
   </button>
   `;
 
-document.getElementById("tabContent").innerHTML = mainContent;
+document.getElementById("content").innerHTML = mainContent;
 document.getElementById("header").innerHTML = headerContent;
 trackers.forEach((tracker) => tracker.addEvents());

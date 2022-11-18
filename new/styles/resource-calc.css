@@ -20,8 +20,8 @@
 
 .rssTab {
   display: block;
-  padding: 0.5rem 1rem;
-  margin: 0 3rem;
+  padding: 0.5em 1em;
+  margin: 0 2em;
   border: 1px solid transparent;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
@@ -43,21 +43,25 @@
   height: 3.5em;
 }
 
+#content {
+  width: 40vw;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.rssTabContent {
+  padding-bottom: 1em;
+}
+
+.rssTabContent:not(.active) {
+  display: none;
+}
+
+.tab-title {
+  padding: 0.5em;
+}
+
 @media (min-width: 900.98px) /*iPadPro and desktops*/ {
-  .repel {
-    margin-right: 4em;
-  }
-
-  .card-title {
-    padding-top: 0.5em;
-  }
-
-  #tabContent {
-    position: relative;
-    top: -1.2em;
-    width: 50vw;
-  }
-
   .form-group {
     height: 2em;
   }
@@ -69,15 +73,6 @@
   }
   .totalDiv {
     text-align: center;
-  }
-
-  .tab-pane {
-    padding-bottom: 1em;
-  }
-
-  #menuButts {
-    position: relative;
-    top: -0.85em;
   }
 
   #nextLink {
@@ -95,26 +90,15 @@
     left: -10em;
     bottom: 35vh;
   }
-  #foodTab {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
+
   .foodInput {
     height: 2em;
-  }
-  #steelTab {
-    background-color: rgba(255, 255, 255, 0.5);
   }
   .steelInput {
     height: 2em;
   }
-  #oilTab {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
   .oilInput {
     height: 2em;
-  }
-  #energyTab {
-    background-color: rgba(255, 255, 255, 0.5);
   }
   .energyInput {
     height: 2em;

@@ -12,8 +12,8 @@ body {
 }
 
 img {
-    vertical-align: middle;
-    border-style: none;
+  vertical-align: middle;
+  border-style: none;
 }
 
 h1,
@@ -25,6 +25,20 @@ h6 {
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
 }
 
 .text-center {
@@ -52,7 +66,7 @@ a {
 
 #navbar a,
 #navbar a:active {
-      color: rgb(230 4 187 / 30%);
+  color: rgb(230 4 187 / 30%);
 }
 #navbar a.active {
   color: white;
