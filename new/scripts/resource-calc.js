@@ -19,11 +19,17 @@ class ResourceTracker {
 
   constructHTML() {
     const n = this.name;
-    this.header = `
+    this.oldheader = `
       <li class="nav-item col col-sm-3">
         <a id="${n}FormButton" class="nav-link active" data-toggle="tab" href="#${n}Tab">
           <img class="menuImg" src="images/${n}.png" alt="${n}" />
         </a>
+      </li>
+      `;
+
+    this.header = `
+      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
+        <img class="rssImg" src="images/${n}.png" alt="${n}" />
       </li>
       `;
 
@@ -149,7 +155,7 @@ Object.keys(tabs).forEach((key) => {
 });
 
 const headerContent = `
-  <ul id="menuButts" class="row nav nav-tabs card-header-tabs">
+  <ul id="tabs">
   ${headers.join("")}
   </ul>
 `;

@@ -11,8 +11,9 @@ body {
   background-color: rgba(59, 43, 56, 0.6);
 }
 
-.text-center {
-  text-align: center;
+img {
+    vertical-align: middle;
+    border-style: none;
 }
 
 h1,
@@ -24,6 +25,15 @@ h6 {
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.link:focus,
+.link:hover {
+  text-decoration: none;
 }
 
 #navbar {
