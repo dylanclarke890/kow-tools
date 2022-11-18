@@ -1,15 +1,17 @@
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 class ResourceCalculator {
-  constructor(name, dict, isMain, altFirstLabel) {
+  constructor({ name, dict, isMain = false, altFirstLabel = false, formatAs } = {}) {
     this.name = name;
     this.dict = dict;
     this.isMain = isMain ?? false;
     this.altFirstLabel = altFirstLabel ?? false;
+    this.formattingCallback = ResourceCalculator.formattingOptions[formatAs] ?? ((n) => n);
     this.constructHTML();
   }
+
+  static formattingOptions = {
+    number: (n) => Formatting.thousandSeparators(n),
+    time: (n) => Formatting.secondsToDhms(n),
+  };
 
   #rowTemplate = (val, label) => `
     <div class="input-group-three">
@@ -30,17 +32,20 @@ class ResourceCalculator {
       </li>
       `;
 
+    const rows = Object.keys(this.dict)
+      .map((val) => {
+        const label = this.altFirstLabel && val == 1 ? "Open" : this.formattingCallback(val);
+        return this.#rowTemplate(val, label);
+      })
+      .join("");
+
     this.tabContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
         <div class="tab-title">
           <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
         </div>
         <div class="rssForm">
-          ${Object.keys(this.dict)
-            .map((val) =>
-              this.#rowTemplate(val, this.altFirstLabel && val == 1 ? "Open" : formatNumber(val))
-            )
-            .join("")}
+          ${rows}
           <div class="input-group-three total">
             <h4>Total:</h4>
             <p id="${n}Total">0</p>
@@ -84,8 +89,10 @@ class ResourceCalculator {
 }
 
 class MultiResourceCalculator {
-  constructor(tabs, autoAddEvents = true) {
+  constructor({ tabs, autoAddEvents = true, altFirstLabel = false, formatAs } = {}) {
     this.tabs = tabs;
+    this.altFirstLabel = altFirstLabel;
+    this.formatAs = formatAs;
     this.constructHTML();
     if (autoAddEvents) this.addEvents();
   }
@@ -97,7 +104,13 @@ class MultiResourceCalculator {
 
     Object.keys(this.tabs).forEach((key) => {
       const tab = this.tabs[key];
-      const tracker = new ResourceCalculator(key, tab.totals, tab.isMain, true);
+      const tracker = new ResourceCalculator({
+        name: key,
+        dict: tab.totals,
+        isMain: tab.isMain,
+        altFirstLabel: this.altFirstLabel,
+        formatAs: this.formatAs,
+      });
       trackers.push(tracker);
       headers.push(tracker.header);
       mainContents.push(tracker.tabContent);
@@ -139,17 +152,21 @@ class MultiResourceCalculator {
   }
 }
 
-function secondsToDhms(seconds) {
-  seconds = parseInt(seconds);
-  seconds = isNaN(seconds) ? 0 : seconds;
-  const d = Math.floor(seconds / (3600 * 24)),
-    h = Math.floor((seconds % (3600 * 24)) / 3600),
-    m = Math.floor((seconds % 3600) / 60),
-    s = Math.floor(seconds % 60);
+class Formatting {
+  static thousandSeparators = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-  const days = d > 0 ? d + (d == 1 ? " D : " : " D : ") : "0 D : ",
-    hours = h > 0 ? h + (h == 1 ? " H : " : " H : ") : "0 H : ",
-    mins = m > 0 ? m + (m == 1 ? " M " : " M ") : "0 M",
-    secs = s > 0 ? s + (s == 1 ? " : s" : " : s") : "";
-  return `${days}${hours}${mins}${secs}`;
+  static secondsToDhms = (seconds) => {
+    seconds = parseInt(seconds);
+    seconds = isNaN(seconds) ? 0 : seconds;
+    const d = Math.floor(seconds / (3600 * 24)),
+      h = Math.floor((seconds % (3600 * 24)) / 3600),
+      m = Math.floor((seconds % 3600) / 60),
+      s = Math.floor(seconds % 60);
+
+    const days = d > 0 ? d + (d == 1 ? " D : " : " D : ") : "0 D : ",
+      hours = h > 0 ? h + (h == 1 ? " H : " : " H : ") : "0 H : ",
+      mins = m > 0 ? m + (m == 1 ? " M " : " M ") : "0 M",
+      secs = s > 0 ? s + (s == 1 ? " : s" : " : s") : "";
+    return `${days}${hours}${mins}${secs}`;
+  };
 }
