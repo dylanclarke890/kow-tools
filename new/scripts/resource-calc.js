@@ -53,44 +53,4 @@ const tabs = {
   },
 };
 
-const trackers = [],
-  headers = [],
-  mainContents = [];
-
-Object.keys(tabs).forEach((key) => {
-  const tab = tabs[key];
-  const tracker = new ResourceTracker(key, tab.totals, tab.isMain, true);
-  trackers.push(tracker);
-  headers.push(tracker.header);
-  mainContents.push(tracker.tabContent);
-});
-
-const headerContent = `
-  <ul id="tabs">
-  ${headers.join("")}
-  </ul>
-`;
-
-const mainContent = `
-  ${mainContents.join("")}
-  <a id="nextLink" href="speedup-calculator.html">Next: Speedup Calculator</a>
-  `;
-
-document.getElementById("content").innerHTML = mainContent;
-document.getElementById("header").innerHTML = headerContent;
-trackers.forEach((tracker) => tracker.addEvents());
-const rssTabs = document.getElementsByClassName(`rssTab`);
-for (let tab of rssTabs) {
-  tab.addEventListener("click", () => {
-    const targetContent = document.getElementById(tab.getAttribute("data-target"));
-    for (let t of rssTabs) {
-      t.classList.remove("active");
-      const content = document.getElementById(t.getAttribute("data-target"));
-      content.classList.remove("active", "fade-in");
-      content.classList.add("fade-out");
-    }
-    tab.classList.add("active");
-    targetContent.classList.add("active", "fade-in");
-    targetContent.classList.remove("fade-out");
-  });
-}
+const rssCalcTracker = new MultiResourceCalculator(tabs);

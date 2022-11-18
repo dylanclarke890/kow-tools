@@ -1,17 +1,75 @@
-function secondsToDhms(seconds) {
-  seconds = parseInt(seconds);
-  seconds = isNaN(seconds) ? 0 : seconds;
-  const d = Math.floor(seconds / (3600 * 24)),
-    h = Math.floor((seconds % (3600 * 24)) / 3600),
-    m = Math.floor((seconds % 3600) / 60),
-    s = Math.floor(seconds % 60);
-
-  const days = d > 0 ? d + (d == 1 ? " D : " : " D : ") : "0 D : ",
-    hours = h > 0 ? h + (h == 1 ? " H : " : " H : ") : "0 H : ",
-    mins = m > 0 ? m + (m == 1 ? " M " : " M ") : "0 M",
-    secs = s > 0 ? s + (s == 1 ? " : s" : " : s") : "";
-  return `${days}${hours}${mins}${secs}`;
-}
+const tabs = {
+  training: {
+    totals: {
+      60: 0,
+      300: 0,
+      600: 0,
+      1800: 0,
+      3600: 0,
+      10800: 0,
+      28800: 0,
+      54000: 0,
+      86400: 0,
+    },
+    isMain: true,
+  },
+  repair: {
+    totals: {
+      60: 0,
+      300: 0,
+      600: 0,
+      1800: 0,
+      3600: 0,
+      10800: 0,
+      28800: 0,
+      54000: 0,
+      86400: 0,
+    },
+    isMain: true,
+  },
+  research: {
+    totals: {
+      60: 0,
+      300: 0,
+      600: 0,
+      1800: 0,
+      3600: 0,
+      10800: 0,
+      28800: 0,
+      54000: 0,
+      86400: 0,
+    },
+    isMain: true,
+  },
+  building: {
+    totals: {
+      60: 0,
+      300: 0,
+      600: 0,
+      1800: 0,
+      3600: 0,
+      10800: 0,
+      28800: 0,
+      54000: 0,
+      86400: 0,
+    },
+    isMain: true,
+  },
+  general: {
+    totals: {
+      60: 0,
+      300: 0,
+      600: 0,
+      1800: 0,
+      3600: 0,
+      10800: 0,
+      28800: 0,
+      54000: 0,
+      86400: 0,
+    },
+    isMain: true,
+  },
+};
 
 var trainingDict = {
   TNG60: 0,
