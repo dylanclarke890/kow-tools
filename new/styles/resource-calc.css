@@ -54,12 +54,6 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.rssTabContent {
-  padding-bottom: 1em;
-  display: block;
-  transition: display 2s;
-}
-
 .rssTabContent:not(.active) {
   display: none;
 }

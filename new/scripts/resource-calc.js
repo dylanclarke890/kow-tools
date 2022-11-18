@@ -167,6 +167,7 @@ for (let tab of rssTabs) {
       content.classList.remove("active", "fade-in");
       content.classList.add("fade-out");
     }
+    document.body.offsetHeight;
     tab.classList.add("active");
     targetContent.classList.add("active", "fade-in");
     targetContent.classList.remove("fade-out");
