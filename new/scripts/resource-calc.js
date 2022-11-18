@@ -6,22 +6,11 @@ class ResourceTracker {
     this.constructHTML();
   }
 
-  #oldrowTemplate = (val, label) => `
-      <div class="form-group row">
-        <label class="col-4 col-form-label" for="${this.name}In">${label}</label>
-        <div class="col-4 col-lg-3">
-          <input class="${this.name}Input form-control" type="number"
-            data-amt="${val}" id="${this.name}In" />
-        </div>
-        <label id="${this.name}Total${val}" class="col-4 col-lg-5 col-form-label">0</label>
-      </div>
-      `;
-
   #rowTemplate = (val, label) => `
     <div class="input-group-three">
       <label for="${this.name}In">${label}</label>
       <div>
-        <input class="rssInput input" type="number" data-amt="${val}" />
+        <input class="${this.name}Input rssInput input" type="number" data-amt="${val}" />
       </div>
       <label id="${this.name}Total${val}">0</label>
     </div>
@@ -56,12 +45,12 @@ class ResourceTracker {
   }
 
   addEvents() {
-    const elements = document.getElementsByClassName(`${this.name}Input`);
-    for (let el of elements) {
-      el.addEventListener("keyup", () => {
-        const key = parseInt(el.getAttribute("data-amt"));
-        const val = parseInt(el.value);
-        this.dict[key] = val;
+    const rssInputs = document.getElementsByClassName(`${this.name}Input`);
+    for (let input of rssInputs) {
+      input.addEventListener("keyup", () => {
+        const key = parseInt(input.getAttribute("data-amt"));
+        const val = parseInt(input.value);
+        this.dict[key] = isNaN(val) ? 0 : val;
         this.updateTotals();
         this.saveTotals();
       });
@@ -162,12 +151,21 @@ const headerContent = `
 
 const mainContent = `
   ${mainContents.join("")}
-  <button type="submit" class="signpost" id="nextLink">
-    <span class="carousel-control-next-icon"></span>Save and continue: Speedup
-    Calculator<span class="carousel-control-next-icon"></span>
-  </button>
+  <a id="nextLink" href="speedup-calculator.html">Next: Speedup Calculator</a>
   `;
 
 document.getElementById("content").innerHTML = mainContent;
 document.getElementById("header").innerHTML = headerContent;
 trackers.forEach((tracker) => tracker.addEvents());
+const rssTabs = document.getElementsByClassName(`rssTab`);
+for (let tab of rssTabs) {
+  tab.addEventListener("click", () => {
+    const targetContent = document.getElementById(tab.getAttribute("data-target"));
+    for (let t of rssTabs) {
+      t.classList.remove("active");
+      document.getElementById(t.getAttribute("data-target")).classList.remove("active");
+    }
+    tab.classList.add("active");
+    targetContent.classList.add("active");
+  });
+}
