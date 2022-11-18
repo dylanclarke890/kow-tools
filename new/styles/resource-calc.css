@@ -35,6 +35,7 @@
 
 .rssTab:focus,
 .rssTab:hover {
+  background-color: rgba(255, 255, 255, 0.5);
   border-color: #e9ecef #e9ecef #dee2e6;
   cursor: pointer;
 }
@@ -61,67 +62,24 @@
   padding: 0.5em;
 }
 
-@media (min-width: 900.98px) /*iPadPro and desktops*/ {
-  .form-group {
-    height: 2em;
-  }
-  .total {
-    height: 1.5em;
-    position: relative;
-    left: 0.7em;
-    border-radius: 0.2em;
-  }
-  .totalDiv {
-    text-align: center;
-  }
+.rssInput {
+  height: 2em;
+}
 
-  #nextLink {
-    width: 20em;
+.total {
+  font-size: 1.4em;
+}
 
-    position: absolute;
-    left: 8em;
-    bottom: 35vh;
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-  #prev {
-    width: 10em;
-    height: 10em;
-    position: absolute;
-    left: -10em;
-    bottom: 35vh;
-  }
-
-  .foodInput {
-    height: 2em;
-  }
-  .steelInput {
-    height: 2em;
-  }
-  .oilInput {
-    height: 2em;
-  }
-  .energyInput {
-    height: 2em;
-  }
-  .col-form-label {
-    text-align: center;
-  }
-
-  .total {
-    font-size: 1.4em;
-  }
-  #nextLink {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 1.2em;
-    padding: 0 0.2em 0.2em 0;
-    background-color: rgba(59, 43, 56, 0.85);
-  }
-  li:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-  li:target {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
+#nextLink {
+  width: 20em;
+  position: absolute;
+  left: 8em;
+  bottom: 35vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 1.2em;
+  padding: 0 0.2em 0.2em 0;
+  background-color: rgba(59, 43, 56, 0.85);
 }

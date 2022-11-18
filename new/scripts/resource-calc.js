@@ -6,7 +6,7 @@ class ResourceTracker {
     this.constructHTML();
   }
 
-  #rowTemplate = (val, label) => `
+  #oldrowTemplate = (val, label) => `
       <div class="form-group row">
         <label class="col-4 col-form-label" for="${this.name}In">${label}</label>
         <div class="col-4 col-lg-3">
@@ -16,6 +16,16 @@ class ResourceTracker {
         <label id="${this.name}Total${val}" class="col-4 col-lg-5 col-form-label">0</label>
       </div>
       `;
+
+  #rowTemplate = (val, label) => `
+    <div class="input-group-three">
+      <label for="${this.name}In">${label}</label>
+      <div>
+        <input class="rssInput input" type="number" data-amt="${val}" />
+      </div>
+      <label id="${this.name}Total${val}">0</label>
+    </div>
+    `;
 
   constructHTML() {
     const n = this.name;
@@ -31,13 +41,14 @@ class ResourceTracker {
         <div class="tab-title">
           <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
         </div>
-        <div>
+        <div class="rssForm">
           ${Object.keys(this.dict)
             .map((val) => this.#rowTemplate(val, val == 1 ? "Open" : formatNumber(val)))
             .join("")}
-          <div class="totalDiv form-group row">
-            <h4 class="col-4 form-text">Total:</h4>
-            <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
+          <div class="input-group-three total">
+            <h4>Total:</h4>
+            <p id="${n}Total">0</p>
+            <div></div>
           </div>
         </div>
       </div>
