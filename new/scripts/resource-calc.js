@@ -19,39 +19,11 @@ class ResourceTracker {
 
   constructHTML() {
     const n = this.name;
-    this.oldheader = `
-      <li class="nav-item col col-sm-3">
-        <a id="${n}FormButton" class="nav-link active" data-toggle="tab" href="#${n}Tab">
-          <img class="menuImg" src="images/${n}.png" alt="${n}" />
-        </a>
-      </li>
-      `;
 
     this.header = `
       <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
         <img class="rssImg" src="images/${n}.png" alt="${n}" />
       </li>
-      `;
-
-    this.oldtabContent = `
-      <div id="${n}Tab" class="tab-pane fade in ${this.isMain ? "active show" : ""}">
-        <div id="${n}Form" class="container-fluid">
-          <div class="form-group row justify-content-center">
-            <div class="card-title col">
-              <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
-            </div>
-          </div>
-          <div class="tweak">
-            ${Object.keys(this.dict)
-              .map((val) => this.#rowTemplate(val, val == 1 ? "Open" : formatNumber(val)))
-              .join("")}
-            <div class="totalDiv form-group row">
-              <h4 class="col-4 form-text">Total:</h4>
-              <p class="col-6 total form-text ${n}Total" id="${n}Total">0</p>
-            </div>
-          </div>
-        </div>
-      </div>
       `;
 
     this.tabContent = `
