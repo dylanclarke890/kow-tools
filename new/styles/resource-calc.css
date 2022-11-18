@@ -56,6 +56,8 @@
 
 .rssTabContent {
   padding-bottom: 1em;
+  display: block;
+  transition: display 2s;
 }
 
 .rssTabContent:not(.active) {

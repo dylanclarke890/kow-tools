@@ -85,6 +85,32 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 0.25rem;
 }
 
+.fade-in {
+  animation: fadeIn ease 0.5s forwards;
+}
+
+.fade-out {
+  animation: fadeOut ease 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  10% {
+    opacity: 0;
+  }
+  100% {    
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* NAVBAR */
 #navbar {
   height: 5.2em;

@@ -163,9 +163,12 @@ for (let tab of rssTabs) {
     const targetContent = document.getElementById(tab.getAttribute("data-target"));
     for (let t of rssTabs) {
       t.classList.remove("active");
-      document.getElementById(t.getAttribute("data-target")).classList.remove("active");
+      const content = document.getElementById(t.getAttribute("data-target"));
+      content.classList.remove("active", "fade-in");
+      content.classList.add("fade-out");
     }
     tab.classList.add("active");
-    targetContent.classList.add("active");
+    targetContent.classList.add("active", "fade-in");
+    targetContent.classList.remove("fade-out");
   });
 }
