@@ -10,6 +10,7 @@ const tabs = {
       50000: 0,
     },
     isMain: true,
+    type: "resource",
   },
   ap: {
     totals: {
@@ -19,9 +20,15 @@ const tabs = {
       500: 0,
     },
     isMain: false,
+    type: "resource",
+  },
+  officer: {
+    totals: {},
+    isMain: false,
+    type: "xp",
   },
 };
-const multiItemCalc = new MultiResourceCalculator({
+const multiItemCalc = new MultiItemCalculator({
   tabs,
   altFirstLabel: true,
   formatLabelAs: "number",

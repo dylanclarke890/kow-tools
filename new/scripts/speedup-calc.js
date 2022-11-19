@@ -71,7 +71,7 @@ const tabs = {
   },
 };
 
-const multiItemCalc = new MultiResourceCalculator({
+const multiItemCalc = new MultiItemCalculator({
   tabs,
   altFirstLabel: false,
   formatLabelAs: "time",

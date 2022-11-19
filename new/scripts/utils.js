@@ -108,7 +108,7 @@ class ResourceCalculator {
   }
 }
 
-class MultiResourceCalculator {
+class MultiItemCalculator {
   constructor({
     tabs,
     autoAddEvents = true,
@@ -126,21 +126,29 @@ class MultiResourceCalculator {
     if (autoAddEvents) this.addEvents();
   }
 
+  #getCalculator(key) {
+    const tab = this.tabs[key];
+    switch (key) {
+      case "officer":
+      default:
+        return new ResourceCalculator({
+          name: key,
+          dict: tab.totals,
+          isMain: tab.isMain,
+          altFirstLabel: this.altFirstLabel,
+          formatLabelAs: this.formatLabelAs,
+          formatValueAs: this.formatValueAs,
+        });
+    }
+  }
+
   constructHTML() {
     const calculators = [],
       headers = [],
       mainContents = [];
 
     Object.keys(this.tabs).forEach((key) => {
-      const tab = this.tabs[key];
-      const calc = new ResourceCalculator({
-        name: key,
-        dict: tab.totals,
-        isMain: tab.isMain,
-        altFirstLabel: this.altFirstLabel,
-        formatLabelAs: this.formatLabelAs,
-        formatValueAs: this.formatValueAs,
-      });
+      const calc = this.#getCalculator(key);
       calculators.push(calc);
       headers.push(calc.header);
       mainContents.push(calc.tabContent);

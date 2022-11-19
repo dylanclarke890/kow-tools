@@ -53,7 +53,7 @@ const tabs = {
   },
 };
 
-const multiItemCalc = new MultiResourceCalculator({
+const multiItemCalc = new MultiItemCalculator({
   tabs,
   altFirstLabel: true,
   formatLabelAs: "number",
