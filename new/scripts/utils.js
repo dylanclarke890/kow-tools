@@ -108,83 +108,6 @@ class ResourceCalculator {
   }
 }
 
-class MultiResourceCalculator {
-  constructor({
-    tabs,
-    autoAddEvents = true,
-    altFirstLabel = false,
-    formatLabelAs,
-    formatValueAs,
-    nextPageInfo,
-  } = {}) {
-    this.tabs = tabs;
-    this.altFirstLabel = altFirstLabel;
-    this.formatLabelAs = formatLabelAs;
-    this.formatValueAs = formatValueAs;
-    this.nextPageInfo = nextPageInfo;
-    this.constructHTML();
-    if (autoAddEvents) this.addEvents();
-  }
-
-  constructHTML() {
-    const trackers = [],
-      headers = [],
-      mainContents = [];
-
-    Object.keys(this.tabs).forEach((key) => {
-      const tab = this.tabs[key];
-      const tracker = new ResourceCalculator({
-        name: key,
-        dict: tab.totals,
-        isMain: tab.isMain,
-        altFirstLabel: this.altFirstLabel,
-        formatLabelAs: this.formatLabelAs,
-        formatValueAs: this.formatValueAs,
-      });
-      trackers.push(tracker);
-      headers.push(tracker.header);
-      mainContents.push(tracker.tabContent);
-    });
-
-    const headerContent = `
-      <ul id="tabs">
-      ${headers.join("")}
-      </ul>
-    `;
-
-    const mainContent = `
-      ${mainContents.join("")}
-      <a id="nextLink" href="${this.nextPageInfo.url}.html">Next: ${this.nextPageInfo.title}</a>
-    `;
-
-    this.trackers = trackers;
-    document.getElementById("content").innerHTML = mainContent;
-    document.getElementById("header").innerHTML = headerContent;
-  }
-
-  addEvents() {
-    this.trackers.forEach((tracker) => {
-      tracker.addEvents();
-      tracker.updateTotals();
-    });
-    const rssTabs = document.getElementsByClassName(`rssTab`);
-    for (let tab of rssTabs) {
-      tab.addEventListener("click", () => {
-        const targetContent = document.getElementById(tab.getAttribute("data-target"));
-        for (let t of rssTabs) {
-          t.classList.remove("active");
-          const content = document.getElementById(t.getAttribute("data-target"));
-          content.classList.remove("active", "fade-in");
-          content.classList.add("fade-out");
-        }
-        tab.classList.add("active");
-        targetContent.classList.add("active", "fade-in");
-        targetContent.classList.remove("fade-out");
-      });
-    }
-  }
-}
-
 class Formatting {
   static thousandSeparators = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -207,5 +130,5 @@ class Formatting {
     return `${days} ${hours} ${mins} ${secs}`;
   };
 
-  static capitalise = (t) => `${t[0].toUpperCase()}${t.substring(1)}`;
+  static capitalise = (t) => (t ? `${t[0].toUpperCase()}${t.substring(1)}` : "");
 }
