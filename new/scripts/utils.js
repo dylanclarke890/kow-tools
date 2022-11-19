@@ -59,7 +59,7 @@ class ResourceCalculator {
       })
       .join("");
 
-    this.tabContent = `
+    this.mainContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
         <div class="tab-title">
           <h4>${`${Formatting.capitalise(n)}`}</h4>
@@ -82,7 +82,6 @@ class ResourceCalculator {
       input.addEventListener("keyup", () => {
         const key = parseInt(input.getAttribute("data-amt"));
         const val = parseInt(input.value);
-        console.log(`key: ${key}, value: ${val}`);
         this.dict[key] = isNaN(val) ? 0 : val;
         this.updateTotals();
         this.saveTotals();
@@ -108,6 +107,95 @@ class ResourceCalculator {
   }
 }
 
+class OfficerCalculator {
+  constructor({ name, isMain }) {
+    this.name = name;
+    this.isMain = isMain;
+    this.constructHTML();
+  }
+
+  constructHTML() {
+    const n = this.name;
+
+    this.header = `
+      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
+        <img class="rssImg" src="images/${n}.png" alt="${n}" />
+      </li>
+      `;
+
+    this.mainContent = `
+      <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
+        <div class="form-group row justify-content-center">
+          <div class="card-title col"><h4>Level Officer</h4></div>
+        </div>
+        <div class="tweak tweak2">
+          <p>Please enter the applicable officer levels:</p>
+          <div class="form-group row">
+            <label class="col-auto col-md-4 col-form-label" for="levelStart"
+              >Current Level (1-59):</label
+            >
+            <div class="col-3 col-md-2">
+              <input
+                class="officerInput form-control aL"
+                type="number"
+                value="1"
+                id="levelStart" />
+            </div>
+            <p class="col- col-md-auto col-form-label">and</p>
+            <input
+              class="col-4 col-md-3 officerInput form-control aL phew1"
+              type="number"
+              value="0"
+              maxlength="7"
+              id="currentProgress" />
+            <p class="col-auto col-md-1 col-form-label phew2">XP</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-auto col-md-4 col-form-label" for="levelStop"
+              >Desired Level (2-60):</label
+            >
+            <div class="col-3 col-md-2">
+              <input
+                class="officerInput form-control"
+                type="number"
+                value="60"
+                id="levelStop" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-auto col-md-5 col-form-label" for="officerIn3"
+              >Officer Rarity:</label
+            >
+            <div class="col-7 col-lg-3 rarityOptions">
+              <label class="radio-inline"
+                ><input type="radio" id="blue" name="optradio" />Blue</label
+              >
+              <label class="radio-inline"
+                ><input type="radio" id="purple" name="optradio" checked />Purple</label
+              >
+              <label class="radio-inline"
+                ><input type="radio" id="gold" name="optradio" />Gold</label
+              >
+            </div>
+          </div>
+          <div class="form-group row totalDiv">
+            <h6 class="col-5 col-form-label form-text">Your XP:</h6>
+            <p class="col-7 total form-text" id="yourXP">0</p>
+            <h6 class="col-5 col-form-label form-text">Total XP Req:</h6>
+            <p class="col-7 total form-text officerTotal" id="reqXP">0</p>
+            <h6 class="col-5 col-form-label form-text">XP needed:</h6>
+            <p class="col-7 total form-text" id="resultXP">0</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  addEvents() {}
+
+  updateTotals() {}
+}
+
 class MultiItemCalculator {
   constructor({
     tabs,
@@ -128,8 +216,9 @@ class MultiItemCalculator {
 
   #getCalculator(key) {
     const tab = this.tabs[key];
-    switch (key) {
+    switch (tab.type) {
       case "officer":
+        return new OfficerCalculator({ name: key, isMain: tab.isMain });
       default:
         return new ResourceCalculator({
           name: key,
@@ -151,12 +240,12 @@ class MultiItemCalculator {
       const calc = this.#getCalculator(key);
       calculators.push(calc);
       headers.push(calc.header);
-      mainContents.push(calc.tabContent);
+      mainContents.push(calc.mainContent);
     });
 
     const headerContent = `
       <ul id="tabs">
-      ${headers.join("")}
+        ${headers.join("")}
       </ul>
     `;
 

@@ -9,7 +9,7 @@ const tabs = {
       20000: 0,
       50000: 0,
     },
-    isMain: true,
+    isMain: false,
     type: "resource",
   },
   ap: {
@@ -24,8 +24,8 @@ const tabs = {
   },
   officer: {
     totals: {},
-    isMain: false,
-    type: "xp",
+    isMain: true,
+    type: "officer",
   },
 };
 const multiItemCalc = new MultiItemCalculator({
