@@ -127,13 +127,13 @@ class MultiResourceCalculator {
   }
 
   constructHTML() {
-    const trackers = [],
+    const calculators = [],
       headers = [],
       mainContents = [];
 
     Object.keys(this.tabs).forEach((key) => {
       const tab = this.tabs[key];
-      const tracker = new ResourceCalculator({
+      const calc = new ResourceCalculator({
         name: key,
         dict: tab.totals,
         isMain: tab.isMain,
@@ -141,9 +141,9 @@ class MultiResourceCalculator {
         formatLabelAs: this.formatLabelAs,
         formatValueAs: this.formatValueAs,
       });
-      trackers.push(tracker);
-      headers.push(tracker.header);
-      mainContents.push(tracker.tabContent);
+      calculators.push(calc);
+      headers.push(calc.header);
+      mainContents.push(calc.tabContent);
     });
 
     const headerContent = `
@@ -161,15 +161,15 @@ class MultiResourceCalculator {
       }
     `;
 
-    this.trackers = trackers;
+    this.calculators = calculators;
     document.getElementById("header").innerHTML = headerContent;
     document.getElementById("content").innerHTML = mainContent;
   }
 
   addEvents() {
-    this.trackers.forEach((tracker) => {
-      tracker.addEvents();
-      tracker.updateTotals();
+    this.calculators.forEach((calc) => {
+      calc.addEvents();
+      calc.updateTotals();
     });
     const rssTabs = document.getElementsByClassName(`rssTab`);
     for (let tab of rssTabs) {

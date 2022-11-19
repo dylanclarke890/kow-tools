@@ -71,7 +71,7 @@ const tabs = {
   },
 };
 
-const rssCalcTracker = new MultiResourceCalculator({
+const multiItemCalc = new MultiResourceCalculator({
   tabs,
   altFirstLabel: false,
   formatLabelAs: "time",

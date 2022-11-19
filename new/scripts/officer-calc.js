@@ -21,7 +21,7 @@ const tabs = {
     isMain: false,
   },
 };
-const rssCalcTracker = new MultiResourceCalculator({
+const multiItemCalc = new MultiResourceCalculator({
   tabs,
   altFirstLabel: true,
   formatLabelAs: "number",
