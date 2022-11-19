@@ -76,4 +76,5 @@ const rssCalcTracker = new MultiResourceCalculator({
   altFirstLabel: false,
   formatLabelAs: "time",
   formatValueAs: "time",
+  nextPageInfo: pages[2],
 });

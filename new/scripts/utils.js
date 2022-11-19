@@ -115,11 +115,13 @@ class MultiResourceCalculator {
     altFirstLabel = false,
     formatLabelAs,
     formatValueAs,
+    nextPageInfo,
   } = {}) {
     this.tabs = tabs;
     this.altFirstLabel = altFirstLabel;
     this.formatLabelAs = formatLabelAs;
     this.formatValueAs = formatValueAs;
+    this.nextPageInfo = nextPageInfo;
     this.constructHTML();
     if (autoAddEvents) this.addEvents();
   }
@@ -152,7 +154,7 @@ class MultiResourceCalculator {
 
     const mainContent = `
       ${mainContents.join("")}
-      <a id="nextLink" href="speedup-calculator.html">Next: Speedup Calculator</a>
+      <a id="nextLink" href="${this.nextPageInfo.url}.html">Next: ${this.nextPageInfo.title}</a>
     `;
 
     this.trackers = trackers;

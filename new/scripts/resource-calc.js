@@ -58,4 +58,5 @@ const rssCalcTracker = new MultiResourceCalculator({
   altFirstLabel: true,
   formatLabelAs: "number",
   formatValueAs: "number",
+  nextPageInfo: pages[1],
 });
