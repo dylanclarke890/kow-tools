@@ -56,5 +56,6 @@ const tabs = {
 const rssCalcTracker = new MultiResourceCalculator({
   tabs,
   altFirstLabel: true,
-  formatAs: "number",
+  formatLabelAs: "number",
+  formatValueAs: "number",
 });

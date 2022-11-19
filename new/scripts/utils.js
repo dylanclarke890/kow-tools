@@ -1,16 +1,25 @@
 class ResourceCalculator {
-  constructor({ name, dict, isMain = false, altFirstLabel = false, formatAs } = {}) {
+  constructor({
+    name,
+    dict,
+    isMain = false,
+    altFirstLabel = false,
+    formatLabelAs,
+    formatValueAs,
+  } = {}) {
     this.name = name;
     this.dict = dict;
     this.isMain = isMain ?? false;
     this.altFirstLabel = altFirstLabel ?? false;
-    this.formattingCallback = ResourceCalculator.formattingOptions[formatAs] ?? ((n) => n);
+    this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? ((n) => n);
+    this.valueFormatCb = ResourceCalculator.formattingOptions[formatValueAs] ?? ((n) => n);
     this.constructHTML();
   }
 
   static formattingOptions = {
     number: (n) => Formatting.thousandSeparators(n),
     time: (n) => Formatting.secondsToDhms(n),
+    custom: (n) => n,
   };
 
   #rowTemplate = (val, label) => `
@@ -34,7 +43,7 @@ class ResourceCalculator {
 
     const rows = Object.keys(this.dict)
       .map((val) => {
-        const label = this.altFirstLabel && val == 1 ? "Open" : this.formattingCallback(val);
+        const label = this.altFirstLabel && val == 1 ? "Open" : this.labelFormatCb(val);
         return this.#rowTemplate(val, label);
       })
       .join("");
@@ -62,6 +71,7 @@ class ResourceCalculator {
       input.addEventListener("keyup", () => {
         const key = parseInt(input.getAttribute("data-amt"));
         const val = parseInt(input.value);
+        console.log(`key: ${key}, value: ${val}`);
         this.dict[key] = isNaN(val) ? 0 : val;
         this.updateTotals();
         this.saveTotals();
@@ -70,16 +80,16 @@ class ResourceCalculator {
   }
 
   updateTotals() {
-    const totalPrefix = `${this.name}Total`;
+    const prefix = `${this.name}Total`;
     let total = 0;
     for (let key in this.dict) {
       const val = key * this.dict[key];
       total += val;
-      const el = document.getElementById(`${totalPrefix}${key}`);
-      if (el) el.innerHTML = formatNumber(val);
+      const el = document.getElementById(`${prefix}${key}`);
+      el.innerHTML = this.labelFormatCb(val);
     }
-    total = formatNumber(total);
-    document.getElementById(totalPrefix).innerHTML = total;
+    total = this.labelFormatCb(total);
+    document.getElementById(prefix).innerHTML = total;
   }
 
   saveTotals() {
@@ -89,10 +99,17 @@ class ResourceCalculator {
 }
 
 class MultiResourceCalculator {
-  constructor({ tabs, autoAddEvents = true, altFirstLabel = false, formatAs } = {}) {
+  constructor({
+    tabs,
+    autoAddEvents = true,
+    altFirstLabel = false,
+    formatLabelAs,
+    formatValueAs,
+  } = {}) {
     this.tabs = tabs;
     this.altFirstLabel = altFirstLabel;
-    this.formatAs = formatAs;
+    this.formatLabelAs = formatLabelAs;
+    this.formatValueAs = formatValueAs;
     this.constructHTML();
     if (autoAddEvents) this.addEvents();
   }
@@ -109,7 +126,8 @@ class MultiResourceCalculator {
         dict: tab.totals,
         isMain: tab.isMain,
         altFirstLabel: this.altFirstLabel,
-        formatAs: this.formatAs,
+        formatLabelAs: this.formatLabelAs,
+        formatValueAs: this.formatValueAs,
       });
       trackers.push(tracker);
       headers.push(tracker.header);
