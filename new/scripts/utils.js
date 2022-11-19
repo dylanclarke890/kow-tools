@@ -196,8 +196,8 @@ class SummaryTable {
   constructRow(name) {
     return `
       <tr class="summary-row ${this.large ? "sr-lg" : ""}">
-        <td class="med" scope="row">${Formatting.capitalise(name)}</td>
-        <td class="lite"></td>
+        <td class="dark-cell" scope="row">${Formatting.capitalise(name)}</td>
+        <td class="lite-cell"></td>
       </tr>
     `;
   }
