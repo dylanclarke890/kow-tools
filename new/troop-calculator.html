@@ -1,13 +1,5 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
-<!--[if lte IE 7]><html lang="en" class="ie7"><![endif]-->
-<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
-<!--[if (gt IE 8)|!(IE)]><!-->
 <html lang="en">
-  <!--<![endif]-->
-
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
@@ -20,10 +12,9 @@ session_start();
     <link rel="stylesheet" href="styles/troop-calc.css" />
     <title>Troop Calculator</title>
   </head>
-
   <body>
     <div class="container-fluid" id="wrapper">
-      <div id="navbarTarget"></div>
+      <nav id="navbar"></nav>
       <div id="form">
         <div id="wall" class="card text-center">
           <div id="priority" class="card-header container-fluid">
