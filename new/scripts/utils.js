@@ -196,10 +196,14 @@ class Formatting {
       m = Math.floor((seconds % 3600) / 60),
       s = Math.floor(seconds % 60);
 
-    const days = d > 0 ? d + (d == 1 ? " D : " : " D : ") : "0 D : ",
-      hours = h > 0 ? h + (h == 1 ? " H : " : " H : ") : "0 H : ",
-      mins = m > 0 ? m + (m == 1 ? " M " : " M ") : "0 M",
-      secs = s > 0 ? s + (s == 1 ? " : s" : " : s") : "";
-    return `${days}${hours}${mins}${secs}`;
+    const format = (v, single, multi, empty) =>
+      v > 0 ? `${v} ${v === 1 ? single : multi}` : empty;
+
+    const days = format(d, "day", "days", ""),
+      hours = format(h, "hour", "hours", ""),
+      mins = format(m, "min", "mins", ""),
+      secs = format(s, "sec", "secs", "");
+
+    return `${days} ${hours} ${mins} ${secs}`;
   };
 }
