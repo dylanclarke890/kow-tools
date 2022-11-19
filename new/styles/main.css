@@ -58,6 +58,12 @@ input[type="number"]::-webkit-outer-spin-button {
   text-decoration: none;
 }
 
+.group-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em 0;
+}
+
 .group-three {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

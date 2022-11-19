@@ -1,49 +1,36 @@
 class SummaryTable {
-  constructor({ head, rows } = {}) {
-    this.head = head;
+  constructor({ title, rows } = {}) {
+    this.title = title;
     this.rows = rows;
     this.constructHTML();
   }
 
-  constructHeadRow(val) {
-    return `
-    <tr class="row">
-     <th class="col-12 dark" scope="col">${val}</th>
-    </tr>`;
-  }
-
   constructRow(name) {
     return `
-      <tr class="row">
-        <th class="col-3 col-md-2 med" scope="row">${Formatting.capitalise(name)}</th>
-        <td class="col lite"></td>
+      <tr class="summary-row">
+        <td class="med" scope="row">${Formatting.capitalise(name)}</td>
+        <td class="lite"></td>
       </tr>
     `;
   }
 
   constructHTML() {
     this.table = `
-      <div class="container-fluid table-responsive half float">
-        <table class="table text-center">
-          <thead>
-            ${this.head.map((v) => this.constructHeadRow(v)).join("")}
-          </thead>
-          <tbody>
-            ${this.rows.map((v) => this.constructRow(v)).join("")}
-          </tbody>
-        </table>
-      </div>
+      <h2 class="text-center">${this.title}</h2>
+      <table class="summary-table">
+          ${this.rows.map((v) => this.constructRow(v)).join("")}
+      </table>
     `;
   }
 }
 
 const resourceTable = new SummaryTable({
-  head: ["RESOURCES"],
+  title: "RESOURCES",
   rows: ["food", "steel", "oil", "energy"],
 });
 
 const speedupsTable = new SummaryTable({
-  head: ["SPEEDUPS"],
+  title: "SPEEDUPS",
   rows: ["repair", "research", "training", "building", "general"],
 });
 

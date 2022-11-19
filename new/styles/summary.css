@@ -1,177 +1,36 @@
-@media (min-width: 361px) and (max-width: 375.98px) /*iphone X and 7/8/9*/ {
-  html,
-  body {
-    position: fixed;
-    overflow-x: hidden;
-  }
-  body {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-  }
-
-  #wrapper {
-    padding: 0;
-  }
-
-
-  .float {
-    float: left;
-  }
-
-  .full {
-    width: 100vw;
-  }
-
-  .wrap {
-    padding: 0;
-    margin: 0;
-    position: relative;
-    top: -1em;
-  }
-  .repel {
-    margin-right: 4em;
-  }
-  .dark {
-    background-color: rgba(59, 43, 56, 0.9);
-    color: aliceblue;
-  }
-  .med2 {
-    background-color: rgba(59, 43, 56, 0.95);
-    color: aliceblue;
-  }
-  .med {
-    background-color: rgba(59, 43, 56, 0.65);
-  }
-  .lite {
-    background-color: rgba(59, 43, 56, 0.3);
-  }
+.dark {
+  background-color: rgba(59, 43, 56, 0.9);
+  color: aliceblue;
 }
-@media (min-width: 410px) and (max-width: 767.98px) /*Pixel2 Pixel2XL iphone6/7/8PLUS */ {
-  html,
-  body {
-    position: fixed;
-    overflow-x: hidden;
-  }
-  body {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-  }
 
-  #wrapper {
-    padding: 0;
-  }
-
-
-  .float {
-    float: left;
-  }
-
-  .wrap {
-    padding: 0;
-    margin: 0;
-    position: relative;
-    top: -1em;
-  }
-  .repel {
-    margin-right: 4em;
-  }
-  .dark {
-    background-color: rgba(59, 43, 56, 0.9);
-    color: aliceblue;
-  }
-  .med2 {
-    background-color: rgba(59, 43, 56, 0.95);
-    color: aliceblue;
-  }
-  .med {
-    background-color: rgba(59, 43, 56, 0.65);
-  }
-  .lite {
-    background-color: rgba(59, 43, 56, 0.3);
-  }
+.med2 {
+  background-color: rgba(59, 43, 56, 0.95);
+  color: aliceblue;
 }
-@media (min-width: 768px) and (max-width: 900px) /*iPad*/ {
-  html,
-  body {
-    position: fixed;
-    overflow-x: hidden;
-  }
-  body {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-  }
-
-  #wrapper {
-    padding: 0;
-  }
-
-
-
-  .float {
-    float: left;
-  }
-
-  .wrap {
-    padding: 0;
-    margin: 0;
-    position: relative;
-    top: -1em;
-  }
-  .repel {
-    margin-right: 4em;
-  }
-  .dark {
-    background-color: rgba(59, 43, 56, 0.9);
-    color: aliceblue;
-  }
-  .med2 {
-    background-color: rgba(59, 43, 56, 0.95);
-    color: aliceblue;
-  }
-  .med {
-    background-color: rgba(59, 43, 56, 0.65);
-  }
-  .lite {
-    background-color: rgba(59, 43, 56, 0.3);
-  }
+.med {
+  background-color: rgba(59, 43, 56, 0.65);
 }
+.lite {
+  background-color: rgba(59, 43, 56, 0.3);
+}
+
+.summary-table {
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+}
+
+.summary-row {
+  display: grid;
+  border-top: 1px solid #dee2e6;
+  grid-template-columns: 1fr 3fr;
+}
+
+.summary-row td {
+  padding: 0.75rem;
+}
+
 @media (min-width: 900.98px) /*iPadPro and desktops*/ {
-  html,
-  body {
-    position: fixed;
-    overflow: hidden;
-  }
-  body {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-  }
-
-  #wrapper {
-    padding: 0;
-  }
-
-
-
-  .float {
-    float: left;
-  }
-  .third {
-    width: 32vw;
-  }
-
-  .half {
-    width: 50vw;
-  }
-  .full {
-    width: 100vw;
-  }
-  .fourth {
-    width: 25vw;
-  }
   .wrap {
     padding: 0;
     margin: 0;
@@ -180,20 +39,6 @@
   }
   .repel {
     margin-right: 4em;
-  }
-  .dark {
-    background-color: rgba(59, 43, 56, 0.9);
-    color: aliceblue;
-  }
-  .med2 {
-    background-color: rgba(59, 43, 56, 0.95);
-    color: aliceblue;
-  }
-  .med {
-    background-color: rgba(59, 43, 56, 0.65);
-  }
-  .lite {
-    background-color: rgba(59, 43, 56, 0.3);
   }
 }
 .clear {
