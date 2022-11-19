@@ -8,7 +8,8 @@ class ResourceCalculator {
     formatValueAs,
   } = {}) {
     this.name = name;
-    this.dict = dict;
+    this.storageKey = `${this.name}Totals`;
+    this.dict = this.fetchExisting() ?? dict;
     this.isMain = isMain ?? false;
     this.altFirstLabel = altFirstLabel ?? false;
     this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? ((n) => n);
@@ -22,13 +23,23 @@ class ResourceCalculator {
     custom: (n) => n,
   };
 
-  #rowTemplate = (val, label) => `
+  fetchExisting() {
+    const saved = sessionStorage.getItem(this.storageKey);
+    const parsed = saved ? JSON.parse(saved) : null;
+    return parsed;
+  }
+
+  saveTotals() {
+    sessionStorage.setItem(this.storageKey, JSON.stringify(this.dict));
+  }
+
+  #rowTemplate = (key, label, val) => `
     <div class="input-group-three">
       <label for="${this.name}In">${label}</label>
       <div>
-        <input class="${this.name}Input rssInput input" type="number" data-amt="${val}" />
+        <input class="${this.name}Input rssInput input" type="number" data-amt="${key}" />
       </div>
-      <label id="${this.name}Total${val}">0</label>
+      <label id="${this.name}Total${key}">${val ?? 0}</label>
     </div>
     `;
 
@@ -42,9 +53,9 @@ class ResourceCalculator {
       `;
 
     const rows = Object.keys(this.dict)
-      .map((val) => {
-        const label = this.altFirstLabel && val == 1 ? "Open" : this.labelFormatCb(val);
-        return this.#rowTemplate(val, label);
+      .map((key) => {
+        const label = this.altFirstLabel && key == 1 ? "Open" : this.labelFormatCb(key);
+        return this.#rowTemplate(key, label, this.dict[key]);
       })
       .join("");
 
@@ -80,21 +91,20 @@ class ResourceCalculator {
   }
 
   updateTotals() {
-    const prefix = `${this.name}Total`;
+    const labelPrefix = `${this.name}Total`;
+    const inputPrefix = `${this.name}Input`;
     let total = 0;
     for (let key in this.dict) {
-      const val = key * this.dict[key];
-      total += val;
-      const el = document.getElementById(`${prefix}${key}`);
-      el.innerHTML = this.labelFormatCb(val);
+      const value = this.dict[key];
+      const combinedValue = key * value;
+      total += combinedValue;
+      const input = document.querySelector(`.${inputPrefix}[data-amt='${key}']`);
+      input.value = value ? value : "";
+      const totalLabel = document.getElementById(`${labelPrefix}${key}`);
+      totalLabel.innerHTML = this.labelFormatCb(combinedValue);
     }
     total = this.labelFormatCb(total);
-    document.getElementById(prefix).innerHTML = total;
-  }
-
-  saveTotals() {
-    const saveKey = `${this.name}Totals`;
-    sessionStorage.setItem(saveKey, JSON.stringify(this.dict));
+    document.getElementById(labelPrefix).innerHTML = total;
   }
 }
 
@@ -151,7 +161,10 @@ class MultiResourceCalculator {
   }
 
   addEvents() {
-    this.trackers.forEach((tracker) => tracker.addEvents());
+    this.trackers.forEach((tracker) => {
+      tracker.addEvents();
+      tracker.updateTotals();
+    });
     const rssTabs = document.getElementsByClassName(`rssTab`);
     for (let tab of rssTabs) {
       tab.addEventListener("click", () => {
