@@ -1,72 +1,32 @@
-$(document).ready(function () {
-  return totalxpReq(), calculateXP();
-});
-
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-var xpDict = {
-  XP100: 0,
-  XP500: 0,
-  XP1000: 0,
-  XP5000: 0,
-  XP10000: 0,
-  XP20000: 0,
-  XP50000: 0,
+const tabs = {
+  xp: {
+    totals: {
+      100: 0,
+      500: 0,
+      1000: 0,
+      5000: 0,
+      10000: 0,
+      20000: 0,
+      50000: 0,
+    },
+    isMain: true,
+  },
+  ap: {
+    totals: {
+      20: 0,
+      50: 0,
+      100: 0,
+      500: 0,
+    },
+    isMain: false,
+  },
 };
-
-function updatexpTotal() {
-  total = 0;
-  for (var key in xpDict) {
-    var inputValue = xpDict[key];
-    var labelValue = key.slice(2);
-    var totalValue = inputValue * labelValue;
-    $("#xpTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    xpTotal = total;
-  }
-  total = total;
-  $("#yourXP").text(formatNumber(total));
-  $("#xpTotal").text(formatNumber(total));
-  $(".xpTotal").val(total);
-  return totalxpReq(), calculateXP();
-}
-
-$(".xpInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  xpDict["XP" + labelValue] = inputValue;
-  return updatexpTotal();
-});
-
-var apDict = {
-  AP20: 0,
-  AP50: 0,
-  AP100: 0,
-  AP500: 0,
-};
-
-function updateapTotal() {
-  total = 0;
-  for (var key in apDict) {
-    var inputValue = apDict[key];
-    var labelValue = key.slice(2);
-    var totalValue = inputValue * labelValue;
-    $("#apTotal" + labelValue).text(formatNumber(totalValue));
-    total += totalValue;
-    apTotal = total;
-  }
-  total = formatNumber(total);
-  $("#apTotal").text(total);
-  $(".apTotal").val(total);
-}
-
-$(".apInput").keyup(function () {
-  var inputValue = $(this).val();
-  var labelValue = $(this).attr("data-amt");
-  apDict["AP" + labelValue] = inputValue;
-  return updateapTotal();
+const rssCalcTracker = new MultiResourceCalculator({
+  tabs,
+  altFirstLabel: true,
+  formatLabelAs: "number",
+  formatValueAs: "number",
+  nextPageInfo: null,
 });
 
 var blueLevels = [

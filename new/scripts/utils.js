@@ -154,12 +154,16 @@ class MultiResourceCalculator {
 
     const mainContent = `
       ${mainContents.join("")}
-      <a id="nextLink" href="${this.nextPageInfo.url}.html">Next: ${this.nextPageInfo.title}</a>
+      ${
+        this.nextPageInfo
+          ? `<a id="nextLink" href="${this.nextPageInfo.url}.html">Next: ${this.nextPageInfo.title}</a>`
+          : ""
+      }
     `;
 
     this.trackers = trackers;
-    document.getElementById("content").innerHTML = mainContent;
     document.getElementById("header").innerHTML = headerContent;
+    document.getElementById("content").innerHTML = mainContent;
   }
 
   addEvents() {
