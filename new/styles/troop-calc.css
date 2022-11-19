@@ -16,19 +16,6 @@
 #artRssCostEnergy {
   display: none;
 }
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  appearance: none;
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
 
 #tankTotalTimeCost:empty:before {
   content: "0 D: 0 H: 0 M: 0 s";
