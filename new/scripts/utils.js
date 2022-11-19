@@ -34,7 +34,7 @@ class ResourceCalculator {
   }
 
   #rowTemplate = (key, label, val) => `
-    <div class="input-group-three">
+    <div class="group-three">
       <label for="${this.name}In">${label}</label>
       <div>
         <input class="${this.name}Input rssInput input" type="number" data-amt="${key}" />
@@ -62,11 +62,11 @@ class ResourceCalculator {
     this.tabContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
         <div class="tab-title">
-          <h4>${`${n[0].toUpperCase()}${n.substring(1)}`}</h4>
+          <h4>${`${Formatting.capitalise(n)}`}</h4>
         </div>
         <div class="rssForm">
           ${rows}
-          <div class="input-group-three total">
+          <div class="group-three total">
             <h4>Total:</h4>
             <p id="${n}Total">0</p>
             <div></div>
@@ -206,4 +206,6 @@ class Formatting {
 
     return `${days} ${hours} ${mins} ${secs}`;
   };
+
+  static capitalise = (t) => `${t[0].toUpperCase()}${t.substring(1)}`;
 }

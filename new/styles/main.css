@@ -58,13 +58,13 @@ input[type="number"]::-webkit-outer-spin-button {
   text-decoration: none;
 }
 
-.input-group-three {
+.group-three {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin: 1em 0;
 }
 
-.input-group-three > label {
+.group-three > label {
   padding: 0;
   margin: 4px 0 0 0;
   vertical-align: middle;
