@@ -267,6 +267,14 @@ class TroopCalculator extends BaseCalculator {
       oil: 0,
       energy: 0,
     };
+    this.storageKey = `${this.name}TroopState`;
+    this.loaded = this.load(this.storageKey);
+    if (this.loaded) {
+      const { time, rss, batchSize } = this.loaded;
+      this.timeDict = time;
+      this.rssDict = rss;
+      this.initialBatchSize = batchSize;
+    }
     this.#buildHTML();
   }
 
@@ -274,25 +282,38 @@ class TroopCalculator extends BaseCalculator {
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
     const options = TroopCalculator.batchSizes
       .slice(TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]))
-      .map((v, i) => `<option value="${v}" ${i === 0 ? "selected" : ""}>${v}</option>`);
+      .map(
+        (v, i) =>
+          `<option value="${v}" ${
+            this.initialBatchSize === v ?? i === 0 ? "selected" : ""
+          }>${v}</option>`
+      );
+    this.initialBatchSize = null;
+
     batchSelect.innerHTML = options;
   };
 
-  #constructRssInput = (key) => {
+  #constructRssInput = (key, value) => {
+    console.log(key, value);
     return `
       <label>${Formatting.capitalise(key)}:</label>
-      <input class="input ${this.name}RssCost" type="number" data-rss="${key}" />
+      <input class="input ${this.name}RssCost" type="number" data-rss="${key}" value="${value}" />
     `;
   };
 
-  #constructTimeInput = (label, val) => {
+  #constructTimeInput = (label, secs, val) => {
     return `
       <label>${label}:</label>
-      <input class="input ${this.name}TimeCost" type="number" data-secs="${val}" />
+      <input class="input ${this.name}TimeCost" type="number" value=${val} data-secs="${secs}" />
     `;
   };
 
   #updateTroopCosts = (selectedTroopLevel) => {
+    if (this.loaded && this.loaded.rss) {
+      this.rssDict = this.loaded.rss;
+      this.loaded.rss = null;
+      return;
+    }
     const minSize = TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]);
     const costs = this.costs[selectedTroopLevel];
     Object.keys(this.rssDict).forEach((key) => {
@@ -313,11 +334,12 @@ class TroopCalculator extends BaseCalculator {
             <div class="group-two">
               <label>Troop Level:</label>
               <select class="select" id="${n}TroopLevel">
-                <option value="T1" selected>T1</option>
-                <option value="T2">T2</option>
-                <option value="T3">T3</option>
-                <option value="T4">T4</option>
-                <option value="T5">T5</option>
+              ${["T1", "T2", "T3", "T4", "T5"].map(
+                (v) => `
+                <option value=${v} ${v === this.initialSelected ? "selected" : ""}>
+                  ${v}
+                </option>`
+              )}
               </select>
             </div>
             <div class="group-two">
@@ -328,7 +350,7 @@ class TroopCalculator extends BaseCalculator {
           <h3>Production Cost</h3>
           <div class="group-four">
             ${Object.keys(this.rssDict)
-              .map((v) => this.#constructRssInput(v))
+              .map((v) => this.#constructRssInput(v, this.rssDict[v]))
               .join("")}
           </div>
           <h3>Production Time</h3>
@@ -339,14 +361,18 @@ class TroopCalculator extends BaseCalculator {
               ["Mins", 60],
               ["Secs", 1],
             ]
-              .map((v) => this.#constructTimeInput(v[0], v[1]))
+              .map((v) => this.#constructTimeInput(v[0], v[1], this.timeDict[v[1]]))
               .join("")}
           </div>
           <div class="group-four">
             <label>How many do you want?</label>
-            <input class="input" id="${n}TroopsRequired" type="number" />
+            <input class="input" id="${n}TroopsRequired" type="number" value=${
+      this.loaded && this.loaded.troopsRequired
+    } />
             <label>Already made (Optional): </label>
-            <input class="input" id="${n}CurrentTroopCount" type="number" />
+            <input class="input" id="${n}CurrentTroopCount" type="number"  value=${
+      this.loaded && this.loaded.alreadyMade
+    } />
           </div>
           <div class="group-three">
             <div>
@@ -438,7 +464,7 @@ class TroopCalculator extends BaseCalculator {
     Object.keys(this.rssDict).forEach((key) => {
       const val = this.rssDict[key];
       if (!val) return;
-      const totalCost = (val / batchSize) * totalTroopsReq;
+      const totalCost = Math.floor((val / batchSize) * totalTroopsReq);
       if (totalCost > 0)
         rssTotal.push(`${Formatting.capitalise(key)}: ${Formatting.thousandSeparators(totalCost)}`);
     });
@@ -454,6 +480,18 @@ class TroopCalculator extends BaseCalculator {
     document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime
       ? Formatting.secondsToDhms(totalTime)
       : 0;
+
+    const troopSelect = document.getElementById(`${this.name}TroopLevel`);
+    const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
+    const saveItem = {
+      troopLevel: selectedTroopLevel,
+      troopsRequired: troopsRequiredVal,
+      alreadyMade: alreadyMadeVal,
+      batchSize,
+      rss: this.rssDict,
+      time: this.timeDict,
+    };
+    this.save(this.storageKey, saveItem);
   };
 }
 
