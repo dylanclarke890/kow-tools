@@ -108,9 +108,10 @@ class ResourceCalculator {
 }
 
 class OfficerCalculator {
-  constructor({ name, isMain }) {
+  constructor({ name, isMain, levels }) {
     this.name = name;
     this.isMain = isMain;
+    this.levels = levels;
     this.constructHTML();
   }
 
