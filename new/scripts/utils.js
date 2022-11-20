@@ -271,7 +271,7 @@ class TroopCalculator {
     1300, 1400, 1500, 1600, 1700, 2000,
   ];
 
-  buildBatchOptions(selectedTroopLevel) {
+  #buildBatchOptions(selectedTroopLevel) {
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
     const options = TroopCalculator.batchSizes
       .slice(TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]))
@@ -279,14 +279,27 @@ class TroopCalculator {
     batchSelect.innerHTML = options;
   }
 
-  updateTroopCosts(selectedTroopLevel) {
+  #updateTroopCosts(selectedTroopLevel) {
     const minSize = TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]);
-
     const costs = this.costs[selectedTroopLevel];
     Object.keys(this.rssDict).forEach((key) => {
       this.rssDict[key] = costs[key] * TroopCalculator.batchSizes[minSize];
       document.querySelector(`.${this.name}RssCost[data-rss="${key}"]`).value = this.rssDict[key];
     });
+  }
+
+  #constructRssInput(key) {
+    return `
+      <label>${Formatting.capitalise(key)}:</label>
+      <input class="input ${this.name}RssCost" type="number" data-rss="${key}" />
+    `;
+  }
+
+  #constructTimeInput(label, val) {
+    return `
+      <label>${label}:</label>
+      <input class="input ${this.name}TimeCost" type="number" data-secs="${val}" />
+    `;
   }
 
   constructHTML() {
@@ -322,25 +335,20 @@ class TroopCalculator {
           </div>
           <h3>Production Cost</h3>
           <div class="group-four">
-            <label>Food:</label>
-            <input class="input ${n}RssCost" type="number" data-rss="food" />
-            <label>Steel:</label>
-            <input class="input ${n}RssCost" type="number" data-rss="steel" />
-            <label>Oil:</label>
-            <input class="input ${n}RssCost" type="number" data-rss="oil" />
-            <label>Energy:</label>
-            <input class="input ${n}RssCost" type="number" data-rss="energy" />
+            ${Object.keys(this.rssDict)
+              .map((v) => this.#constructRssInput(v))
+              .join("")}
           </div>
           <h3>Production Time</h3>
           <div class="group-four">
-            <label>Days:</label>
-            <input class="input ${n}TimeCost" type="number" data-secs="86400" />
-            <label>Hours:</label>
-            <input class="input ${n}TimeCost" type="number" data-secs="3600" />
-            <label>Mins:</label>
-            <input class="input ${n}TimeCost" type="number" data-secs="60" />
-            <label>Secs:</label>
-            <input class="input ${n}TimeCost" type="number" data-secs="1" />
+            ${[
+              ["Days", 86400],
+              ["Hours", 3600],
+              ["Mins", 60],
+              ["Secs", 1],
+            ]
+              .map((v) => this.#constructTimeInput(v[0], v[1]))
+              .join("")}
           </div>
           <div class="group-four">
             <label>How many do you want?</label>
@@ -373,14 +381,14 @@ class TroopCalculator {
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
     troopSelect.addEventListener("change", () => {
       const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
-      me.buildBatchOptions(selectedTroopLevel);
-      me.updateTroopCosts(selectedTroopLevel);
+      me.#buildBatchOptions(selectedTroopLevel);
+      me.#updateTroopCosts(selectedTroopLevel);
       me.updateTotals();
     });
 
     batchSelect.addEventListener("change", () => {
       const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
-      me.updateTroopCosts(selectedTroopLevel);
+      me.#updateTroopCosts(selectedTroopLevel);
       me.updateTotals();
     });
 
@@ -410,8 +418,8 @@ class TroopCalculator {
     });
 
     const selected = troopSelect.options[troopSelect.selectedIndex].value;
-    this.buildBatchOptions(selected);
-    this.updateTroopCosts(selected);
+    this.#buildBatchOptions(selected);
+    this.#updateTroopCosts(selected);
   }
 
   updateTotals() {
@@ -439,7 +447,6 @@ class TroopCalculator {
       const val = this.rssDict[key];
       if (!val) return;
       const totalCost = (val / batchSize) * totalTroopsReq;
-      console.log(val);
       if (totalCost > 0)
         rssTotal.push(`${Formatting.capitalise(key)}: ${Formatting.thousandSeparators(totalCost)}`);
     });
