@@ -391,28 +391,25 @@ class TroopCalculator {
     `;
 
     this.mainContent = `
-      <div id="tankTab" class="rssTabContent ${this.isMain ? "active" : ""}">
-        <div id="tankForm" class="container-fluid">
-          <div class="form-group row justify-content-center">
-            <div class="card-title col"><h4>Tanks</h4></div>
-          </div>
-          <div class="tweak">
-            <div class="form-group row">
-              <label class="col-auto col-md-2 col-form-label up2 aL" for="tankTroopLevel"
-                >Troop Level:
-              </label>
-              <select class="col-auto col-md-1 rounded" id="tankTroopLevel">
+      <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
+        <div class="tab-title">
+          <h4>${`${Formatting.capitalise(n)}`}</h4>
+        </div>
+        <div class="rssForm">
+          <div class="group-two">
+            <div class="group-two">
+              <label>Troop Level:</label>
+              <select class="select" id="${n}TroopLevel">
                 <option value="T1">T1</option>
                 <option value="T2">T2</option>
                 <option value="T3">T3</option>
-                <option value="T4" selected>T4</option>
+                <option value="T4">T4</option>
                 <option value="T5">T5</option>
               </select>
-
-              <label class="col-auto col-md-2 col-form-label up2" for="tankProdCap"
-                >Production Capacity:
-              </label>
-              <select class="col-auto col-md-1 rounded" id="tankProdCap">
+            </div>
+            <div class="group-two">
+              <label>Batch Size:</label>
+              <select class="select" id="${n}BatchSize">
                 <option value="800" selected>800</option>
                 <option value="900">900</option>
                 <option value="1000">1000</option>
@@ -426,91 +423,60 @@ class TroopCalculator {
                 <option value="2000">2000</option>
               </select>
             </div>
-
-            <div class="form-group row move">
-              <label class="col- col-md-2 col-form-label alignLeft aL" for="tankProdTimeDays"
-                >Production Time:
-              </label>
-
-              <input
-                class="tankProdTime col-2 col-md-1 rounded"
-                id="tankProdTimeDays"
-                type="number"
-                value="0"
-                data-secs="86400"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
-              <label class="col-4 col-md-1 col-form-label prodShift">Days</label>
-              <input
-                class="tankProdTime col-2 col-md-1 rounded"
-                id="tankProdTimeHours"
-                type="number"
-                value="0"
-                data-secs="3600"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
-              <label class="col-4 col-md-1 col-form-label prodShift">Hours</label>
-              <input
-                class="tankProdTime col-2 col-md-1 rounded"
-                id="tankProdTimeMins"
-                type="number"
-                value="0"
-                data-secs="60"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
-              <label class="col-4 col-md-1 col-form-label prodShift2">Minutes</label>
-              <input
-                class="tankProdTime col-2 col-md-1 rounded"
-                id="tankProdTimeSecs"
-                type="number"
-                value="0"
-                data-secs="1"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
-              <label class="col-4 col-md-1 col-form-label prodShift2">Seconds</label>
+          </div>
+          <div class="group-four">
+            <label>Troop Level:</label>
+            <select class="select" id="${n}TroopLevel">
+              <option value="T1">T1</option>
+              <option value="T2">T2</option>
+              <option value="T3">T3</option>
+              <option value="T4">T4</option>
+              <option value="T5">T5</option>
+            </select>
+            <label>Batch Size:</label>
+            <select class="select" id="${n}BatchSize">
+              <option value="800" selected>800</option>
+              <option value="900">900</option>
+              <option value="1000">1000</option>
+              <option value="1100">1100</option>
+              <option value="1200">1200</option>
+              <option value="1300">1300</option>
+              <option value="1400">1400</option>
+              <option value="1500">1500</option>
+              <option value="1600">1600</option>
+              <option value="1700">1700</option>
+              <option value="2000">2000</option>
+            </select>
+          </div>
+          <h3>Production Time</h3>
+          <div class="group-four">
+            <label>Days:</label>
+            <input class="input" id="${n}ProdTimeDays" type="number" data-secs="86400" />
+            <label>Hours:</label>
+            <input class="input" id="${n}ProdTimeHours" type="number" data-secs="3600" />
+            <label>Mins:</label>
+            <input class="input" id="${n}ProdTimeMins" type="number" data-secs="60" />
+            <label>Secs:</label>
+            <input class="input" id="${n}ProdTimeSecs" type="number" data-secs="1" />
+          </div>
+          <div class="group-four">
+            <label>How many do you want?</label>
+            <input class="input" id="${n}TroopsRequired" type="number" />
+            <label>Already made (Optional): </label>
+            <input class="input" id="${n}CurrentTroopCount" type="number" />
+          </div>
+          <div class="group-three">
+            <div>
+              <p>Total Cost: </p>
+              <p id=${n}TotalCost>0</p>
             </div>
-
-            <div class="form-group row reAl">
-              <label class="col-8 col-md-2 col-form-label left aL" for="tankTroopsRequired"
-                >How many do you want?</label
-              >
-              <input
-                class="col-4 col-md-1 rounded move2"
-                id="tankTroopsRequired"
-                type="number"
-                value="0"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
-              <label class="col-8 col-md-2 col-form-label left" for="tankCurrentTroopCount"
-                >Already made (Optional)</label
-              >
-              <input
-                class="col-4 col-md-1 rounded move2"
-                id="tankCurrentTroopCount"
-                type="number"
-                value="0"
-                onclick="if(this.value==0){this.value='';}"
-                onfocusout="if(this.value==''){this.value=0;}" />
+            <div>
+              <p>Total Time: </p>
+              <p id=${n}TotalTime>0</p>
             </div>
-
-            <div class="form-group row totalDiv rssShift">
-              <p class="col-auto col-md-2 form-text aL">Total Cost:</p>
-              <p class="col-auto form-text rssTotals" id="tankTotalRssCost">
-                Food: 0 Steel: 0 Oil: 0 Energy: 0
-              </p>
-            </div>
-            <div class="form-group row totalDiv timeShift">
-              <p class="form-text col-auto">Total Time:</p>
-              <p class="form-text" id="tankTotalTimeCost">0 D : 0 H : 0 M : 0 s</p>
-              <p class="form-text col-auto oneMore">No. of Batches:</p>
-              <p class="form-text tankTotal oneMore" id="tankTotalBatches">0</p>
-            </div>
-
-            <div class="form-group row test">
-              <p class="col-auto col-md-1 col-form-label" id="tankRssCostFood">240000</p>
-              <p class="col-auto col-md-1 col-form-label" id="tankRssCostSteel">240000</p>
-              <p class="col-1 col-md-1 col-form-label" id="tankRssCostOil">0</p>
-              <p class="col-auto col-md-1 col-form-label up" id="tankRssCostEnergy">16000</p>
+            <div>
+              <p>No. of Batches: </p>
+              <p id=${n}TotalBatches>0</p>
             </div>
           </div>
         </div>
