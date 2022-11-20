@@ -61,8 +61,6 @@ const multiItemCalc = new MultiItemCalculator({
   nextPageInfo: null,
 });
 
-var selectedRarity = purpleLevels;
-
 $(".rarityOptions").change(function () {
   if ($("#blue").is(":checked")) {
     selectedRarity = blueLevels;

@@ -112,6 +112,7 @@ class OfficerCalculator {
     this.name = name;
     this.isMain = isMain;
     this.levels = levels;
+    this.selected = "purple";
     this.constructHTML();
   }
 
@@ -120,7 +121,7 @@ class OfficerCalculator {
 
   #constructRadioButton = (id, checked) =>
     `<div>
-      <input type="radio" class="officerRadio" id="${id}" ${
+      <input type="radio" class="rarityOptions" id="${id}" ${
       checked ? "checked" : ""
     } /> ${Formatting.capitalise(id)}
     </div>
@@ -226,9 +227,9 @@ class OfficerCalculator {
         </div>
         <div class="group-four">
          <label>Officer Rarity:</label>
-         ${this.#constructRadioButton("blue", false)}
-         ${this.#constructRadioButton("purple", true)}
-         ${this.#constructRadioButton("gold", false)}
+         ${["blue", "purple", "gold"]
+           .map((v) => this.#constructRadioButton(v, v === this.selected))
+           .join("")}
         </div>
         <div class="group-three">
           <div class="group-two">
@@ -248,7 +249,19 @@ class OfficerCalculator {
     `;
   }
 
-  addEvents() {}
+  addEvents() {
+    const radios = document.getElementsByClassName("rarityOptions");
+    for (let radio of radios) {
+      radio.addEventListener("change", () => {
+        if (radio.checked) {
+          this.selected = radio.getAttribute("id");
+          for (let r of radios) {
+            if (r !== radio) r.checked = false;
+          }
+        }
+      });
+    }
+  }
 
   updateTotals() {}
 }
