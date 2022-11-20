@@ -1084,9 +1084,7 @@ $(".trainingInputClear").click(function(){
     inputValue = $("#trainingIn" + $(this).attr("data-amt")).val()
     inputVal = "TNG" + $(this).attr("data-amt")
     inputValInSeconds = trainingDict[inputVal]*$(this).attr("data-amt")
-    console.log(trainingTotalSeconds)
     trainingTotalSeconds -= inputValInSeconds
-    console.log(trainingTotalSeconds)
     $(".trainingTotal").text(secondsToDhms(trainingTotalSeconds))
     $("#trainingIn" + $(this).attr("data-amt")).val(0);
     $("#"+inputVal).text(0)
@@ -1099,9 +1097,7 @@ $(".repairInputClear").click(function(){
     inputValue = $("#repairIn" + $(this).attr("data-amt")).val()
     inputVal = "RPR" + $(this).attr("data-amt")
     inputValInSeconds = repairDict[inputVal]*$(this).attr("data-amt")
-    console.log(repairTotalSeconds)
     repairTotalSeconds -= inputValInSeconds
-    console.log(repairTotalSeconds)
     $(".repairTotal").text(secondsToDhms(repairTotalSeconds))
     $("#repairIn" + $(this).attr("data-amt")).val(0);
     $("#"+inputVal).text(0)
@@ -1114,9 +1110,7 @@ $(".researchInputClear").click(function(){
     inputValue = $("#researchIn" + $(this).attr("data-amt")).val()
     inputVal = "RSH" + $(this).attr("data-amt")
     inputValInSeconds = researchDict[inputVal]*$(this).attr("data-amt")
-    console.log(researchTotalSeconds)
     researchTotalSeconds -= inputValInSeconds
-    console.log(researchTotalSeconds)
     $(".researchTotal").text(secondsToDhms(researchTotalSeconds))
     $("#researchIn" + $(this).attr("data-amt")).val(0);
     $("#"+inputVal).text(0)
@@ -1129,9 +1123,7 @@ $(".buildingInputClear").click(function(){
     inputValue = $("#buildingIn" + $(this).attr("data-amt")).val()
     inputVal = "BLD" + $(this).attr("data-amt")
     inputValInSeconds = buildingDict[inputVal]*$(this).attr("data-amt")
-    console.log(buildingTotalSeconds)
     buildingTotalSeconds -= inputValInSeconds
-    console.log(buildingTotalSeconds)
     $(".buildingTotal").text(secondsToDhms(buildingTotalSeconds))
     $("#buildingIn" + $(this).attr("data-amt")).val(0);
     $("#"+inputVal).text(0)
@@ -1144,9 +1136,7 @@ $(".generalInputClear").click(function(){
     inputValue = $("#generalIn" + $(this).attr("data-amt")).val()
     inputVal = "GNR" + $(this).attr("data-amt")
     inputValInSeconds = generalDict[inputVal]*$(this).attr("data-amt")
-    console.log(generalTotalSeconds)
     generalTotalSeconds -= inputValInSeconds
-    console.log(generalTotalSeconds)
     $(".generalTotal").text(secondsToDhms(generalTotalSeconds))
     $("#generalIn" + $(this).attr("data-amt")).val(0);
     $("#"+inputVal).text(0)

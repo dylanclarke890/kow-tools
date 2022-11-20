@@ -246,12 +246,31 @@ class OfficerCalculator {
 }
 
 class TroopCalculator {
-  constructor({ name, isMain, costs, batchSizes }) {
+  constructor({ name, isMain, costs, minBatchSizes }) {
     this.name = name;
     this.isMain = isMain;
     this.costs = costs;
-    this.batchSizes = batchSizes;
+    this.minBatchSizes = minBatchSizes;
+    this.timeDict = {
+      1: 0,
+      60: 0,
+      3600: 0,
+      86400: 0,
+    };
     this.constructHTML();
+  }
+
+  static batchSizes = [
+    20, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000, 1100, 1200,
+    1300, 1400, 1500, 1600, 1700, 2000,
+  ];
+
+  buildBatchOptions(selectedTroopLevel) {
+    const batchSelect = document.getElementById(`${this.name}BatchSize`);
+    const options = TroopCalculator.batchSizes
+      .slice(TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]))
+      .map((v, i) => `<option value="${v}" ${i === 0 ? "selected" : ""}>${v}</option>`);
+    batchSelect.innerHTML = options;
   }
 
   constructHTML() {
@@ -262,7 +281,7 @@ class TroopCalculator {
         <img class="rssImg" src="images/${n}.png" alt="${n}" />
       </li>
       `;
-    
+
     this.mainContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
         <div class="tab-title">
@@ -273,7 +292,7 @@ class TroopCalculator {
             <div class="group-two">
               <label>Troop Level:</label>
               <select class="select" id="${n}TroopLevel">
-                <option value="T1">T1</option>
+                <option value="T1" selected>T1</option>
                 <option value="T2">T2</option>
                 <option value="T3">T3</option>
                 <option value="T4">T4</option>
@@ -282,31 +301,19 @@ class TroopCalculator {
             </div>
             <div class="group-two">
               <label>Batch Size:</label>
-              <select class="select" id="${n}BatchSize">
-                <option value="800" selected>800</option>
-                <option value="900">900</option>
-                <option value="1000">1000</option>
-                <option value="1100">1100</option>
-                <option value="1200">1200</option>
-                <option value="1300">1300</option>
-                <option value="1400">1400</option>
-                <option value="1500">1500</option>
-                <option value="1600">1600</option>
-                <option value="1700">1700</option>
-                <option value="2000">2000</option>
-              </select>
+              <select class="select" id="${n}BatchSize"></select>
             </div>
           </div>
           <h3>Production Time</h3>
           <div class="group-four">
             <label>Days:</label>
-            <input class="input" id="${n}TimeDays" type="number" data-secs="86400" />
+            <input class="input ${n}TimeCost" type="number" data-secs="86400" />
             <label>Hours:</label>
-            <input class="input" id="${n}TimeHours" type="number" data-secs="3600" />
+            <input class="input ${n}TimeCost" type="number" data-secs="3600" />
             <label>Mins:</label>
-            <input class="input" id="${n}TimeMins" type="number" data-secs="60" />
+            <input class="input ${n}TimeCost" type="number" data-secs="60" />
             <label>Secs:</label>
-            <input class="input" id="${n}TimeSecs" type="number" data-secs="1" />
+            <input class="input ${n}TimeCost" type="number" data-secs="1" />
           </div>
           <div class="group-four">
             <label>How many do you want?</label>
@@ -333,9 +340,68 @@ class TroopCalculator {
     `;
   }
 
-  addEvents() {}
+  addEvents() {
+    const me = this;
+    const troopSelect = document.getElementById(`${this.name}TroopLevel`);
+    troopSelect.addEventListener("change", () => {
+      const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
+      me.buildBatchOptions(selectedTroopLevel);
+      me.updateTotals();
+    });
 
-  updateTotals() {}
+    const batchSelect = document.getElementById(`${this.name}BatchSize`);
+    batchSelect.addEventListener("change", () => {
+      me.updateTotals();
+    });
+
+    const timeCostInputs = document.getElementsByClassName(`${this.name}TimeCost`);
+    for (let input of timeCostInputs) {
+      input.addEventListener("keyup", () => {
+        this.timeDict[parseInt(input.getAttribute("data-secs"))] = parseInt(input.value);
+        me.updateTotals();
+      });
+    }
+
+    const troopsRequired = document.getElementById(`${this.name}TroopsRequired`);
+    const alreadyMade = document.getElementById(`${this.name}CurrentTroopCount`);
+    troopsRequired.addEventListener("keyup", () => {
+      me.updateTotals();
+    });
+    alreadyMade.addEventListener("keyup", () => {
+      me.updateTotals();
+    });
+
+    const selected = troopSelect.options[troopSelect.selectedIndex].value;
+    this.buildBatchOptions(selected);
+  }
+
+  updateTotals() {
+    let totalTime = 0;
+    Object.keys(this.timeDict).forEach((key) => {
+      totalTime += this.timeDict[key] * key;
+    });
+
+    let troopsRequired = document.getElementById(`${this.name}TroopsRequired`);
+    let alreadyMade = document.getElementById(`${this.name}CurrentTroopCount`);
+    const batchSelect = document.getElementById(`${this.name}BatchSize`);
+
+    let troopsRequiredVal = parseInt(troopsRequired.value);
+    if (isNaN(troopsRequiredVal)) troopsRequiredVal = 0;
+    let alreadyMadeVal = parseInt(alreadyMade.value);
+    if (isNaN(alreadyMadeVal)) alreadyMadeVal = 0;
+    let batchSize = parseInt(batchSelect.options[batchSelect.selectedIndex].value);
+    if (isNaN(batchSize)) batchSize = 0;
+
+    console.log(troopsRequiredVal, alreadyMadeVal, batchSize);
+
+    const batches = Math.ceil((troopsRequiredVal - alreadyMadeVal) / batchSize);
+    document.getElementById(`${this.name}TotalCost`).innerHTML =
+      Formatting.secondsToDhms(totalTime);
+    document.getElementById(`${this.name}TotalBatches`).innerHTML =
+      Formatting.thousandSeparators(batches);
+    document.getElementById(`${this.name}TotalTime`).innerHTML =
+      Formatting.secondsToDhms(totalTime);
+  }
 }
 
 class MultiItemCalculator {
@@ -366,7 +432,7 @@ class MultiItemCalculator {
           name: key,
           isMain: tab.isMain,
           costs: tab.costs,
-          batchSizes: tab.batchSizes,
+          minBatchSizes: tab.minBatchSizes,
         });
       default:
         return new ResourceCalculator({
