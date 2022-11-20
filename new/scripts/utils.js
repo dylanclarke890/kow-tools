@@ -490,7 +490,7 @@ class TroopCalculator extends BaseCalculator {
       rss: this.rssDict,
       time: this.timeDict,
     };
-    
+
     this.save(this.storageKey, saveItem);
     this.save(this.dataStorage, { totalRssCost, totalBatchesNeeded, totalTimeCost });
   };
@@ -594,18 +594,19 @@ class MultiItemCalculator {
 }
 
 class SummaryTable {
-  constructor({ title, rows, large } = {}) {
+  constructor({ title, rows, values, large } = {}) {
     this.title = title;
     this.rows = rows;
+    this.values = values ?? [];
     this.large = large;
     this.constructHTML();
   }
 
-  constructRow(name) {
+  constructRow(name, val) {
     return `
       <tr class="summary-row ${this.large ? "sr-lg" : ""}">
         <td class="dark-cell" scope="row">${Formatting.capitalise(name)}</td>
-        <td class="lite-cell"></td>
+        <td class="lite-cell">${val ?? "Missing"}</td>
       </tr>
     `;
   }
@@ -615,7 +616,7 @@ class SummaryTable {
       <div>
         ${this.title ? `<h2 class="text-center">${this.title}</h2>` : ""}
         <table class="summary-table">
-            ${this.rows.map((v) => this.constructRow(v)).join("")}
+            ${this.rows.map((v, i) => this.constructRow(v, this.values[i])).join("")}
         </table>
       </div>
     `;
