@@ -268,6 +268,7 @@ class TroopCalculator extends BaseCalculator {
       energy: 0,
     };
     this.storageKey = `${this.name}TroopState`;
+    this.dataStorage = `${this.name}TroopTotals`;
     this.loaded = this.load(this.storageKey);
     if (this.loaded) {
       const { time, rss, batchSize } = this.loaded;
@@ -471,15 +472,13 @@ class TroopCalculator extends BaseCalculator {
 
     const totalTime = (totalTimeForBatch / batchSize) * totalTroopsReq;
 
-    document.getElementById(`${this.name}TotalCost`).innerHTML = rssTotal.length
-      ? rssTotal.join(", ")
-      : 0;
-    document.getElementById(`${this.name}TotalBatches`).innerHTML = batches
-      ? Formatting.thousandSeparators(batches)
-      : 0;
-    document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime
-      ? Formatting.secondsToDhms(totalTime)
-      : 0;
+    const totalRssCost = rssTotal.length ? rssTotal.join(", ") : 0;
+    const totalBatchesNeeded = batches ? Formatting.thousandSeparators(batches) : 0;
+    const totalTimeCost = totalTime ? Formatting.secondsToDhms(totalTime) : 0;
+
+    document.getElementById(`${this.name}TotalCost`).innerHTML = totalRssCost;
+    document.getElementById(`${this.name}TotalBatches`).innerHTML = totalBatchesNeeded;
+    document.getElementById(`${this.name}TotalTime`).innerHTML = totalTimeCost;
 
     const troopSelect = document.getElementById(`${this.name}TroopLevel`);
     const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
@@ -491,7 +490,9 @@ class TroopCalculator extends BaseCalculator {
       rss: this.rssDict,
       time: this.timeDict,
     };
+    
     this.save(this.storageKey, saveItem);
+    this.save(this.dataStorage, { totalRssCost, totalBatchesNeeded, totalTimeCost });
   };
 }
 
