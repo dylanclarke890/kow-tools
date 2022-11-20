@@ -381,8 +381,8 @@ class TroopCalculator {
       totalTime += this.timeDict[key] * key;
     });
 
-    let troopsRequired = document.getElementById(`${this.name}TroopsRequired`);
-    let alreadyMade = document.getElementById(`${this.name}CurrentTroopCount`);
+    const troopsRequired = document.getElementById(`${this.name}TroopsRequired`);
+    const alreadyMade = document.getElementById(`${this.name}CurrentTroopCount`);
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
 
     let troopsRequiredVal = parseInt(troopsRequired.value);
@@ -392,15 +392,15 @@ class TroopCalculator {
     let batchSize = parseInt(batchSelect.options[batchSelect.selectedIndex].value);
     if (isNaN(batchSize)) batchSize = 0;
 
-    console.log(troopsRequiredVal, alreadyMadeVal, batchSize);
-
-    const batches = Math.ceil((troopsRequiredVal - alreadyMadeVal) / batchSize);
+    const totalTroopsReq = troopsRequiredVal - alreadyMadeVal;
+    const batches = Math.ceil(totalTroopsReq / batchSize);
     document.getElementById(`${this.name}TotalCost`).innerHTML =
       Formatting.secondsToDhms(totalTime);
     document.getElementById(`${this.name}TotalBatches`).innerHTML =
       Formatting.thousandSeparators(batches);
-    document.getElementById(`${this.name}TotalTime`).innerHTML =
-      Formatting.secondsToDhms(totalTime);
+    document.getElementById(`${this.name}TotalTime`).innerHTML = Formatting.secondsToDhms(
+      (totalTime / batchSize) * totalTroopsReq
+    );
   }
 }
 
