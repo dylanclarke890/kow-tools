@@ -1,357 +1,323 @@
-// Store costs for one troop as a dict.
-var tanksResourceCosts = {
-  T1: { Food: 50, Steel: 50, Oil: 0, Energy: 0 },
-  T2: { Food: 100, Steel: 100, Oil: 0, Energy: 0 },
-  T3: { Food: 150, Steel: 150, Oil: 0, Energy: 10 },
-  T4: { Food: 300, Steel: 300, Oil: 0, Energy: 20 },
-  T5: { Food: 600, Steel: 600, Oil: 0, Energy: 40 },
+class TroopCalculator {
+  constructor({ name, isMain, costs, batchSizes }) {
+    this.name = name;
+    this.isMain = isMain;
+    this.costs = costs;
+    this.batchSizes = batchSizes;
+  }
+
+  constructHTML() {
+    const n = this.name;
+
+    this.header = `
+      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
+        <img class="rssImg" src="images/${n}.png" alt="${n}" />
+      </li>
+      `;
+
+    this.mainContent = `
+      <div id="tankTab" class="tab-pane fade in active show">
+        <div id="tankForm" class="container-fluid">
+          <div class="form-group row justify-content-center">
+            <div class="card-title col"><h4>Tanks</h4></div>
+          </div>
+          <div class="tweak">
+            <div class="form-group row">
+              <label class="col-auto col-md-2 col-form-label up2 aL" for="tankTroopLevel"
+                >Troop Level:
+              </label>
+              <select class="col-auto col-md-1 rounded" id="tankTroopLevel">
+                <option value="T1">T1</option>
+                <option value="T2">T2</option>
+                <option value="T3">T3</option>
+                <option value="T4" selected>T4</option>
+                <option value="T5">T5</option>
+              </select>
+
+              <label class="col-auto col-md-2 col-form-label up2" for="tankProdCap"
+                >Production Capacity:
+              </label>
+              <select class="col-auto col-md-1 rounded" id="tankProdCap">
+                <option value="800" selected>800</option>
+                <option value="900">900</option>
+                <option value="1000">1000</option>
+                <option value="1100">1100</option>
+                <option value="1200">1200</option>
+                <option value="1300">1300</option>
+                <option value="1400">1400</option>
+                <option value="1500">1500</option>
+                <option value="1600">1600</option>
+                <option value="1700">1700</option>
+                <option value="2000">2000</option>
+              </select>
+            </div>
+
+            <div class="form-group row move">
+              <label class="col- col-md-2 col-form-label alignLeft aL" for="tankProdTimeDays"
+                >Production Time:
+              </label>
+
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeDays"
+                type="number"
+                value="0"
+                data-secs="86400"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift">Days</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeHours"
+                type="number"
+                value="0"
+                data-secs="3600"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift">Hours</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeMins"
+                type="number"
+                value="0"
+                data-secs="60"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift2">Minutes</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeSecs"
+                type="number"
+                value="0"
+                data-secs="1"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift2">Seconds</label>
+            </div>
+
+            <div class="form-group row reAl">
+              <label class="col-8 col-md-2 col-form-label left aL" for="tankTroopsRequired"
+                >How many do you want?</label
+              >
+              <input
+                class="col-4 col-md-1 rounded move2"
+                id="tankTroopsRequired"
+                type="number"
+                value="0"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-8 col-md-2 col-form-label left" for="tankCurrentTroopCount"
+                >Already made (Optional)</label
+              >
+              <input
+                class="col-4 col-md-1 rounded move2"
+                id="tankCurrentTroopCount"
+                type="number"
+                value="0"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+            </div>
+
+            <div class="form-group row totalDiv rssShift">
+              <p class="col-auto col-md-2 form-text aL">Total Cost:</p>
+              <p class="col-auto form-text rssTotals" id="tankTotalRssCost">
+                Food: 0 Steel: 0 Oil: 0 Energy: 0
+              </p>
+            </div>
+            <div class="form-group row totalDiv timeShift">
+              <p class="form-text col-auto">Total Time:</p>
+              <p class="form-text" id="tankTotalTimeCost">0 D : 0 H : 0 M : 0 s</p>
+              <p class="form-text col-auto oneMore">No. of Batches:</p>
+              <p class="form-text tankTotal oneMore" id="tankTotalBatches">0</p>
+            </div>
+
+            <div class="form-group row test">
+              <p class="col-auto col-md-1 col-form-label" id="tankRssCostFood">240000</p>
+              <p class="col-auto col-md-1 col-form-label" id="tankRssCostSteel">240000</p>
+              <p class="col-1 col-md-1 col-form-label" id="tankRssCostOil">0</p>
+              <p class="col-auto col-md-1 col-form-label up" id="tankRssCostEnergy">16000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    this.mainContent = `
+      <div id="tankTab" class="tab-pane fade in active show">
+        <div id="tankForm" class="container-fluid">
+          <div class="form-group row justify-content-center">
+            <div class="card-title col"><h4>Tanks</h4></div>
+          </div>
+          <div class="tweak">
+            <div class="form-group row">
+              <label class="col-auto col-md-2 col-form-label up2 aL" for="tankTroopLevel"
+                >Troop Level:
+              </label>
+              <select class="col-auto col-md-1 rounded" id="tankTroopLevel">
+                <option value="T1">T1</option>
+                <option value="T2">T2</option>
+                <option value="T3">T3</option>
+                <option value="T4" selected>T4</option>
+                <option value="T5">T5</option>
+              </select>
+
+              <label class="col-auto col-md-2 col-form-label up2" for="tankProdCap"
+                >Production Capacity:
+              </label>
+              <select class="col-auto col-md-1 rounded" id="tankProdCap">
+                <option value="800" selected>800</option>
+                <option value="900">900</option>
+                <option value="1000">1000</option>
+                <option value="1100">1100</option>
+                <option value="1200">1200</option>
+                <option value="1300">1300</option>
+                <option value="1400">1400</option>
+                <option value="1500">1500</option>
+                <option value="1600">1600</option>
+                <option value="1700">1700</option>
+                <option value="2000">2000</option>
+              </select>
+            </div>
+
+            <div class="form-group row move">
+              <label class="col- col-md-2 col-form-label alignLeft aL" for="tankProdTimeDays"
+                >Production Time:
+              </label>
+
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeDays"
+                type="number"
+                value="0"
+                data-secs="86400"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift">Days</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeHours"
+                type="number"
+                value="0"
+                data-secs="3600"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift">Hours</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeMins"
+                type="number"
+                value="0"
+                data-secs="60"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift2">Minutes</label>
+              <input
+                class="tankProdTime col-2 col-md-1 rounded"
+                id="tankProdTimeSecs"
+                type="number"
+                value="0"
+                data-secs="1"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-4 col-md-1 col-form-label prodShift2">Seconds</label>
+            </div>
+
+            <div class="form-group row reAl">
+              <label class="col-8 col-md-2 col-form-label left aL" for="tankTroopsRequired"
+                >How many do you want?</label
+              >
+              <input
+                class="col-4 col-md-1 rounded move2"
+                id="tankTroopsRequired"
+                type="number"
+                value="0"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+              <label class="col-8 col-md-2 col-form-label left" for="tankCurrentTroopCount"
+                >Already made (Optional)</label
+              >
+              <input
+                class="col-4 col-md-1 rounded move2"
+                id="tankCurrentTroopCount"
+                type="number"
+                value="0"
+                onclick="if(this.value==0){this.value='';}"
+                onfocusout="if(this.value==''){this.value=0;}" />
+            </div>
+
+            <div class="form-group row totalDiv rssShift">
+              <p class="col-auto col-md-2 form-text aL">Total Cost:</p>
+              <p class="col-auto form-text rssTotals" id="tankTotalRssCost">
+                Food: 0 Steel: 0 Oil: 0 Energy: 0
+              </p>
+            </div>
+            <div class="form-group row totalDiv timeShift">
+              <p class="form-text col-auto">Total Time:</p>
+              <p class="form-text" id="tankTotalTimeCost">0 D : 0 H : 0 M : 0 s</p>
+              <p class="form-text col-auto oneMore">No. of Batches:</p>
+              <p class="form-text tankTotal oneMore" id="tankTotalBatches">0</p>
+            </div>
+
+            <div class="form-group row test">
+              <p class="col-auto col-md-1 col-form-label" id="tankRssCostFood">240000</p>
+              <p class="col-auto col-md-1 col-form-label" id="tankRssCostSteel">240000</p>
+              <p class="col-1 col-md-1 col-form-label" id="tankRssCostOil">0</p>
+              <p class="col-auto col-md-1 col-form-label up" id="tankRssCostEnergy">16000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  addEvents() {}
+
+  updateTotal() {}
+}
+
+const batchSizes = [
+  20, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000, 1100, 1200,
+  1300, 1400, 1500, 1600, 1700, 2000,
+];
+const minBatchSizes = {
+  T1: batchSizes[0],
+  T2: batchSizes[5],
+  T3: batchSizes[10],
+  T4: batchSizes[14],
+  T5: batchSizes[22],
 };
-var antiResourceCosts = {
-  T1: { Food: 60, Steel: 40, Oil: 0, Energy: 0 },
-  T2: { Food: 100, Steel: 0, Oil: 75, Energy: 0 },
-  T3: { Food: 150, Steel: 0, Oil: 112, Energy: 10 },
-  T4: { Food: 300, Steel: 0, Oil: 225, Energy: 20 },
-  T5: { Food: 600, Steel: 0, Oil: 450, Energy: 40 },
+
+const troopCosts = {
+  tanks: {
+    T1: { Food: 50, Steel: 50, Oil: 0, Energy: 0 },
+    T2: { Food: 100, Steel: 100, Oil: 0, Energy: 0 },
+    T3: { Food: 150, Steel: 150, Oil: 0, Energy: 10 },
+    T4: { Food: 300, Steel: 300, Oil: 0, Energy: 20 },
+    T5: { Food: 600, Steel: 600, Oil: 0, Energy: 40 },
+  },
+  anti: {
+    T1: { Food: 60, Steel: 40, Oil: 0, Energy: 0 },
+    T2: { Food: 100, Steel: 0, Oil: 75, Energy: 0 },
+    T3: { Food: 150, Steel: 0, Oil: 112, Energy: 10 },
+    T4: { Food: 300, Steel: 0, Oil: 225, Energy: 20 },
+    T5: { Food: 600, Steel: 0, Oil: 450, Energy: 40 },
+  },
+  inf: {
+    T1: { Food: 40, Steel: 60, Oil: 0, Energy: 0 },
+    T2: { Food: 0, Steel: 100, Oil: 75, Energy: 0 },
+    T3: { Food: 0, Steel: 150, Oil: 112, Energy: 10 },
+    T4: { Food: 0, Steel: 300, Oil: 225, Energy: 20 },
+    T5: { Food: 0, Steel: 400, Oil: 450, Energy: 40 },
+  },
+  art: {
+    T1: { Food: 60, Steel: 60, Oil: 0, Energy: 0 },
+    T2: { Food: 65, Steel: 65, Oil: 50, Energy: 0 },
+    T3: { Food: 100, Steel: 100, Oil: 75, Energy: 10 },
+    T4: { Food: 200, Steel: 200, Oil: 150, Energy: 20 },
+    T5: { Food: 400, Steel: 400, Oil: 300, Energy: 40 },
+  },
 };
-var infResourceCosts = {
-  T1: { Food: 40, Steel: 60, Oil: 0, Energy: 0 },
-  T2: { Food: 0, Steel: 100, Oil: 75, Energy: 0 },
-  T3: { Food: 0, Steel: 150, Oil: 112, Energy: 10 },
-  T4: { Food: 0, Steel: 300, Oil: 225, Energy: 20 },
-  T5: { Food: 0, Steel: 400, Oil: 450, Energy: 40 },
-};
-var artResourceCosts = {
-  T1: { Food: 60, Steel: 60, Oil: 0, Energy: 0 },
-  T2: { Food: 65, Steel: 65, Oil: 50, Energy: 0 },
-  T3: { Food: 100, Steel: 100, Oil: 75, Energy: 10 },
-  T4: { Food: 200, Steel: 200, Oil: 150, Energy: 20 },
-  T5: { Food: 400, Steel: 400, Oil: 300, Energy: 40 },
-};
-// Store selection options for production capacity.
-// Tank
-var tankLevelOneProdVals = {
-  20: 20,
-  50: 50,
-  100: 100,
-  150: 150,
-  200: 200,
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var tankLevelTwoProdVals = {
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var tankLevelThreeProdVals = {
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var tankLevelFourProdVals = {
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var tankLevelFiveProdVals = { 1600: 1600, 1700: 1700, 2000: 2000 };
-// Anti-tank
-var antiLevelOneProdVals = {
-  20: 20,
-  50: 50,
-  100: 100,
-  150: 150,
-  200: 200,
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var antiLevelTwoProdVals = {
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var antiLevelThreeProdVals = {
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var antiLevelFourProdVals = {
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var antiLevelFiveProdVals = { 1600: 1600, 1700: 1700, 2000: 2000 };
-// Infantry
-var infLevelOneProdVals = {
-  20: 20,
-  50: 50,
-  100: 100,
-  150: 150,
-  200: 200,
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var infLevelTwoProdVals = {
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var infLevelThreeProdVals = {
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var infLevelFourProdVals = {
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var infLevelFiveProdVals = { 1600: 1600, 1700: 1700, 2000: 2000 };
-// Artillery
-var artLevelOneProdVals = {
-  20: 20,
-  50: 50,
-  100: 100,
-  150: 150,
-  200: 200,
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var artLevelTwoProdVals = {
-  250: 250,
-  300: 300,
-  350: 350,
-  400: 400,
-  450: 450,
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var artLevelThreeProdVals = {
-  500: 500,
-  550: 550,
-  600: 600,
-  700: 700,
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var artLevelFourProdVals = {
-  800: 800,
-  900: 900,
-  1000: 1000,
-  1100: 1200,
-  1200: 1200,
-  1300: 1300,
-  1400: 1400,
-  1500: 1500,
-  1600: 1600,
-  1700: 1700,
-  2000: 2000,
-};
-var artLevelFiveProdVals = { 1600: 1600, 1700: 1700, 2000: 2000 };
+
 // Limit the options for production capacity based on Troop Level.
 // Tank
 $("#tankTroopLevel").change(function () {
