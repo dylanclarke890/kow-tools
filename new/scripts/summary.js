@@ -13,6 +13,7 @@ const resourceTable = new SummaryTable({
   title: "RESOURCES",
   rows: resourceRows,
   values: resourceValues,
+  formatValAs: "number",
 });
 
 const speedupRows = ["repair", "research", "training", "building", "general"];
@@ -31,6 +32,7 @@ const speedupsTable = new SummaryTable({
   title: "SPEEDUPS",
   rows: speedupRows,
   values: speedupValues,
+  formatValAs: "time",
 });
 
 const troopTables = [
@@ -42,7 +44,6 @@ const troopTables = [
   let values;
   const loaded = sessionStorage.getItem(`${v.storageKey}TroopTotals`);
   if (loaded) {
-    console.log(loaded);
     const parsed = JSON.parse(loaded);
     const { totalRssCost, totalTimeCost, totalBatchesNeeded } = parsed;
     values = [totalRssCost, totalTimeCost, totalBatchesNeeded];

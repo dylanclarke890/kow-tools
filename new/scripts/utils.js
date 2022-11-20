@@ -295,7 +295,6 @@ class TroopCalculator extends BaseCalculator {
   };
 
   #constructRssInput = (key, value) => {
-    console.log(key, value);
     return `
       <label>${Formatting.capitalise(key)}:</label>
       <input class="input ${this.name}RssCost" type="number" data-rss="${key}" value="${value}" />
@@ -594,11 +593,18 @@ class MultiItemCalculator {
 }
 
 class SummaryTable {
-  constructor({ title, rows, values, large } = {}) {
+  static formattingOptions = {
+    number: (n) => Formatting.thousandSeparators(n),
+    time: (n) => Formatting.secondsToDhms(n),
+    none: (n) => n,
+  };
+
+  constructor({ title, rows, values, large, formatValAs = "none" } = {}) {
     this.title = title;
     this.rows = rows;
     this.values = values ?? [];
     this.large = large;
+    this.formatValAs = formatValAs;
     this.constructHTML();
   }
 
@@ -606,7 +612,9 @@ class SummaryTable {
     return `
       <tr class="summary-row ${this.large ? "sr-lg" : ""}">
         <td class="dark-cell" scope="row">${Formatting.capitalise(name)}</td>
-        <td class="lite-cell">${val ?? "Missing"}</td>
+        <td class="lite-cell">${
+          val ? SummaryTable.formattingOptions[this.formatValAs](val) : "Missing"
+        }</td>
       </tr>
     `;
   }
