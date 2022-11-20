@@ -1,26 +1,28 @@
-class ResourceCalculator {
-  constructor({
-    name,
-    dict,
-    isMain = false,
-    altFirstLabel = false,
-    formatLabelAs,
-    formatValueAs,
-  } = {}) {
-    this.name = name;
-    this.storageKey = `${this.name}Totals`;
-    this.dict = this.fetchExisting() ?? dict;
-    this.isMain = isMain ?? false;
-    this.altFirstLabel = altFirstLabel ?? false;
-    this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? ((n) => n);
-    this.valueFormatCb = ResourceCalculator.formattingOptions[formatValueAs] ?? ((n) => n);
-    this.constructHTML();
-  }
-
+class BaseCalculator {
   static formattingOptions = {
     number: (n) => Formatting.thousandSeparators(n),
     time: (n) => Formatting.secondsToDhms(n),
-    custom: (n) => n,
+    none: (n) => n,
+  };
+
+  constructor({ name, isMain }) {
+    this.name = name;
+    this.isMain = isMain;
+    this.#constructHeader();
+  }
+
+  #constructHeader = () => {
+    const n = this.name;
+    this.header = `
+      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
+        <img class="rssImg" src="images/${n}.png" alt="${n}" />
+      </li>
+      `;
+  };
+
+  numberInput = (id, val, extraClasses, attributes = "") => {
+    const classes = `${this.name}Input input ${extraClasses}`;
+    return `<input id="${id}" class="${classes}" type="number" value="${val}" ${attributes} />`;
   };
 
   fetchExisting() {
@@ -32,26 +34,39 @@ class ResourceCalculator {
   saveTotals() {
     sessionStorage.setItem(this.storageKey, JSON.stringify(this.dict));
   }
+}
+
+class ResourceCalculator extends BaseCalculator {
+  constructor({
+    name,
+    dict,
+    isMain = false,
+    altFirstLabel = false,
+    formatLabelAs,
+    formatValueAs,
+  } = {}) {
+    super({ name, isMain });
+    this.storageKey = `${this.name}Totals`;
+    this.dict = this.fetchExisting() ?? dict;
+    this.altFirstLabel = altFirstLabel ?? false;
+    const noOp = ResourceCalculator.formattingOptions.none;
+    this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? noOp;
+    this.valueFormatCb = ResourceCalculator.formattingOptions[formatValueAs] ?? noOp;
+    this.#constructHTML();
+  }
 
   #rowTemplate = (key, label, val) => `
     <div class="group-three">
       <label for="${this.name}In">${label}</label>
       <div>
-        <input class="${this.name}Input rssInput input" type="number" data-amt="${key}" />
+        ${this.numberInput("", "", "rssInput", `data-amt="${key}"`)}
       </div>
       <label id="${this.name}Total${key}">${val ?? 0}</label>
     </div>
     `;
 
-  constructHTML() {
+  #constructHTML = () => {
     const n = this.name;
-
-    this.header = `
-      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
-        <img class="rssImg" src="images/${n}.png" alt="${n}" />
-      </li>
-      `;
-
     const rows = Object.keys(this.dict)
       .map((key) => {
         const label = this.altFirstLabel && key == 1 ? "Open" : this.labelFormatCb(key);
@@ -74,7 +89,7 @@ class ResourceCalculator {
         </div>
       </div>
       `;
-  }
+  };
 
   addEvents() {
     const rssInputs = document.getElementsByClassName(`${this.name}Input`);
@@ -107,17 +122,13 @@ class ResourceCalculator {
   }
 }
 
-class OfficerCalculator {
+class OfficerCalculator extends BaseCalculator {
   constructor({ name, isMain, levels }) {
-    this.name = name;
-    this.isMain = isMain;
+    super({ name, isMain });
     this.levels = levels;
     this.selected = "purple";
-    this.constructHTML();
+    this.#constructHTML();
   }
-
-  #constructNumberInput = (id, val) =>
-    `<input id="${id}" class="officerInput input" type="number" value="${val}" />`;
 
   #constructRadioButton = (id, checked) =>
     `<div>
@@ -127,14 +138,8 @@ class OfficerCalculator {
     </div>
     `;
 
-  constructHTML() {
+  #constructHTML() {
     const n = this.name;
-
-    this.header = `
-      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
-        <img class="rssImg" src="images/${n}.png" alt="${n}" />
-      </li>
-      `;
 
     this.mainContent = `
       <div id="${n}Tab" class="rssTabContent text-center ${this.isMain ? "active" : ""}">
@@ -145,16 +150,16 @@ class OfficerCalculator {
         <div class="group-two">
           <div class="group-two">
             <label>Current (1-59):</label>
-            ${this.#constructNumberInput("levelStart", 1)}
+            ${this.numberInput("levelStart", 1)}
           </div>
           <div class="group-three">
             <label>and</label>
-            ${this.#constructNumberInput("currentProgress", 0)}
+            ${this.numberInput("currentProgress", 0)}
             <label>XP</label>
           </div>
           <div class="group-two">
             <label for="levelStop">Desired (2-60):</label>
-            ${this.#constructNumberInput("levelStop", 60)}
+            ${this.numberInput("levelStop", 60)}
           </div>
           <div></div>
         </div>
@@ -245,10 +250,9 @@ class OfficerCalculator {
   }
 }
 
-class TroopCalculator {
+class TroopCalculator extends BaseCalculator {
   constructor({ name, isMain, costs, minBatchSizes }) {
-    this.name = name;
-    this.isMain = isMain;
+    super({ name, isMain });
     this.costs = costs;
     this.minBatchSizes = minBatchSizes;
     this.timeDict = {
@@ -304,13 +308,6 @@ class TroopCalculator {
 
   constructHTML() {
     const n = this.name;
-
-    this.header = `
-      <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
-        <img class="rssImg" src="images/${n}.png" alt="${n}" />
-      </li>
-      `;
-
     this.mainContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
         <div class="tab-title">
