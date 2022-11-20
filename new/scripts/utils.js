@@ -8,10 +8,10 @@ class BaseCalculator {
   constructor({ name, isMain }) {
     this.name = name;
     this.isMain = isMain;
-    this.#constructHeader();
+    this.#buildHeader();
   }
 
-  #constructHeader = () => {
+  #buildHeader = () => {
     const n = this.name;
     this.header = `
       <li class="rssTab ${this.isMain ? "active" : ""}" data-target="${n}Tab">
@@ -20,20 +20,20 @@ class BaseCalculator {
       `;
   };
 
-  numberInput = (id, val, extraClasses, attributes = "") => {
+  buildNumberInput = (id, val, extraClasses, attributes = "") => {
     const classes = `${this.name}Input input ${extraClasses}`;
     return `<input id="${id}" class="${classes}" type="number" value="${val}" ${attributes} />`;
   };
 
-  fetchExisting() {
+  fetchExisting = () => {
     const saved = sessionStorage.getItem(this.storageKey);
     const parsed = saved ? JSON.parse(saved) : null;
     return parsed;
-  }
+  };
 
-  saveTotals() {
+  saveTotals = () => {
     sessionStorage.setItem(this.storageKey, JSON.stringify(this.dict));
-  }
+  };
 }
 
 class ResourceCalculator extends BaseCalculator {
@@ -52,25 +52,25 @@ class ResourceCalculator extends BaseCalculator {
     const noOp = ResourceCalculator.formattingOptions.none;
     this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? noOp;
     this.valueFormatCb = ResourceCalculator.formattingOptions[formatValueAs] ?? noOp;
-    this.#constructHTML();
+    this.#buildHTML();
   }
 
-  #rowTemplate = (key, label, val) => `
+  #buildRow = (key, label, val) => `
     <div class="group-three">
       <label for="${this.name}In">${label}</label>
       <div>
-        ${this.numberInput("", "", "rssInput", `data-amt="${key}"`)}
+        ${this.buildNumberInput("", "", "rssInput", `data-amt="${key}"`)}
       </div>
       <label id="${this.name}Total${key}">${val ?? 0}</label>
     </div>
     `;
 
-  #constructHTML = () => {
+  #buildHTML = () => {
     const n = this.name;
     const rows = Object.keys(this.dict)
       .map((key) => {
         const label = this.altFirstLabel && key == 1 ? "Open" : this.labelFormatCb(key);
-        return this.#rowTemplate(key, label, this.dict[key]);
+        return this.#buildRow(key, label, this.dict[key]);
       })
       .join("");
 
@@ -91,7 +91,7 @@ class ResourceCalculator extends BaseCalculator {
       `;
   };
 
-  addEvents() {
+  addEvents = () => {
     const rssInputs = document.getElementsByClassName(`${this.name}Input`);
     for (let input of rssInputs) {
       input.addEventListener("keyup", () => {
@@ -102,9 +102,9 @@ class ResourceCalculator extends BaseCalculator {
         this.saveTotals();
       });
     }
-  }
+  };
 
-  updateTotals() {
+  updateTotals = () => {
     const labelPrefix = `${this.name}Total`;
     const inputPrefix = `${this.name}Input`;
     let total = 0;
@@ -119,7 +119,7 @@ class ResourceCalculator extends BaseCalculator {
     }
     total = this.labelFormatCb(total);
     document.getElementById(labelPrefix).innerHTML = total;
-  }
+  };
 }
 
 class OfficerCalculator extends BaseCalculator {
@@ -127,10 +127,10 @@ class OfficerCalculator extends BaseCalculator {
     super({ name, isMain });
     this.levels = levels;
     this.selected = "purple";
-    this.#constructHTML();
+    this.#buildHTML();
   }
 
-  #constructRadioButton = (id, checked) =>
+  #buildRadioButton = (id, checked) =>
     `<div>
       <input type="radio" class="rarityOptions" id="${id}" ${
       checked ? "checked" : ""
@@ -138,7 +138,7 @@ class OfficerCalculator extends BaseCalculator {
     </div>
     `;
 
-  #constructHTML() {
+  #buildHTML = () => {
     const n = this.name;
 
     this.mainContent = `
@@ -150,23 +150,23 @@ class OfficerCalculator extends BaseCalculator {
         <div class="group-two">
           <div class="group-two">
             <label>Current (1-59):</label>
-            ${this.numberInput("levelStart", 1)}
+            ${this.buildNumberInput("levelStart", 1)}
           </div>
           <div class="group-three">
             <label>and</label>
-            ${this.numberInput("currentProgress", 0)}
+            ${this.buildNumberInput("currentProgress", 0)}
             <label>XP</label>
           </div>
           <div class="group-two">
             <label for="levelStop">Desired (2-60):</label>
-            ${this.numberInput("levelStop", 60)}
+            ${this.buildNumberInput("levelStop", 60)}
           </div>
           <div></div>
         </div>
         <div class="group-four">
          <label>Officer Rarity:</label>
          ${["blue", "purple", "gold"]
-           .map((v) => this.#constructRadioButton(v, v === this.selected))
+           .map((v) => this.#buildRadioButton(v, v === this.selected))
            .join("")}
         </div>
         <div class="group-two">
@@ -178,9 +178,9 @@ class OfficerCalculator extends BaseCalculator {
         </div>
       </div>
     `;
-  }
+  };
 
-  addEvents() {
+  addEvents = () => {
     const me = this;
     const radios = document.getElementsByClassName("rarityOptions");
     for (let radio of radios) {
@@ -199,9 +199,9 @@ class OfficerCalculator extends BaseCalculator {
       document.getElementById(input).addEventListener("keyup", () => {
         me.updateTotals();
       });
-  }
+  };
 
-  updateTotals() {
+  updateTotals = () => {
     const startEl = document.getElementById("levelStart"),
       stopEl = document.getElementById("levelStop"),
       currentProgressEl = document.getElementById("currentProgress");
@@ -247,10 +247,15 @@ class OfficerCalculator extends BaseCalculator {
       result = `${Formatting.thousandSeparators(currentProgress - total)} XP leftover`;
     else result = `${Formatting.thousandSeparators(total - currentProgress)} XP still required`;
     document.getElementById("result").innerHTML = result;
-  }
+  };
 }
 
 class TroopCalculator extends BaseCalculator {
+  static batchSizes = [
+    20, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000, 1100, 1200,
+    1300, 1400, 1500, 1600, 1700, 2000,
+  ];
+
   constructor({ name, isMain, costs, minBatchSizes }) {
     super({ name, isMain });
     this.costs = costs;
@@ -267,46 +272,41 @@ class TroopCalculator extends BaseCalculator {
       oil: 0,
       energy: 0,
     };
-    this.constructHTML();
+    this.#buildHTML();
   }
 
-  static batchSizes = [
-    20, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000, 1100, 1200,
-    1300, 1400, 1500, 1600, 1700, 2000,
-  ];
-
-  #buildBatchOptions(selectedTroopLevel) {
+  #buildBatchOptions = (selectedTroopLevel) => {
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
     const options = TroopCalculator.batchSizes
       .slice(TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]))
       .map((v, i) => `<option value="${v}" ${i === 0 ? "selected" : ""}>${v}</option>`);
     batchSelect.innerHTML = options;
-  }
+  };
 
-  #updateTroopCosts(selectedTroopLevel) {
+  #constructRssInput = (key) => {
+    return `
+      <label>${Formatting.capitalise(key)}:</label>
+      <input class="input ${this.name}RssCost" type="number" data-rss="${key}" />
+    `;
+  };
+
+  #constructTimeInput = (label, val) => {
+    return `
+      <label>${label}:</label>
+      <input class="input ${this.name}TimeCost" type="number" data-secs="${val}" />
+    `;
+  };
+
+  #updateTroopCosts = (selectedTroopLevel) => {
     const minSize = TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]);
     const costs = this.costs[selectedTroopLevel];
     Object.keys(this.rssDict).forEach((key) => {
       this.rssDict[key] = costs[key] * TroopCalculator.batchSizes[minSize];
       document.querySelector(`.${this.name}RssCost[data-rss="${key}"]`).value = this.rssDict[key];
     });
-  }
+  };
 
-  #constructRssInput(key) {
-    return `
-      <label>${Formatting.capitalise(key)}:</label>
-      <input class="input ${this.name}RssCost" type="number" data-rss="${key}" />
-    `;
-  }
-
-  #constructTimeInput(label, val) {
-    return `
-      <label>${label}:</label>
-      <input class="input ${this.name}TimeCost" type="number" data-secs="${val}" />
-    `;
-  }
-
-  constructHTML() {
+  #buildHTML = () => {
     const n = this.name;
     this.mainContent = `
       <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
@@ -370,9 +370,9 @@ class TroopCalculator extends BaseCalculator {
         </div>
       </div>
     `;
-  }
+  };
 
-  addEvents() {
+  addEvents = () => {
     const me = this;
     const troopSelect = document.getElementById(`${this.name}TroopLevel`);
     const batchSelect = document.getElementById(`${this.name}BatchSize`);
@@ -417,9 +417,9 @@ class TroopCalculator extends BaseCalculator {
     const selected = troopSelect.options[troopSelect.selectedIndex].value;
     this.#buildBatchOptions(selected);
     this.#updateTroopCosts(selected);
-  }
+  };
 
-  updateTotals() {
+  updateTotals = () => {
     let totalTimeForBatch = 0;
     Object.keys(this.timeDict).forEach((key) => {
       totalTimeForBatch += this.timeDict[key] * key;
@@ -459,7 +459,7 @@ class TroopCalculator extends BaseCalculator {
     document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime
       ? Formatting.secondsToDhms(totalTime)
       : 0;
-  }
+  };
 }
 
 class MultiItemCalculator {
