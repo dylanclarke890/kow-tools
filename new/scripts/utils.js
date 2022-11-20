@@ -114,6 +114,17 @@ class OfficerCalculator {
     this.constructHTML();
   }
 
+  #constructNumberInput = (id, val) =>
+    `<input id="${id}" class="officerInput input" type="number" value="${val}" />`;
+
+  #constructRadioButton = (id, checked) =>
+    `<div>
+      <input type="radio" class="officerRadio" id="${id}" ${
+      checked ? "checked" : ""
+    } /> ${Formatting.capitalise(id)}
+    </div>
+    `;
+
   constructHTML() {
     const n = this.name;
 
@@ -185,6 +196,51 @@ class OfficerCalculator {
             <p class="col-7 total form-text officerTotal" id="reqXP">0</p>
             <h6 class="col-5 col-form-label form-text">XP needed:</h6>
             <p class="col-7 total form-text" id="resultXP">0</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    this.mainContent = `
+      <div id="${n}Tab" class="rssTabContent text-center ${this.isMain ? "active" : ""}">
+        <div class="tab-title">
+          <h4>Level Officer</h4>
+        </div>
+        <p>Please enter the applicable officer levels:</p>
+        <div class="group-two">
+          <div class="group-two">
+            <label>Current (1-59):</label>
+            ${this.#constructNumberInput("levelStart", 1)}
+          </div>
+          <div class="group-three">
+            <label>and</label>
+            ${this.#constructNumberInput("currentProgress", 0)}
+            <label>XP</label>
+          </div>
+          <div class="group-two">
+            <label for="levelStop">Desired (2-60):</label>
+            ${this.#constructNumberInput("levelStop", 60)}
+          </div>
+          <div></div>
+        </div>
+        <div class="group-four">
+         <label>Officer Rarity:</label>
+         ${this.#constructRadioButton("blue", false)}
+         ${this.#constructRadioButton("purple", true)}
+         ${this.#constructRadioButton("gold", false)}
+        </div>
+        <div class="group-three">
+          <div class="group-two">
+            <p>Your XP:</p>
+            <p id="yourXP">0</p>
+          </div>
+          <div class="group-two">
+            <p>Total XP Req:</p>
+            <p id="reqXP">0</p>
+          </div>
+          <div class="group-two">
+            <p>XP needed:</p>
+            <p id="resultXP">0</p>
           </div>
         </div>
       </div>
