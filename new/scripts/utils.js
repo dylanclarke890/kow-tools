@@ -257,6 +257,12 @@ class TroopCalculator {
       3600: 0,
       86400: 0,
     };
+    this.rssDict = {
+      food: 0,
+      steel: 0,
+      oil: 0,
+      energy: 0,
+    };
     this.constructHTML();
   }
 
@@ -271,6 +277,17 @@ class TroopCalculator {
       .slice(TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]))
       .map((v, i) => `<option value="${v}" ${i === 0 ? "selected" : ""}>${v}</option>`);
     batchSelect.innerHTML = options;
+  }
+
+  updateTroopCosts(selectedTroopLevel) {
+    const minSize = TroopCalculator.batchSizes.lastIndexOf(this.minBatchSizes[selectedTroopLevel]);
+
+    const costs = this.costs[selectedTroopLevel];
+    Object.keys(this.rssDict).forEach((key) => {
+      this.rssDict[key] = costs[key];
+      document.querySelector(`.${this.name}RssCost[data-rss="${key}"]`).value =
+        this.rssDict[key] * TroopCalculator.batchSizes[minSize];
+    });
   }
 
   constructHTML() {
@@ -303,6 +320,17 @@ class TroopCalculator {
               <label>Batch Size:</label>
               <select class="select" id="${n}BatchSize"></select>
             </div>
+          </div>
+          <h3>Production Cost</h3>
+          <div class="group-four">
+            <label>Food:</label>
+            <input class="input ${n}RssCost" type="number" data-rss="food" />
+            <label>Steel:</label>
+            <input class="input ${n}RssCost" type="number" data-rss="steel" />
+            <label>Oil:</label>
+            <input class="input ${n}RssCost" type="number" data-rss="oil" />
+            <label>Energy:</label>
+            <input class="input ${n}RssCost" type="number" data-rss="energy" />
           </div>
           <h3>Production Time</h3>
           <div class="group-four">
@@ -343,21 +371,33 @@ class TroopCalculator {
   addEvents() {
     const me = this;
     const troopSelect = document.getElementById(`${this.name}TroopLevel`);
+    const batchSelect = document.getElementById(`${this.name}BatchSize`);
     troopSelect.addEventListener("change", () => {
       const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
       me.buildBatchOptions(selectedTroopLevel);
+      me.updateTroopCosts(selectedTroopLevel);
       me.updateTotals();
     });
 
-    const batchSelect = document.getElementById(`${this.name}BatchSize`);
     batchSelect.addEventListener("change", () => {
+      const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
+      const selectedBatchLevel = batchSelect.options[batchSelect.selectedIndex].value;
+      me.updateTroopCosts(selectedTroopLevel, selectedBatchLevel);
       me.updateTotals();
     });
 
     const timeCostInputs = document.getElementsByClassName(`${this.name}TimeCost`);
     for (let input of timeCostInputs) {
       input.addEventListener("keyup", () => {
-        this.timeDict[parseInt(input.getAttribute("data-secs"))] = parseInt(input.value);
+        me.timeDict[parseInt(input.getAttribute("data-secs"))] = parseInt(input.value);
+        me.updateTotals();
+      });
+    }
+
+    const rssCostInputs = document.getElementsByClassName(`${this.name}RssCost`);
+    for (let input of rssCostInputs) {
+      input.addEventListener("keyup", () => {
+        this.rssDict[input.getAttribute("data-rss")] = parseInt(input.value);
         me.updateTotals();
       });
     }
@@ -373,12 +413,13 @@ class TroopCalculator {
 
     const selected = troopSelect.options[troopSelect.selectedIndex].value;
     this.buildBatchOptions(selected);
+    this.updateTroopCosts(selected);
   }
 
   updateTotals() {
-    let totalTime = 0;
+    let totalTimeForBatch = 0;
     Object.keys(this.timeDict).forEach((key) => {
-      totalTime += this.timeDict[key] * key;
+      totalTimeForBatch += this.timeDict[key] * key;
     });
 
     const troopsRequired = document.getElementById(`${this.name}TroopsRequired`);
@@ -394,13 +435,26 @@ class TroopCalculator {
 
     const totalTroopsReq = troopsRequiredVal - alreadyMadeVal;
     const batches = Math.ceil(totalTroopsReq / batchSize);
-    document.getElementById(`${this.name}TotalCost`).innerHTML =
-      Formatting.secondsToDhms(totalTime);
-    document.getElementById(`${this.name}TotalBatches`).innerHTML =
-      Formatting.thousandSeparators(batches);
-    document.getElementById(`${this.name}TotalTime`).innerHTML = Formatting.secondsToDhms(
-      (totalTime / batchSize) * totalTroopsReq
-    );
+
+    const rssTotal = [];
+    Object.keys(this.rssDict).forEach((key) => {
+      const val = this.rssDict[key];
+      if (!val) return;
+      const totalRssCost = (val / batchSize) * totalTroopsReq;
+      if (totalRssCost > 0)
+        rssTotal.push(`${Formatting.capitalise(key)}: ${Formatting.thousandSeparators(val)}`);
+    });
+
+    const totalTime = (totalTimeForBatch / batchSize) * totalTroopsReq;
+
+    document.getElementById(`${this.name}TotalCost`).innerHTML = rssTotal.length
+      ? rssTotal.join(", ")
+      : 0;
+    document.getElementById(`${this.name}TotalBatches`).innerHTML = batches
+      ? Formatting.thousandSeparators(batches)
+      : 0;
+    document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime ?
+      Formatting.secondsToDhms(totalTime) : 0;
   }
 }
 
