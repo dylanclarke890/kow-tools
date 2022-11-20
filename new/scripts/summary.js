@@ -4,7 +4,7 @@ const resourceValues = resourceRows.map((v) => {
   if (loaded) {
     const parsed = JSON.parse(loaded);
     let total = 0;
-    Object.keys(parsed).forEach((v) => (total += parseInt(parsed[v])));
+    Object.keys(parsed).forEach((v) => (total += parseInt(v) * parseInt(parsed[v])));
     return total;
   }
 });
