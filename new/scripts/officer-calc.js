@@ -21,7 +21,6 @@ const levels = {
     3540000, 3975000, 4140000, 4935000, 5460000, 6090000, 6720000, 7470000, 8220000,
   ],
 };
-
 const tabs = {
   xp: {
     totals: {
@@ -50,88 +49,14 @@ const tabs = {
     totals: {},
     isMain: true,
     type: "officer",
-    levels,
+    levels: levels,
   },
 };
+
 const multiItemCalc = new MultiItemCalculator({
   tabs,
   altFirstLabel: true,
   formatLabelAs: "number",
   formatValueAs: "number",
   nextPageInfo: null,
-});
-
-$(".rarityOptions").change(function () {
-  if ($("#blue").is(":checked")) {
-    selectedRarity = blueLevels;
-  } else if ($("#purple").is(":checked")) {
-    selectedRarity = purpleLevels;
-  } else if ($("#gold").is(":checked")) {
-    selectedRarity = goldLevels;
-  }
-  return totalxpReq();
-});
-
-function totalxpReq() {
-  total = 0;
-  start = $("#levelStart").val();
-  stop = $("#levelStop").val() - 1;
-  selectedRarity.forEach(function (n, i) {
-    if (start <= i && i <= stop) {
-      total += n;
-    }
-  });
-  total -= $("#currentProgress").val();
-  $("#reqXP").text(formatNumber(total));
-  $(".reqTotal").val(total);
-  return calculateXP();
-}
-
-function calculateXP() {
-  current = $(".xpTotal").val();
-  required = $(".reqTotal").val();
-  result = "";
-  if (current == required) {
-    result = "You have exactly enough XP for this";
-  } else if (current > required) {
-    result = formatNumber(current - required) + "XP leftover";
-  } else if (current < required) {
-    result = formatNumber(required - current) + " XP still required";
-  }
-  $("#resultXP").text(result);
-}
-
-$("#currentProgress").on("keyup", function () {
-  if ($("#currentProgress").val() >= 8220000) {
-    $("#currentProgress").val(8219999);
-  }
-  return totalxpReq(), calculateXP();
-});
-
-$("#levelStart").on("focusout change", function () {
-  if ($("#levelStart").val() <= 0) {
-    $("#levelStart").val(1);
-  }
-  if ($("#levelStart").val() >= 60) {
-    $("#levelStart").val(59);
-  }
-  return totalxpReq(), calculateXP();
-});
-$("#levelStop").on("focusout change", function () {
-  if ($("#levelStop").val() <= 1) {
-    $("#levelStop").val(2);
-  }
-  if ($("#levelStop").val() >= 61) {
-    $("#levelStop").val(60);
-  }
-  if ($("#levelStop").val() <= $("#levelStart").val()) {
-    $("#levelStart").val($("#levelStop").val() - 1);
-  }
-  return totalxpReq(), calculateXP();
-});
-$("#levelStart").keyup(function () {
-  return totalxpReq(), calculateXP();
-});
-$("#levelStop").keyup(function () {
-  return totalxpReq(), calculateXP();
 });

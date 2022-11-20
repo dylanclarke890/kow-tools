@@ -137,73 +137,6 @@ class OfficerCalculator {
       `;
 
     this.mainContent = `
-      <div id="${n}Tab" class="rssTabContent ${this.isMain ? "active" : ""}">
-        <div class="form-group row justify-content-center">
-          <div class="card-title col"><h4>Level Officer</h4></div>
-        </div>
-        <div class="tweak tweak2">
-          <p>Please enter the applicable officer levels:</p>
-          <div class="form-group row">
-            <label class="col-auto col-md-4 col-form-label" for="levelStart"
-              >Current Level (1-59):</label
-            >
-            <div class="col-3 col-md-2">
-              <input
-                class="officerInput form-control aL"
-                type="number"
-                value="1"
-                id="levelStart" />
-            </div>
-            <p class="col- col-md-auto col-form-label">and</p>
-            <input
-              class="col-4 col-md-3 officerInput form-control aL phew1"
-              type="number"
-              value="0"
-              maxlength="7"
-              id="currentProgress" />
-            <p class="col-auto col-md-1 col-form-label phew2">XP</p>
-          </div>
-          <div class="form-group row">
-            <label class="col-auto col-md-4 col-form-label" for="levelStop"
-              >Desired Level (2-60):</label
-            >
-            <div class="col-3 col-md-2">
-              <input
-                class="officerInput form-control"
-                type="number"
-                value="60"
-                id="levelStop" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-auto col-md-5 col-form-label" for="officerIn3"
-              >Officer Rarity:</label
-            >
-            <div class="col-7 col-lg-3 rarityOptions">
-              <label class="radio-inline"
-                ><input type="radio" id="blue" name="optradio" />Blue</label
-              >
-              <label class="radio-inline"
-                ><input type="radio" id="purple" name="optradio" checked />Purple</label
-              >
-              <label class="radio-inline"
-                ><input type="radio" id="gold" name="optradio" />Gold</label
-              >
-            </div>
-          </div>
-          <div class="form-group row totalDiv">
-            <h6 class="col-5 col-form-label form-text">Your XP:</h6>
-            <p class="col-7 total form-text" id="yourXP">0</p>
-            <h6 class="col-5 col-form-label form-text">Total XP Req:</h6>
-            <p class="col-7 total form-text officerTotal" id="reqXP">0</p>
-            <h6 class="col-5 col-form-label form-text">XP needed:</h6>
-            <p class="col-7 total form-text" id="resultXP">0</p>
-          </div>
-        </div>
-      </div>
-    `;
-
-    this.mainContent = `
       <div id="${n}Tab" class="rssTabContent text-center ${this.isMain ? "active" : ""}">
         <div class="tab-title">
           <h4>Level Officer</h4>
@@ -231,39 +164,85 @@ class OfficerCalculator {
            .map((v) => this.#constructRadioButton(v, v === this.selected))
            .join("")}
         </div>
-        <div class="group-three">
-          <div class="group-two">
-            <p>Your XP:</p>
-            <p id="yourXP">0</p>
-          </div>
+        <div class="group-two">
           <div class="group-two">
             <p>Total XP Req:</p>
-            <p id="reqXP">0</p>
+            <p id="reqXP"></p>
           </div>
-          <div class="group-two">
-            <p>XP needed:</p>
-            <p id="resultXP">0</p>
-          </div>
+          <p id="result"></p>
         </div>
       </div>
     `;
   }
 
   addEvents() {
+    const me = this;
     const radios = document.getElementsByClassName("rarityOptions");
     for (let radio of radios) {
       radio.addEventListener("change", () => {
         if (radio.checked) {
-          this.selected = radio.getAttribute("id");
+          me.selected = radio.id;
           for (let r of radios) {
             if (r !== radio) r.checked = false;
           }
         }
+        me.updateTotals();
       });
     }
+
+    for (let input of ["levelStart", "levelStop", "currentProgress"])
+      document.getElementById(input).addEventListener("keyup", () => {
+        me.updateTotals();
+      });
   }
 
-  updateTotals() {}
+  updateTotals() {
+    const startEl = document.getElementById("levelStart"),
+      stopEl = document.getElementById("levelStop"),
+      currentProgressEl = document.getElementById("currentProgress");
+
+    let start = startEl.value,
+      stop = stopEl.value,
+      currentProgress = currentProgressEl.value;
+
+    if (currentProgress >= 8220000) {
+      currentProgress = 8219999;
+      currentProgressEl.value = currentProgress;
+    }
+
+    if (start <= 0) {
+      start = 0;
+      startEl.value = start;
+    } else if (start >= 60) {
+      start = 59;
+      startEl.value = start;
+    }
+
+    if (stop <= 1) {
+      stop = 2;
+      stopEl.value = stop;
+    } else if (stop >= 61) {
+      stop = 60;
+      stopEl.value = 60;
+    }
+
+    if (stop <= start) {
+      start = stop - 1;
+      startEl.value = start;
+    }
+
+    const selectedRarity = this.levels[this.selected];
+    let total = 0;
+    for (let i = start; i < stop; i++) total += selectedRarity[i];
+    document.getElementById("reqXP").innerHTML = Formatting.thousandSeparators(total);
+
+    let result;
+    if (currentProgress === total) result = "You have exactly enough XP for this";
+    else if (currentProgress > total)
+      result = `${Formatting.thousandSeparators(currentProgress - total)} XP leftover`;
+    else result = `${Formatting.thousandSeparators(total - currentProgress)} XP still required`;
+    document.getElementById("result").innerHTML = result;
+  }
 }
 
 class MultiItemCalculator {
@@ -288,7 +267,7 @@ class MultiItemCalculator {
     const tab = this.tabs[key];
     switch (tab.type) {
       case "officer":
-        return new OfficerCalculator({ name: key, isMain: tab.isMain });
+        return new OfficerCalculator({ name: key, isMain: tab.isMain, levels: tab.levels });
       default:
         return new ResourceCalculator({
           name: key,
