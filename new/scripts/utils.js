@@ -284,9 +284,8 @@ class TroopCalculator {
 
     const costs = this.costs[selectedTroopLevel];
     Object.keys(this.rssDict).forEach((key) => {
-      this.rssDict[key] = costs[key];
-      document.querySelector(`.${this.name}RssCost[data-rss="${key}"]`).value =
-        this.rssDict[key] * TroopCalculator.batchSizes[minSize];
+      this.rssDict[key] = costs[key] * TroopCalculator.batchSizes[minSize];
+      document.querySelector(`.${this.name}RssCost[data-rss="${key}"]`).value = this.rssDict[key];
     });
   }
 
@@ -381,8 +380,7 @@ class TroopCalculator {
 
     batchSelect.addEventListener("change", () => {
       const selectedTroopLevel = troopSelect.options[troopSelect.selectedIndex].value;
-      const selectedBatchLevel = batchSelect.options[batchSelect.selectedIndex].value;
-      me.updateTroopCosts(selectedTroopLevel, selectedBatchLevel);
+      me.updateTroopCosts(selectedTroopLevel);
       me.updateTotals();
     });
 
@@ -440,9 +438,10 @@ class TroopCalculator {
     Object.keys(this.rssDict).forEach((key) => {
       const val = this.rssDict[key];
       if (!val) return;
-      const totalRssCost = (val / batchSize) * totalTroopsReq;
-      if (totalRssCost > 0)
-        rssTotal.push(`${Formatting.capitalise(key)}: ${Formatting.thousandSeparators(val)}`);
+      const totalCost = (val / batchSize) * totalTroopsReq;
+      console.log(val);
+      if (totalCost > 0)
+        rssTotal.push(`${Formatting.capitalise(key)}: ${Formatting.thousandSeparators(totalCost)}`);
     });
 
     const totalTime = (totalTimeForBatch / batchSize) * totalTroopsReq;
@@ -453,8 +452,9 @@ class TroopCalculator {
     document.getElementById(`${this.name}TotalBatches`).innerHTML = batches
       ? Formatting.thousandSeparators(batches)
       : 0;
-    document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime ?
-      Formatting.secondsToDhms(totalTime) : 0;
+    document.getElementById(`${this.name}TotalTime`).innerHTML = totalTime
+      ? Formatting.secondsToDhms(totalTime)
+      : 0;
   }
 }
 
