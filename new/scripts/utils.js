@@ -1,4 +1,6 @@
 class BaseCalculator {
+  static storage = sessionStorage;
+
   static formattingOptions = {
     number: (n) => Formatting.thousandSeparators(n),
     time: (n) => Formatting.secondsToDhms(n),
@@ -25,14 +27,13 @@ class BaseCalculator {
     return `<input id="${id}" class="${classes}" type="number" value="${val}" ${attributes} />`;
   };
 
-  fetchExisting = () => {
-    const saved = sessionStorage.getItem(this.storageKey);
-    const parsed = saved ? JSON.parse(saved) : null;
-    return parsed;
+  load = (storageKey) => {
+    const saved = BaseCalculator.storage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : null;
   };
 
-  saveTotals = () => {
-    sessionStorage.setItem(this.storageKey, JSON.stringify(this.dict));
+  save = (key, obj) => {
+    BaseCalculator.storage.setItem(key, JSON.stringify(obj));
   };
 }
 
@@ -47,7 +48,7 @@ class ResourceCalculator extends BaseCalculator {
   } = {}) {
     super({ name, isMain });
     this.storageKey = `${this.name}Totals`;
-    this.dict = this.fetchExisting() ?? dict;
+    this.dict = this.load(this.storageKey) ?? dict;
     this.altFirstLabel = altFirstLabel ?? false;
     const noOp = ResourceCalculator.formattingOptions.none;
     this.labelFormatCb = ResourceCalculator.formattingOptions[formatLabelAs] ?? noOp;
@@ -99,7 +100,7 @@ class ResourceCalculator extends BaseCalculator {
         const val = parseInt(input.value);
         this.dict[key] = isNaN(val) ? 0 : val;
         this.updateTotals();
-        this.saveTotals();
+        this.save(this.storageKey, this.dict);
       });
     }
   };
@@ -126,7 +127,9 @@ class OfficerCalculator extends BaseCalculator {
   constructor({ name, isMain, levels }) {
     super({ name, isMain });
     this.levels = levels;
-    this.selected = "purple";
+    this.storageKey = "officerState";
+    this.loaded = this.load(this.storageKey);
+    this.selected = (this.loaded && this.loaded.selected) ?? "purple";
     this.#buildHTML();
   }
 
@@ -140,7 +143,7 @@ class OfficerCalculator extends BaseCalculator {
 
   #buildHTML = () => {
     const n = this.name;
-
+    const s = this.loaded;
     this.mainContent = `
       <div id="${n}Tab" class="rssTabContent text-center ${this.isMain ? "active" : ""}">
         <div class="tab-title">
@@ -150,16 +153,16 @@ class OfficerCalculator extends BaseCalculator {
         <div class="group-two">
           <div class="group-two">
             <label>Current (1-59):</label>
-            ${this.buildNumberInput("levelStart", 1)}
+            ${this.buildNumberInput("levelStart", (s && s.start) ?? 1)}
           </div>
           <div class="group-three">
             <label>and</label>
-            ${this.buildNumberInput("currentProgress", 0)}
+            ${this.buildNumberInput("currentProgress", (s && s.currentProgress) ?? 0)}
             <label>XP</label>
           </div>
           <div class="group-two">
             <label for="levelStop">Desired (2-60):</label>
-            ${this.buildNumberInput("levelStop", 60)}
+            ${this.buildNumberInput("levelStop", (s && s.stop) ?? 60)}
           </div>
           <div></div>
         </div>
@@ -215,21 +218,11 @@ class OfficerCalculator extends BaseCalculator {
       currentProgressEl.value = currentProgress;
     }
 
-    if (start <= 0) {
-      start = 0;
-      startEl.value = start;
-    } else if (start >= 60) {
-      start = 59;
-      startEl.value = start;
-    }
+    if (start <= 0) start = 0;
+    else if (start >= 60) start = 59;
 
-    if (stop <= 1) {
-      stop = 2;
-      stopEl.value = stop;
-    } else if (stop >= 61) {
-      stop = 60;
-      stopEl.value = 60;
-    }
+    if (stop <= 1) stop = 2;
+    else if (stop >= 61) stop = 60;
 
     if (stop <= start) {
       start = stop - 1;
@@ -247,6 +240,8 @@ class OfficerCalculator extends BaseCalculator {
       result = `${Formatting.thousandSeparators(currentProgress - total)} XP leftover`;
     else result = `${Formatting.thousandSeparators(total - currentProgress)} XP still required`;
     document.getElementById("result").innerHTML = result;
+
+    this.save("officerState", { selected: this.selected, start, stop, currentProgress });
   };
 }
 
