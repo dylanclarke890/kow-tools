@@ -97,6 +97,10 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 0.25rem;
 }
 
+.select {
+  
+}
+
 .fade-in {
   opacity: 0;
   animation: fadeIn ease 0.5s forwards;
