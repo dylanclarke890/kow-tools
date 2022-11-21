@@ -15,11 +15,35 @@ const navTab = (pageInfo, active) => `
 const url = window.location.href;
 const currentLocation = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
 
-const navbar = `
+const logo = `  
   <a href="index.html">
     <img id="logo" src="images/logo1_50perc.png" alt="logo" />
   </a>
-  ${pages.map((p) => navTab(p, p.url === currentLocation)).join("")}
+  `;
+const links = pages.map((p) => navTab(p, p.url === currentLocation)).join("");
+
+const mobileNavbar = `
+  <div class="hamburger-menu">
+    <div class="bar top"></div>
+    <div class="bar middle"></div>
+    <div class="bar bottom"></div>
+  </div>
+  <div id="mobile-navbar">
+    ${links}
+  <div>
+`;
+
+const navbar = `
+  ${logo}
+  ${links}
+  ${mobileNavbar}
 `;
 
 document.getElementById("navbar").innerHTML = navbar;
+const hamburger = document.querySelector(".hamburger-menu");
+const mobileNav = document.getElementById("mobile-navbar");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  mobileNav.classList.toggle("active");
+});
