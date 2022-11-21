@@ -254,4 +254,19 @@ a {
   top: -0.5em;
 }
 
+@media screen and (max-width: 480px) {
+  #content {
+    width: 100%;
+  }
+
+  .rssImg {
+    height: 2.5em;
+  }
+
+  .rssTab {
+    padding: 0.1em 0.2em;
+    margin: 0 1em;
+  }
+}
+
 /* END MULTI-RESOURCE CALCULATOR */
